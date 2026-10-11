@@ -21,13 +21,13 @@ import {
 export const Route = createFileRoute("/app/documents")({
   head: () => ({
     meta: [
-      { title: "Documents — Fluxora" },
+      { title: "Documents — FinNex" },
       {
         name: "description",
         content:
-          "Every document Fluxora has collected — from Slack, Email, WhatsApp, or uploaded straight from your browser — organized into folders, one source at a time.",
+          "Every document FinNex has collected — from Slack, Email, WhatsApp, or uploaded straight from your browser — organized into folders, one source at a time.",
       },
-      { property: "og:title", content: "Documents — Fluxora" },
+      { property: "og:title", content: "Documents — FinNex" },
     ],
   }),
   component: DocumentsPage,
@@ -106,7 +106,7 @@ function DocumentsPage() {
         subtitle={
           openSource
             ? `Browsing ${openSource.label} — search, switch views, or head back to the other folders.`
-            : "Everything Fluxora has collected from your connected apps and your own uploads — pick a folder to open it."
+            : "Everything FinNex has collected from your connected apps and your own uploads — pick a folder to open it."
         }
         actions={
           openSource ? (

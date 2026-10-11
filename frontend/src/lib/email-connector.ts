@@ -183,7 +183,7 @@ export function sendEmailFileToScanner(
   });
 }
 
-/** Soft delete — hides this attachment from Fluxora only. The mailbox and
+/** Soft delete — hides this attachment from FinNex only. The mailbox and
  *  the S3 copy are untouched, and a later sync will not bring it back. */
 export async function deleteEmailFile(attachmentId: string): Promise<void> {
   const token = accessTokenGetter();

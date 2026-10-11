@@ -27,7 +27,7 @@ import {
 export const Route = createFileRoute("/app/vendor-reconciliation")({
   head: () => ({
     meta: [
-      { title: "Vendor Reconciliation — Fluxora" },
+      { title: "Vendor Reconciliation — FinNex" },
       {
         name: "description",
         content: "Turn raw OCR vendor names into real, deduplicated vendor records.",

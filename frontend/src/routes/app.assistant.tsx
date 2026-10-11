@@ -9,9 +9,9 @@ import { insights } from "@/lib/data";
 export const Route = createFileRoute("/app/assistant")({
   head: () => ({
     meta: [
-      { title: "AI Assistant — Fluxora" },
+      { title: "AI Assistant — FinNex" },
       { name: "description", content: "Ask questions about your business finances and get instant AI answers." },
-      { property: "og:title", content: "AI Assistant — Fluxora" },
+      { property: "og:title", content: "AI Assistant — FinNex" },
       { property: "og:description", content: "Conversational AI insights on your accounting data." },
     ],
   }),
@@ -70,7 +70,7 @@ function AssistantPage() {
               <Sparkles className="h-4 w-4" />
             </span>
             <div className="min-w-0">
-              <p className="truncate text-sm font-semibold">Fluxora Copilot</p>
+              <p className="truncate text-sm font-semibold">FinNex Copilot</p>
               <p className="text-xs text-success">● Online · analysing live data</p>
             </div>
           </header>

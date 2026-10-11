@@ -4,14 +4,15 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { BrandMark } from "@/components/brand-mark";
 import { useAuth } from "@/lib/auth-context";
 import { AuthError } from "@/lib/auth";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
-      { title: "Sign in — Fluxora" },
-      { name: "description", content: "Sign in to your Fluxora workspace." },
+      { title: "Sign in — FinNex" },
+      { name: "description", content: "Sign in to your FinNex workspace." },
     ],
   }),
   component: LoginPage,
@@ -33,9 +34,6 @@ function LoginPage() {
       await login(email, password);
       await navigate({ to: "/app" });
     } catch (caught) {
-      // The service deliberately returns one message for every credential
-      // failure, so show it verbatim rather than guessing at a friendlier
-      // wording that might imply whether the account exists.
       setError(
         caught instanceof AuthError ? caught.message : "Could not sign in. Please try again.",
       );
@@ -45,14 +43,19 @@ function LoginPage() {
   }
 
   return (
-    <main className="grid min-h-screen place-items-center bg-muted/30 px-4 py-10">
-      <div className="w-full max-w-md">
-        <div className="mb-6 text-center">
-          <h1 className="font-display text-2xl font-bold">Welcome back</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Sign in to your Fluxora workspace.</p>
+    <main className="grid min-h-screen place-items-center px-4 py-10">
+      <div className="page-enter w-full max-w-md">
+        <div className="mb-8 flex flex-col items-center text-center">
+          <Link to="/">
+            <BrandMark size="lg" />
+          </Link>
+          <h1 className="mt-6 font-display text-3xl font-semibold">Welcome back</h1>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Sign in to your company workspace on FinNex.
+          </p>
         </div>
 
-        <form onSubmit={onSubmit} className="surface space-y-4 p-6">
+        <form onSubmit={onSubmit} className="surface space-y-4 p-6 sm:p-7">
           {error && (
             <div
               role="alert"
@@ -96,9 +99,9 @@ function LoginPage() {
           </Button>
 
           <p className="text-center text-sm text-muted-foreground">
-            New to Fluxora?{" "}
+            New to FinNex?{" "}
             <Link to="/signup" className="font-medium text-primary hover:underline">
-              Create an account
+              Register your business
             </Link>
           </p>
         </form>

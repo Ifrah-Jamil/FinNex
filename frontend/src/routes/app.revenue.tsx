@@ -38,9 +38,9 @@ const revenueSearchSchema = z.object({
 export const Route = createFileRoute("/app/revenue")({
   head: () => ({
     meta: [
-      { title: "Revenue Manager — Fluxora" },
+      { title: "Revenue Manager — FinNex" },
       { name: "description", content: "Capture sales invoices and track every rupee that comes in." },
-      { property: "og:title", content: "Revenue Manager — Fluxora" },
+      { property: "og:title", content: "Revenue Manager — FinNex" },
       { property: "og:description", content: "Scan sales documents and watch revenue add up automatically." },
     ],
   }),

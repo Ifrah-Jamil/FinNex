@@ -76,11 +76,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Fluxora — AI Accounting Automation" },
-      { name: "description", content: "Automate bookkeeping, extract invoices and analyze finances with AI." },
-      { name: "author", content: "Fluxora" },
-      { property: "og:title", content: "Fluxora" },
-      { property: "og:description", content: "Automate bookkeeping. Extract invoices. Analyze finances." },
+      { title: "FinNex — Financial Document Automation" },
+      {
+        name: "description",
+        content:
+          "Capture invoices, review extractions and organize PKR finances for Pakistani trading SMEs.",
+      },
+      { name: "author", content: "FinNex" },
+      { property: "og:title", content: "FinNex" },
+      {
+        property: "og:description",
+        content:
+          "Financial document automation for Pakistani retail and trading SMEs.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -94,7 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;600;700&family=Manrope:wght@400;500;600;700&display=swap",
       },
     ],
   }),

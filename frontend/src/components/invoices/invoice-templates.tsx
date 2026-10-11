@@ -25,7 +25,7 @@ export interface InvoiceTemplateStyle {
 
 export const INVOICE_TEMPLATES: InvoiceTemplateStyle[] = [
   {
-    key: "classic", label: "Classic", description: "Teal accent, light background — the Fluxora default.",
+    key: "classic", label: "Classic", description: "Teal accent, light background — the FinNex default.",
     pageBg: "#FFFFFF", cardText: "#111827", mutedText: "#6B7280", accent: "#0F766E", onAccent: "#FFFFFF",
     ruleColor: "#E5E7EB", zebraBg: "#F9FAFB", fontFamily: "inherit",
   },

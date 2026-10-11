@@ -24,7 +24,6 @@ import {
   TrendingUp,
   Upload,
   Users,
-  Wallet,
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -43,6 +42,7 @@ import {
 } from "@/components/ui/command";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { BrandMark } from "@/components/brand-mark";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -55,6 +55,15 @@ import { useAuth } from "@/lib/auth-context";
 import { notifications } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { NeedsReviewCenter } from "@/components/invoices/needs-review-center";
+
+function roleLabel(role?: string | null) {
+  if (!role) return null;
+  const normalized = role.trim().toLowerCase();
+  if (normalized === "admin") return "Admin";
+  if (normalized === "accountant") return "Accountant";
+  if (normalized === "viewer") return "Viewer";
+  return role.charAt(0).toUpperCase() + role.slice(1);
+}
 
 /** Signed-in identity and sign-out. Replaces the hardcoded "AK" avatar. */
 function UserMenu() {
@@ -94,6 +103,11 @@ function UserMenu() {
           <p className="truncate text-xs text-muted-foreground">{user?.email}</p>
           {user?.company_name && (
             <p className="mt-1 truncate text-xs text-muted-foreground">{user.company_name}</p>
+          )}
+          {roleLabel(user?.role) && (
+            <Badge variant="secondary" className="mt-2 rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">
+              {roleLabel(user?.role)}
+            </Badge>
           )}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -229,14 +243,14 @@ function WorkspaceHeader() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="flex w-full items-center gap-2.5 rounded-xl p-1.5 text-left outline-none transition-colors hover:bg-sidebar-accent/60 focus-visible:ring-2 focus-visible:ring-ring">
-          <span className="gradient-brand grid h-8 w-8 shrink-0 place-items-center rounded-lg text-primary-foreground">
-            <Wallet className="h-4 w-4" />
-          </span>
+          <BrandMark showWordmark={false} size="sm" markClassName="rounded-lg" />
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-[13px] font-semibold leading-tight text-sidebar-foreground">
-              {user?.company_name?.trim() || "Fluxora"}
+            <span className="block truncate font-display text-[13px] font-semibold leading-tight text-sidebar-foreground">
+              FinNex
             </span>
-            <span className="block truncate text-[11px] text-sidebar-muted-foreground">{user?.email}</span>
+            <span className="block truncate text-[11px] text-sidebar-muted-foreground">
+              {user?.company_name?.trim() || user?.email || "Workspace"}
+            </span>
           </span>
           <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-sidebar-muted-foreground" />
         </button>
@@ -333,8 +347,8 @@ function NotificationPanel() {
 const SIDEBAR_MIN_WIDTH = 220;
 const SIDEBAR_MAX_WIDTH = 420;
 const SIDEBAR_DEFAULT_WIDTH = 256;
-const SIDEBAR_WIDTH_KEY = "fluxora-sidebar-width";
-const SIDEBAR_COLLAPSED_KEY = "fluxora-sidebar-collapsed";
+const SIDEBAR_WIDTH_KEY = "finnex-sidebar-width";
+const SIDEBAR_COLLAPSED_KEY = "finnex-sidebar-collapsed";
 
 /** Persisted sidebar width + collapsed state — a workspace-shaped app like
  *  this one gets used for hours at a stretch, so "how wide I like the rail"
@@ -427,6 +441,7 @@ function SidebarResizeHandle({ onResize }: { onResize: (width: number) => void }
 }
 
 export function AppShell() {
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
   const { width: sidebarWidth, collapsed: sidebarCollapsed, setWidth: setSidebarWidth, toggleCollapsed } =
@@ -556,6 +571,14 @@ export function AppShell() {
             >
               <Search className="h-4 w-4" />
             </Button>
+            {roleLabel(user?.role) && (
+              <Badge
+                variant="outline"
+                className="hidden rounded-md border-primary/20 bg-primary/5 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary sm:inline-flex"
+              >
+                {roleLabel(user?.role)}
+              </Badge>
+            )}
             <ThemeToggle />
             <NeedsReviewCenter />
             <NotificationPanel />
@@ -568,16 +591,16 @@ export function AppShell() {
           </div>
         </header>
 
-        <main className="mx-auto w-full max-w-[1500px] px-4 py-6 sm:px-6 sm:py-8">
+        <main className="page-enter mx-auto w-full max-w-[1500px] px-4 py-6 sm:px-6 sm:py-8">
           <Outlet />
         </main>
       </div>
 
       <Link
         to="/app/assistant"
-        className="fixed bottom-6 right-6 z-30 flex items-center gap-2 rounded-full bg-[image:var(--gradient-brand)] px-5 py-3.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-lift)] transition-transform hover:scale-105"
+        className="fixed bottom-6 right-6 z-30 flex items-center gap-2 rounded-xl border border-primary/20 bg-card px-4 py-3 text-sm font-semibold text-primary shadow-[var(--shadow-card)] transition-colors hover:bg-primary hover:text-primary-foreground"
       >
-        <Sparkles className="h-4 w-4" /> Ask AI
+        <Sparkles className="h-4 w-4" /> Ask FinNex
       </Link>
 
       <CommandDialog open={open} onOpenChange={setOpen}>

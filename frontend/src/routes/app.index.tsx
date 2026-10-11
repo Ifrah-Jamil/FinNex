@@ -39,9 +39,9 @@ import {
 export const Route = createFileRoute("/app/")({
   head: () => ({
     meta: [
-      { title: "Dashboard — Fluxora" },
+      { title: "Dashboard — FinNex" },
       { name: "description", content: "Live revenue, expense, payroll and cash-flow overview for your business." },
-      { property: "og:title", content: "Dashboard — Fluxora" },
+      { property: "og:title", content: "Dashboard — FinNex" },
       { property: "og:description", content: "Live revenue, expense, payroll and cash-flow overview." },
     ],
   }),
@@ -205,7 +205,7 @@ function Dashboard() {
           <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b px-5 py-4">
             <div className="min-w-0">
               <h3 className="truncate text-base font-semibold">Recent Uploaded Invoices</h3>
-              <p className="text-xs text-muted-foreground">Auto-extracted by Fluxora</p>
+              <p className="text-xs text-muted-foreground">Auto-extracted by FinNex</p>
             </div>
             <Button variant="ghost" size="sm" asChild>
               <Link to="/app/scanner">View all</Link>

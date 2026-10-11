@@ -42,7 +42,7 @@ export default defineConfig(({ command, mode }) => {
     },
     server: {
       host: "::",
-      port: 8080,
+      port: 43123,
       proxy: {
         // Slack connector service (backend/services/slack-connector) — direct dev proxy since
         // there's no Gateway yet. See docs/superpowers/specs/2026-08-18-slack-connector-integration-design.md

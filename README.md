@@ -66,6 +66,13 @@ Replace the placeholder secrets in `.env`, especially `JWT_SECRET_KEY` and
 `TOKEN_ENCRYPTION_KEY`. Do not create service-specific `.env` files. Docker Compose loads the
 root file for every backend service, and the frontend reads root `VITE_*` variables.
 
+
+### Dev ports in this workspace
+
+- Frontend: `http://localhost:43123` (configured in `frontend/vite.config.ts`)
+- API Gateway: `http://localhost:8000`
+- Object storage: LocalStack S3 on `http://localhost:9000` (replaces MinIO when that image cannot be pulled)
+
 ### Frontend
 
 Requires [bun](https://bun.sh) (this repo uses `bun.lock`; don't use npm — it will produce a

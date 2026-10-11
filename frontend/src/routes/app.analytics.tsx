@@ -23,9 +23,9 @@ import { procurementStats } from "@/lib/procurement-service";
 export const Route = createFileRoute("/app/analytics")({
   head: () => ({
     meta: [
-      { title: "Analytics — Fluxora" },
+      { title: "Analytics — FinNex" },
       { name: "description", content: "Deep financial analytics: growth, margins, cash flow and revenue forecasts." },
-      { property: "og:title", content: "Analytics — Fluxora" },
+      { property: "og:title", content: "Analytics — FinNex" },
       { property: "og:description", content: "Growth, margin, cash flow and forecast analytics." },
     ],
   }),

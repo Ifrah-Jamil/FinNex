@@ -50,9 +50,9 @@ const scannerSearchSchema = z.object({
 export const Route = createFileRoute("/app/scanner")({
   head: () => ({
     meta: [
-      { title: "AI Invoice Scanner — Fluxora" },
+      { title: "AI Invoice Scanner — FinNex" },
       { name: "description", content: "Drop a PDF, photo or WhatsApp screenshot and let AI extract every invoice field." },
-      { property: "og:title", content: "AI Invoice Scanner — Fluxora" },
+      { property: "og:title", content: "AI Invoice Scanner — FinNex" },
       { property: "og:description", content: "AI-extracted invoice fields in seconds." },
     ],
   }),
@@ -499,7 +499,7 @@ function Scanner() {
     <TooltipProvider>
       <PageHeader
         title="AI Invoice Scanner"
-        subtitle="Upload any document — Fluxora reads vendor, items, tax and totals automatically."
+        subtitle="Upload any document — FinNex reads vendor, items, tax and totals automatically."
         actions={
           invoice && (
             <span className={`inline-flex items-center gap-1.5 rounded-full bg-success/12 px-3 py-1.5 text-xs font-semibold ${confidenceTone(invoice.document_confidence)}`}>

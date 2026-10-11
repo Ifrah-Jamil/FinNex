@@ -25,13 +25,13 @@ import { INVOICE_TEMPLATES, InvoiceTemplateThumbnail, templateStyle } from "@/co
 export const Route = createFileRoute("/app/invoices")({
   head: () => ({
     meta: [
-      { title: "Invoice Generator — Fluxora" },
+      { title: "Invoice Generator — FinNex" },
       {
         name: "description",
         content:
           "Create sales invoices with live preview, automatic sales tax and PKR totals for Pakistani SMEs.",
       },
-      { property: "og:title", content: "Invoice Generator — Fluxora" },
+      { property: "og:title", content: "Invoice Generator — FinNex" },
       {
         property: "og:description",
         content: "Build, preview and download professional PKR invoices with automatic tax calculation.",
@@ -251,7 +251,7 @@ function InvoiceGenerator() {
   const previewTotal = saved?.total ?? total;
 
   const style = templateStyle(template);
-  const companyName = companyQuery.data?.name || "Fluxora";
+  const companyName = companyQuery.data?.name || "FinNex";
 
   return (
     <div className="space-y-6">

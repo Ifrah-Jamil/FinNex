@@ -30,9 +30,9 @@ import {
 export const Route = createFileRoute("/app/employees")({
   head: () => ({
     meta: [
-      { title: "Employees & Payroll — Fluxora" },
+      { title: "Employees & Payroll — FinNex" },
       { name: "description", content: "Salaries, bonuses, deductions and payment status for your whole team." },
-      { property: "og:title", content: "Employees & Payroll — Fluxora" },
+      { property: "og:title", content: "Employees & Payroll — FinNex" },
       { property: "og:description", content: "Payroll dashboard with salary, bonus and deduction tracking." },
     ],
   }),

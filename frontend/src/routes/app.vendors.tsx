@@ -25,9 +25,9 @@ import {
 export const Route = createFileRoute("/app/vendors")({
   head: () => ({
     meta: [
-      { title: "Vendors — Fluxora" },
+      { title: "Vendors — FinNex" },
       { name: "description", content: "Vendor directory with spend, ratings and payment terms for your suppliers." },
-      { property: "og:title", content: "Vendors — Fluxora" },
+      { property: "og:title", content: "Vendors — FinNex" },
       { property: "og:description", content: "Supplier directory with spend and performance ratings." },
     ],
   }),

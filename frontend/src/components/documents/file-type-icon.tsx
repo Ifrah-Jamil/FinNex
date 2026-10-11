@@ -1,7 +1,7 @@
 /**
  * A file's type, represented the way a real file manager does: a
  * consistent icon + color per kind, not a blank generic page icon for
- * everything. Colors are Fluxora's own categorical chart palette
+ * everything. Colors are FinNex's own categorical chart palette
  * (--chart-1..5, the same tokens every chart on this app already uses for
  * "these are different categories") — not a new palette invented for this
  * one page.
