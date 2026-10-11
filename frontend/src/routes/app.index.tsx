@@ -78,25 +78,25 @@ interface KpiDef {
 function KpiCard({ kpi }: { kpi: KpiDef }) {
   const Icon = icons[kpi.icon];
   return (
-    <div className="surface lift p-5">
-      <div className="flex items-start justify-between gap-3">
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
-          <Icon className="h-4.5 w-4.5" />
-        </span>
-        {kpi.unavailable && (
-          <span
-            className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-[11px] font-medium text-muted-foreground"
-            title="Invoice Service could not be reached"
-          >
-            <AlertTriangle className="h-3 w-3" /> Unavailable
-          </span>
-        )}
+    <div className="surface flex items-center gap-3 px-4 py-3">
+      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+        <Icon className="h-4 w-4" />
+      </span>
+      <div className="min-w-0">
+        <p className="truncate text-[11px] font-medium uppercase tracking-wide text-muted-foreground">{kpi.label}</p>
+        <p className="truncate font-display text-xl font-bold tracking-tight">
+          {kpi.raw ? kpi.value.toLocaleString() : money(kpi.value)}
+        </p>
+        <p className="truncate text-xs text-muted-foreground">{kpi.hint}</p>
       </div>
-      <p className="mt-4 truncate text-xs font-medium uppercase tracking-wide text-muted-foreground">{kpi.label}</p>
-      <p className="mt-1 font-display text-2xl font-bold tracking-tight">
-        {kpi.raw ? kpi.value.toLocaleString() : money(kpi.value)}
-      </p>
-      <p className="mt-1 text-xs text-muted-foreground">{kpi.hint}</p>
+      {kpi.unavailable && (
+        <span
+          className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-full bg-muted px-2 py-1 text-[11px] font-medium text-muted-foreground"
+          title="Invoice Service could not be reached"
+        >
+          <AlertTriangle className="h-3 w-3" /> Unavailable
+        </span>
+      )}
     </div>
   );
 }
@@ -151,8 +151,9 @@ function Dashboard() {
     : [];
 
   return (
-    <>
+    <div className="flex flex-col gap-4 xl:min-h-0 xl:flex-1 xl:gap-3 xl:overflow-hidden">
       <PageHeader
+        className="mb-0"
         title={firstName ? `Good to see you, ${firstName}` : "Good to see you"}
         subtitle={`Here's what happened across your books today — ${today.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" })}.`}
         actions={
@@ -169,7 +170,7 @@ function Dashboard() {
         }
       />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
         {kpisQuery.isLoading ? (
           Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-32 rounded-2xl" />)
         ) : kpisQuery.isError ? (
@@ -181,32 +182,28 @@ function Dashboard() {
         )}
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <ChartCard
-          title="Monthly Revenue vs Expenses"
-          subtitle="Last 7 months (PKR)"
-          className="lg:col-span-2"
-        >
-          <RevenueExpenseChart data={trendQuery.data ?? []} />
+      <div className="grid grid-cols-1 gap-3 lg:grid-cols-3 xl:min-h-0 xl:flex-1 xl:grid-rows-2">
+        <ChartCard fill title="Monthly Revenue vs Expenses" subtitle="Last 7 months (PKR)">
+          <RevenueExpenseChart data={trendQuery.data ?? []} height="100%" />
         </ChartCard>
-        <ChartCard title="Expense Categories" subtitle="This month, approved only">
-          <DonutChart data={categoriesQuery.data ?? []} />
+        <ChartCard fill title="Expense Categories" subtitle="This month, approved only">
+          <DonutChart data={categoriesQuery.data ?? []} height="100%" />
         </ChartCard>
-        <ChartCard title="Top Customers" subtitle="From scanned sales — see Revenue Manager">
-          <VerticalBars data={topCustomers} />
+        <ChartCard fill title="Cash Flow" subtitle="Inflow vs outflow">
+          <CashFlowChart data={cashFlowQuery.data ?? []} height="100%" />
         </ChartCard>
-        <ChartCard title="Cash Flow" subtitle="Inflow vs outflow" className="lg:col-span-2">
-          <CashFlowChart data={cashFlowQuery.data ?? []} />
+        <ChartCard fill title="Top Customers" subtitle="From scanned sales">
+          <VerticalBars data={topCustomers} height="100%" />
         </ChartCard>
-        <ChartCard title="Top Vendors" subtitle="Spend, derived from Invoice Service" className="lg:col-span-2">
-          <HorizontalBars data={topVendorsChart} />
+        <ChartCard fill title="Top Vendors" subtitle="Spend from invoices">
+          <HorizontalBars data={topVendorsChart} height="100%" />
         </ChartCard>
-        <ChartCard title="Invoice Status" subtitle={`${statusSummaryQuery.data?.total ?? 0} purchase documents`}>
-          <PieChartSimple data={invoiceStatusChart} />
+        <ChartCard fill title="Invoice Status" subtitle={`${statusSummaryQuery.data?.total ?? 0} purchase documents`}>
+          <PieChartSimple data={invoiceStatusChart} height="100%" />
         </ChartCard>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-3">
+      <div className="grid shrink-0 grid-cols-1 gap-3 xl:grid-cols-3">
         <section className="surface overflow-hidden xl:col-span-2">
           <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b px-5 py-4">
             <div className="min-w-0">
@@ -257,14 +254,14 @@ function Dashboard() {
         </section>
 
         <div className="flex flex-col gap-4">
-          <section className="surface p-5">
+          <section className="surface p-4">
             <div className="flex items-center gap-2">
               <CalendarDays className="h-4 w-4 text-primary" />
               <h3 className="text-base font-semibold">
                 {today.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
               </h3>
             </div>
-            <div className="mt-4 grid grid-cols-7 gap-1 text-center text-[11px] text-muted-foreground">
+            <div className="mt-2 grid grid-cols-7 gap-0.5 text-center text-[11px] text-muted-foreground">
               {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
                 <span key={i}>{d}</span>
               ))}
@@ -277,7 +274,7 @@ function Dashboard() {
                 return (
                   <span
                     key={day}
-                    className={`grid h-8 place-items-center rounded-lg text-xs ${
+                    className={`grid h-6 place-items-center rounded-md text-xs ${
                       isToday
                         ? "bg-[image:var(--gradient-brand)] font-semibold text-primary-foreground"
                         : "text-foreground/80"
@@ -290,7 +287,7 @@ function Dashboard() {
             </div>
           </section>
 
-          <section className="surface p-5">
+          <section className="surface p-4">
             <div className="flex items-center gap-2">
               <Banknote className="h-4 w-4 text-primary" />
               <h3 className="text-base font-semibold">Pending Approvals</h3>
@@ -320,6 +317,6 @@ function Dashboard() {
           </section>
         </div>
       </div>
-    </>
+    </div>
   );
 }

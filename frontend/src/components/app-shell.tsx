@@ -479,7 +479,7 @@ export function AppShell() {
 
   return (
     <div
-      className="min-h-screen w-full bg-background"
+      className="h-dvh w-full overflow-hidden bg-background"
       style={{ ["--sidebar-w" as string]: `${sidebarCollapsed ? 0 : sidebarWidth}px` }}
     >
       <aside
@@ -520,8 +520,8 @@ export function AppShell() {
         </TooltipProvider>
       )}
 
-      <div className="md:pl-[var(--sidebar-w)]" style={{ transition: "padding-left 150ms ease" }}>
-        <header className="glass sticky top-0 z-20 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b px-4 py-3 sm:px-6">
+      <div className="flex h-dvh min-w-0 flex-col md:pl-[var(--sidebar-w)]" style={{ transition: "padding-left 150ms ease" }}>
+        <header className="glass z-20 grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b px-4 py-2.5 sm:px-6">
           <div className="flex min-w-0 items-center gap-3">
             <Sheet open={mobileNav} onOpenChange={setMobileNav}>
               <SheetTrigger asChild>
@@ -599,7 +599,7 @@ export function AppShell() {
           </div>
         </header>
 
-        <main className="page-enter w-full px-4 py-5 sm:px-6 sm:py-6">
+        <main className="page-enter flex min-h-0 w-full flex-1 flex-col overflow-auto px-4 py-4 sm:px-6">
           <Outlet />
         </main>
       </div>
@@ -641,13 +641,15 @@ export function PageHeader({
   title,
   subtitle,
   actions,
+  className,
 }: {
   title: string;
   subtitle?: string;
   actions?: ReactNode;
+  className?: string;
 }) {
   return (
-    <header className="mb-5 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:items-center sm:justify-between">
+    <header className={cn("mb-5 grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:items-center sm:justify-between", className)}>
       <div className="min-w-0">
         <h1 className="truncate font-display text-2xl font-bold">{title}</h1>
         {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}

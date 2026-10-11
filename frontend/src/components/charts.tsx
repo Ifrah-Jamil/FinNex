@@ -50,10 +50,12 @@ const tooltipStyle = {
 const compact = (v: number) =>
   v >= 1_000_000 ? `${(v / 1_000_000).toFixed(1)}M` : v >= 1000 ? `${Math.round(v / 1000)}k` : `${v}`;
 
-function EmptyPlot({ label, height = 280 }: { label: string; height?: number }) {
+type PlotHeight = number | "100%";
+
+function EmptyPlot({ label, height = 280 }: { label: string; height?: PlotHeight }) {
   return (
     <div
-      className="grid place-items-center rounded-xl bg-muted/40 px-6 text-center text-sm text-muted-foreground"
+      className="grid h-full min-h-[7rem] place-items-center rounded-xl bg-muted/40 px-6 text-center text-sm text-muted-foreground"
       style={{ height }}
     >
       {label}
@@ -67,33 +69,42 @@ export function ChartCard({
   children,
   className,
   action,
+  fill = false,
 }: {
   title: string;
   subtitle?: string;
   children: ReactNode;
   className?: string;
   action?: ReactNode;
+  /** Stretch the plot to the card instead of a fixed 280px, so a page can fit the window. */
+  fill?: boolean;
 }) {
   return (
-    <section className={cn("surface p-5", className)}>
-      <header className="mb-4 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
+    <section className={cn("surface flex flex-col p-4", fill && "h-full min-h-0", className)}>
+      <header className="mb-2 grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
         <div className="min-w-0">
-          <h3 className="truncate text-base font-semibold">{title}</h3>
+          <h3 className="truncate text-sm font-semibold">{title}</h3>
           {subtitle && <p className="mt-0.5 truncate text-xs text-muted-foreground">{subtitle}</p>}
         </div>
         {action}
       </header>
-      {children}
+      <div className={cn(fill ? "min-h-0 flex-1" : undefined)}>{children}</div>
     </section>
   );
 }
 
-export function RevenueExpenseChart({ data }: { data: { month: string; revenue: number; expenses: number }[] }) {
+export function RevenueExpenseChart({
+  data,
+  height = 280,
+}: {
+  data: { month: string; revenue: number; expenses: number }[];
+  height?: PlotHeight;
+}) {
   if (data.length === 0 || data.every((point) => point.revenue === 0 && point.expenses === 0)) {
-    return <EmptyPlot label="No revenue or expenses recorded yet." />;
+    return <EmptyPlot label="No revenue or expenses recorded yet." height={height} />;
   }
   return (
-    <ResponsiveContainer width="100%" height={280}>
+    <ResponsiveContainer width="100%" height={height}>
       <LineChart data={data} margin={{ left: -12, right: 8, top: 4 }}>
         <CartesianGrid strokeDasharray="4 4" stroke="var(--border)" vertical={false} />
         <XAxis dataKey="month" {...axis} />
@@ -107,7 +118,7 @@ export function RevenueExpenseChart({ data }: { data: { month: string; revenue: 
   );
 }
 
-export function DonutChart({ data, height = 280 }: { data: { name: string; value: number }[]; height?: number }) {
+export function DonutChart({ data, height = 280 }: { data: { name: string; value: number }[]; height?: PlotHeight }) {
   if (data.length === 0) return <EmptyPlot label="No approved expenses this month." height={height} />;
   return (
     <ResponsiveContainer width="100%" height={height}>
@@ -124,10 +135,10 @@ export function DonutChart({ data, height = 280 }: { data: { name: string; value
   );
 }
 
-export function PieChartSimple({ data }: { data: { name: string; value: number }[] }) {
-  if (data.length === 0) return <EmptyPlot label="No purchase documents yet." />;
+export function PieChartSimple({ data, height = 280 }: { data: { name: string; value: number }[]; height?: PlotHeight }) {
+  if (data.length === 0) return <EmptyPlot label="No purchase documents yet." height={height} />;
   return (
-    <ResponsiveContainer width="100%" height={280}>
+    <ResponsiveContainer width="100%" height={height}>
       <PieChart>
         <Pie data={data} dataKey="value" nameKey="name" outerRadius="80%" stroke="none">
           {data.map((_, i) => (
@@ -141,7 +152,7 @@ export function PieChartSimple({ data }: { data: { name: string; value: number }
   );
 }
 
-export function VerticalBars({ data, height = 280 }: { data: { name: string; value: number }[]; height?: number }) {
+export function VerticalBars({ data, height = 280 }: { data: { name: string; value: number }[]; height?: PlotHeight }) {
   if (data.length === 0) return <EmptyPlot label="No customer sales recorded yet." height={height} />;
   return (
     <ResponsiveContainer width="100%" height={height}>
@@ -156,7 +167,7 @@ export function VerticalBars({ data, height = 280 }: { data: { name: string; val
   );
 }
 
-export function HorizontalBars({ data, height = 280 }: { data: { name: string; value: number }[]; height?: number }) {
+export function HorizontalBars({ data, height = 280 }: { data: { name: string; value: number }[]; height?: PlotHeight }) {
   if (data.length === 0) return <EmptyPlot label="No vendor spend recorded yet." height={height} />;
   return (
     <ResponsiveContainer width="100%" height={height}>
@@ -175,12 +186,18 @@ export function HorizontalBars({ data, height = 280 }: { data: { name: string; v
   );
 }
 
-export function CashFlowChart({ data }: { data: { month: string; inflow: number; outflow: number }[] }) {
+export function CashFlowChart({
+  data,
+  height = 280,
+}: {
+  data: { month: string; inflow: number; outflow: number }[];
+  height?: PlotHeight;
+}) {
   if (data.length === 0 || data.every((point) => point.inflow === 0 && point.outflow === 0)) {
-    return <EmptyPlot label="No cash movement recorded yet." />;
+    return <EmptyPlot label="No cash movement recorded yet." height={height} />;
   }
   return (
-    <ResponsiveContainer width="100%" height={280}>
+    <ResponsiveContainer width="100%" height={height}>
       <AreaChart data={data} margin={{ left: -12, right: 8, top: 4 }}>
         <defs>
           <linearGradient id="inflow" x1="0" y1="0" x2="0" y2="1">
