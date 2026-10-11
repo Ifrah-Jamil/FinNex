@@ -51,8 +51,10 @@ export default defineConfig(({ command, mode }) => {
         // be exposed. Point these at a service directly and you bypass both the
         // token check and the identity headers it injects.
         "/api/v1": {
-          target: "http://localhost:8000",
+          target: "http://127.0.0.1:8000",
           changeOrigin: true,
+          timeout: 8000,
+          proxyTimeout: 8000,
         },
       },
     },

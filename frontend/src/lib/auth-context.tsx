@@ -86,21 +86,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // On load the access token is gone (memory only), but the refresh cookie may
   // still be valid — so try once to restore the session before deciding the user
-  // is logged out.
+  // is logged out. A hard timeout covers a proxy that never answers: without it
+  // the dashboard stays on "Restoring your session" indefinitely.
   useEffect(() => {
-    let cancelled = false;
+    let active = true;
+    const timeout = window.setTimeout(() => {
+      if (active) setIsRestoring(false);
+    }, 5000);
     refreshRequest()
       .then((session) => {
-        if (!cancelled) applySession(session);
+        if (active) applySession(session);
       })
       .catch(() => {
         /* no valid session — expected for a signed-out visitor */
       })
       .finally(() => {
-        if (!cancelled) setIsRestoring(false);
+        window.clearTimeout(timeout);
+        if (active) setIsRestoring(false);
       });
     return () => {
-      cancelled = true;
+      active = false;
+      window.clearTimeout(timeout);
       clearRefreshTimer();
     };
   }, [applySession, clearRefreshTimer]);
