@@ -19,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { PageHeader, StatusBadge } from "@/components/app-shell";
+import { navGroups, PageHeader, StatusBadge } from "@/components/app-shell";
 import {
   CashFlowChart,
   ChartCard,
@@ -101,6 +101,59 @@ function KpiCard({ kpi }: { kpi: KpiDef }) {
   );
 }
 
+const serviceNotes: Record<string, string> = {
+  "/app/scanner": "Upload a PDF, photo, or WhatsApp image and review the extraction.",
+  "/app/records": "Approved invoices and the cashbook built from them.",
+  "/app/documents": "Files from email, Slack, and direct uploads.",
+  "/app/invoices": "Create customer invoices and send them out.",
+  "/app/revenue": "Sales recorded from scanned invoices.",
+  "/app/expenses": "Spending, categories, and approvals.",
+  "/app/employees": "People, roles, departments, and salaries.",
+  "/app/procurement": "Purchase requests, orders, and quotes.",
+  "/app/vendors": "Suppliers, payment terms, and spend.",
+  "/app/vendor-reconciliation": "Match supplier balances against your books.",
+  "/app/analytics": "Trends, margins, and forecasts.",
+  "/app/assistant": "Ask about revenue, vendors, and tax.",
+  "/app/reports": "Profit and loss, cash flow, tax, and exports.",
+};
+
+function WorkspaceServices() {
+  return (
+    <section>
+      <h2 className="font-display text-xl font-semibold">Services</h2>
+      <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
+        Invoice capture, finance, operations, and reports. Open any of these to start filling the books.
+      </p>
+      <div className="mt-4 space-y-6">
+        {navGroups.map((group) => (
+          <div key={group.label}>
+            <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">{group.label}</p>
+            <div className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              {group.items.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className="surface lift flex items-start gap-3 p-4 transition-shadow hover:shadow-[var(--shadow-secondary)]"
+                >
+                  <span className="category-chip h-10 w-10 shrink-0 rounded-xl" data-category={group.category}>
+                    <item.icon className="h-4 w-4" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold">{item.label}</span>
+                    <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">
+                      {serviceNotes[item.to]}
+                    </span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function Dashboard() {
   const { user } = useAuth();
   const today = new Date();
@@ -150,11 +203,29 @@ function Dashboard() {
       ].filter((s) => s.value > 0)
     : [];
 
+  const ledgerEmpty =
+    !kpisQuery.isLoading &&
+    !kpisQuery.isError &&
+    !!k &&
+    !k.revenue_unavailable &&
+    k.today_revenue === 0 &&
+    k.monthly_revenue === 0 &&
+    k.monthly_expenses === 0 &&
+    k.pending_invoices === 0 &&
+    k.processed_invoices === 0 &&
+    k.employee_salaries === 0 &&
+    (recentInvoicesQuery.data?.invoices.length ?? 0) === 0 &&
+    (pendingApprovalsQuery.data?.expenses.length ?? 0) === 0;
+
   return (
     <>
       <PageHeader
         title={firstName ? `Good to see you, ${firstName}` : "Good to see you"}
-        subtitle={`Here's what happened across your books today — ${today.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" })}.`}
+        subtitle={
+          ledgerEmpty
+            ? "This workspace has no invoices or expenses yet. The services below are where the work starts."
+            : `Here's what happened across your books today — ${today.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" })}.`
+        }
         actions={
           <>
             <Button variant="outline" className="rounded-xl">
@@ -169,12 +240,27 @@ function Dashboard() {
         }
       />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {kpisQuery.isLoading
-          ? Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-32 rounded-2xl" />)
-          : kpiDefs.map((kpi) => <KpiCard key={kpi.label} kpi={kpi} />)}
+      {ledgerEmpty ? (
+        <WorkspaceServices />
+      ) : (
+        <div className="md:hidden">
+          <WorkspaceServices />
+        </div>
+      )}
+
+      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {kpisQuery.isLoading ? (
+          Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-32 rounded-2xl" />)
+        ) : kpisQuery.isError ? (
+          <div className="surface col-span-full p-6 text-sm text-muted-foreground">
+            The figures could not be loaded. Refresh once the workspace is reachable again.
+          </div>
+        ) : (
+          kpiDefs.map((kpi) => <KpiCard key={kpi.label} kpi={kpi} />)
+        )}
       </div>
 
+      {!ledgerEmpty && (
       <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
         <ChartCard
           title="Monthly Revenue vs Expenses"
@@ -199,6 +285,7 @@ function Dashboard() {
           <PieChartSimple data={invoiceStatusChart} />
         </ChartCard>
       </div>
+      )}
 
       <div className="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-3">
         <section className="surface overflow-hidden xl:col-span-2">
@@ -228,6 +315,9 @@ function Dashboard() {
                 </TableRow>
               </TableHeader>
               <TableBody>
+                {recentInvoicesQuery.isError && (
+                  <TableRow><TableCell colSpan={5} className="py-10 text-center text-muted-foreground">Invoices could not be loaded.</TableCell></TableRow>
+                )}
                 {recentInvoicesQuery.data?.invoices.length === 0 && (
                   <TableRow><TableCell colSpan={5} className="py-10 text-center text-muted-foreground">No invoices scanned yet.</TableCell></TableRow>
                 )}
@@ -288,6 +378,11 @@ function Dashboard() {
             </div>
             <p className="mt-1 text-xs text-muted-foreground">Expenses awaiting a decision — see the Expenses page</p>
             <ul className="mt-4 space-y-3">
+              {pendingApprovalsQuery.isError && (
+                <li className="rounded-xl bg-muted/50 px-3 py-2.5 text-center text-xs text-muted-foreground">
+                  Approvals could not be loaded.
+                </li>
+              )}
               {pendingApprovalsQuery.data?.expenses.length === 0 && (
                 <li className="rounded-xl bg-muted/50 px-3 py-2.5 text-center text-xs text-muted-foreground">
                   Nothing pending right now.

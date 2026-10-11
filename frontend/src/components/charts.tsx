@@ -50,6 +50,17 @@ const tooltipStyle = {
 const compact = (v: number) =>
   v >= 1_000_000 ? `${(v / 1_000_000).toFixed(1)}M` : v >= 1000 ? `${Math.round(v / 1000)}k` : `${v}`;
 
+function EmptyPlot({ label, height = 280 }: { label: string; height?: number }) {
+  return (
+    <div
+      className="grid place-items-center rounded-xl bg-muted/40 px-6 text-center text-sm text-muted-foreground"
+      style={{ height }}
+    >
+      {label}
+    </div>
+  );
+}
+
 export function ChartCard({
   title,
   subtitle,
@@ -78,6 +89,9 @@ export function ChartCard({
 }
 
 export function RevenueExpenseChart({ data }: { data: { month: string; revenue: number; expenses: number }[] }) {
+  if (data.length === 0 || data.every((point) => point.revenue === 0 && point.expenses === 0)) {
+    return <EmptyPlot label="No revenue or expenses recorded yet." />;
+  }
   return (
     <ResponsiveContainer width="100%" height={280}>
       <LineChart data={data} margin={{ left: -12, right: 8, top: 4 }}>
@@ -94,6 +108,7 @@ export function RevenueExpenseChart({ data }: { data: { month: string; revenue: 
 }
 
 export function DonutChart({ data, height = 280 }: { data: { name: string; value: number }[]; height?: number }) {
+  if (data.length === 0) return <EmptyPlot label="No approved expenses this month." height={height} />;
   return (
     <ResponsiveContainer width="100%" height={height}>
       <PieChart>
@@ -110,6 +125,7 @@ export function DonutChart({ data, height = 280 }: { data: { name: string; value
 }
 
 export function PieChartSimple({ data }: { data: { name: string; value: number }[] }) {
+  if (data.length === 0) return <EmptyPlot label="No purchase documents yet." />;
   return (
     <ResponsiveContainer width="100%" height={280}>
       <PieChart>
@@ -126,6 +142,7 @@ export function PieChartSimple({ data }: { data: { name: string; value: number }
 }
 
 export function VerticalBars({ data, height = 280 }: { data: { name: string; value: number }[]; height?: number }) {
+  if (data.length === 0) return <EmptyPlot label="No customer sales recorded yet." height={height} />;
   return (
     <ResponsiveContainer width="100%" height={height}>
       <BarChart data={data} margin={{ left: -12, right: 8, top: 4 }}>
@@ -140,6 +157,7 @@ export function VerticalBars({ data, height = 280 }: { data: { name: string; val
 }
 
 export function HorizontalBars({ data, height = 280 }: { data: { name: string; value: number }[]; height?: number }) {
+  if (data.length === 0) return <EmptyPlot label="No vendor spend recorded yet." height={height} />;
   return (
     <ResponsiveContainer width="100%" height={height}>
       <BarChart data={data} layout="vertical" margin={{ left: 30, right: 16 }}>
@@ -158,6 +176,9 @@ export function HorizontalBars({ data, height = 280 }: { data: { name: string; v
 }
 
 export function CashFlowChart({ data }: { data: { month: string; inflow: number; outflow: number }[] }) {
+  if (data.length === 0 || data.every((point) => point.inflow === 0 && point.outflow === 0)) {
+    return <EmptyPlot label="No cash movement recorded yet." />;
+  }
   return (
     <ResponsiveContainer width="100%" height={280}>
       <AreaChart data={data} margin={{ left: -12, right: 8, top: 4 }}>

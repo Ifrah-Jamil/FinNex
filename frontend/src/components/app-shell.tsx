@@ -140,7 +140,7 @@ const settingsItem: NavItem = { to: "/app/settings", label: "Settings", icon: Se
 /** Grouped sidebar structure — this IS the source of truth `navItems`
  * below is flattened from, so the grouped sidebar and the ⌘K command
  * palette can never drift out of sync with each other. */
-const navGroups: { label: string; category: NavCategory; items: NavItem[] }[] = [
+export const navGroups: { label: string; category: NavCategory; items: NavItem[] }[] = [
   {
     label: "Documents",
     category: "teal",
@@ -207,7 +207,15 @@ function NavIcon({
   );
 }
 
-function NavRow({ item, onNavigate }: { item: NavItem; onNavigate?: (() => void) | undefined; category?: NavCategory }) {
+function NavRow({
+  item,
+  onNavigate,
+  category,
+}: {
+  item: NavItem;
+  onNavigate?: (() => void) | undefined;
+  category?: NavCategory;
+}) {
   return (
     <Link
       to={item.to}
@@ -219,7 +227,7 @@ function NavRow({ item, onNavigate }: { item: NavItem; onNavigate?: (() => void)
       }}
       className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm transition-colors"
     >
-      <NavIcon icon={item.icon} />
+      <NavIcon icon={item.icon} {...(category ? { category } : {})} />
       <span className="truncate">{item.label}</span>
     </Link>
   );
@@ -475,7 +483,7 @@ export function AppShell() {
       style={{ ["--sidebar-w" as string]: `${sidebarCollapsed ? 0 : sidebarWidth}px` }}
     >
       <aside
-        className="fixed inset-y-0 left-0 z-30 hidden overflow-hidden border-r border-sidebar-border bg-sidebar text-sidebar-foreground lg:block"
+        className="fixed inset-y-0 left-0 z-30 hidden overflow-hidden border-r border-sidebar-border bg-sidebar text-sidebar-foreground md:block"
         style={{
           width: "var(--sidebar-w)",
           transition: "width 150ms ease",
@@ -500,7 +508,7 @@ export function AppShell() {
               <button
                 onClick={toggleCollapsed}
                 aria-label="Show sidebar"
-                className="fixed left-3 top-3 z-30 hidden h-8 w-8 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:text-foreground lg:flex"
+                className="fixed left-3 top-3 z-30 hidden h-8 w-8 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:text-foreground md:flex"
               >
                 <PanelLeft className="h-4 w-4" />
               </button>
@@ -512,12 +520,12 @@ export function AppShell() {
         </TooltipProvider>
       )}
 
-      <div className="lg:pl-[var(--sidebar-w)]" style={{ transition: "padding-left 150ms ease" }}>
+      <div className="md:pl-[var(--sidebar-w)]" style={{ transition: "padding-left 150ms ease" }}>
         <header className="glass sticky top-0 z-20 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b px-4 py-3 sm:px-6">
           <div className="flex min-w-0 items-center gap-3">
             <Sheet open={mobileNav} onOpenChange={setMobileNav}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu">
+                <Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu">
                   <Menu className="h-4 w-4" />
                 </Button>
               </SheetTrigger>
@@ -533,7 +541,7 @@ export function AppShell() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="hidden lg:inline-flex"
+                      className="hidden md:inline-flex"
                       onClick={toggleCollapsed}
                       aria-label="Hide sidebar"
                     >
