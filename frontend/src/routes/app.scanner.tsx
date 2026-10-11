@@ -393,6 +393,21 @@ function Scanner() {
       toast.success("Posted to accounting ledger");
       queryClient.invalidateQueries({ queryKey: ["invoice", selectedInvoiceId] });
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
+      // The send books an approved expense and links the vendor. Those
+      // figures live on the dashboard, which is not watching the invoice
+      // query — refresh the keys it actually reads.
+      for (const queryKey of [
+        ["transactions-kpis"],
+        ["revenue-vs-expenses"],
+        ["cash-flow"],
+        ["expense-categories"],
+        ["vendors"],
+        ["invoice-status-summary"],
+        ["expenses"],
+        ["sales-summary"],
+      ]) {
+        queryClient.invalidateQueries({ queryKey });
+      }
     },
     onError: (error: Error) => toast.error(error.message || "Could not send this invoice to accounting"),
   });

@@ -418,6 +418,11 @@ services:
       # depends_on, same reasoning as AI_ENGINE_URL above: a purchase
       # invoice's status flip must not block on a downstream service.
       TRANSACTIONS_SERVICE_URL: http://transactions-service:8003
+      # Find-or-create the supplier on send-to-accounting so spend is
+      # attributed. Best-effort, same reasoning as the URL above — the
+      # host .env points this name at localhost, which is the wrong
+      # machine once the service is inside this network.
+      VENDORS_SERVICE_URL: http://vendors-service:8006
       # Sales-invoice PDF branding (logo, placement, template) —
       # best-effort, same reasoning as above.
       SETTINGS_SERVICE_URL: http://settings-service:8009

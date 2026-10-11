@@ -16,6 +16,7 @@ from app.models import Invoice, InvoiceItem, InvoiceStatus, InvoiceType
 from app.models.base import Base
 from app.services.ai_engine_client import AIEngineError
 from app.services.transactions_service_client import TransactionsServiceError
+from app.services.vendors_service_client import VendorsServiceError
 
 COMPANY_ID = uuid.uuid4()
 OTHER_COMPANY_ID = uuid.uuid4()
@@ -33,6 +34,18 @@ def db_session_factory():
 
     asyncio.get_event_loop().run_until_complete(_setup())
     return async_sessionmaker(engine, expire_on_commit=False)
+
+
+@pytest.fixture(autouse=True)
+def _vendors_directory_unavailable(monkeypatch):
+    """Send-to-accounting looks up Vendors Service. These tests do not run
+    that service; an unreachable directory must not fail the status flip,
+    which is the same best-effort rule the route uses in production."""
+
+    async def _down(*_args, **_kwargs):
+        raise VendorsServiceError("vendors service is not part of this test")
+
+    monkeypatch.setattr("app.api.routes.invoices.find_or_create_vendor", _down)
 
 
 @pytest.fixture
@@ -340,6 +353,80 @@ class TestSendToAccountingBooksAnExpense:
 
         assert response.status_code == 200
         assert response.json()["status"] == "sent_to_accounting"
+
+
+class TestSendToAccountingLinksAVendor:
+    """Top Vendors only counts invoices that carry a vendor_id. Sending a
+    purchase invoice has to find or create that vendor and store the id
+    before the expense is booked, or the dashboard never shows who was paid."""
+
+    def test_a_purchase_invoice_is_linked_and_the_expense_uses_that_vendor(
+        self, client, db_session_factory, monkeypatch,
+    ) -> None:
+        invoice_id = _seed(db_session_factory, status=InvoiceStatus.processed, vendor_name="muhammad haroon")
+        vendor_id = uuid.uuid4()
+
+        async def _found(*_args, **kwargs):
+            assert kwargs["name"] == "muhammad haroon"
+            return vendor_id
+
+        monkeypatch.setattr("app.api.routes.invoices.find_or_create_vendor", _found)
+        with patch(
+            "app.api.routes.invoices.book_expense_from_invoice", AsyncMock(return_value=None),
+        ) as booked:
+            response = client.post(f"/api/v1/invoices/{invoice_id}/send-to-accounting")
+
+        assert response.status_code == 200
+        assert response.json()["vendor_id"] == str(vendor_id)
+        assert booked.await_args.kwargs["vendor_id"] == vendor_id
+
+    def test_an_already_linked_invoice_is_not_looked_up_again(self, client, db_session_factory, monkeypatch) -> None:
+        existing = uuid.uuid4()
+        invoice_id = _seed(db_session_factory, status=InvoiceStatus.validated, vendor_id=existing)
+        looked_up = AsyncMock()
+        monkeypatch.setattr("app.api.routes.invoices.find_or_create_vendor", looked_up)
+        with patch(
+            "app.api.routes.invoices.book_expense_from_invoice", AsyncMock(return_value=None),
+        ) as booked:
+            response = client.post(f"/api/v1/invoices/{invoice_id}/send-to-accounting")
+
+        assert response.status_code == 200
+        assert response.json()["vendor_id"] == str(existing)
+        looked_up.assert_not_awaited()
+        assert booked.await_args.kwargs["vendor_id"] == existing
+
+    def test_a_sale_does_not_create_a_vendor(self, client, db_session_factory, monkeypatch) -> None:
+        invoice_id = _seed(db_session_factory, status=InvoiceStatus.processed, type=InvoiceType.sale)
+        looked_up = AsyncMock()
+        monkeypatch.setattr("app.api.routes.invoices.find_or_create_vendor", looked_up)
+
+        response = client.post(f"/api/v1/invoices/{invoice_id}/send-to-accounting")
+
+        assert response.status_code == 200
+        looked_up.assert_not_awaited()
+
+    def test_a_blank_vendor_name_is_not_sent_to_the_directory(self, client, db_session_factory, monkeypatch) -> None:
+        invoice_id = _seed(db_session_factory, status=InvoiceStatus.processed, vendor_name="   ")
+        looked_up = AsyncMock()
+        monkeypatch.setattr("app.api.routes.invoices.find_or_create_vendor", looked_up)
+
+        response = client.post(f"/api/v1/invoices/{invoice_id}/send-to-accounting")
+
+        assert response.status_code == 200
+        assert response.json()["vendor_id"] is None
+        looked_up.assert_not_awaited()
+
+    def test_an_unreachable_directory_still_sends_the_invoice(self, client, db_session_factory) -> None:
+        invoice_id = _seed(db_session_factory, status=InvoiceStatus.processed)
+        with patch(
+            "app.api.routes.invoices.book_expense_from_invoice", AsyncMock(return_value=None),
+        ) as booked:
+            response = client.post(f"/api/v1/invoices/{invoice_id}/send-to-accounting")
+
+        assert response.status_code == 200
+        assert response.json()["status"] == "sent_to_accounting"
+        assert response.json()["vendor_id"] is None
+        assert booked.await_args.kwargs["vendor_id"] is None
 
 
 class TestStatusEditingFromTheRecordsGrid:
