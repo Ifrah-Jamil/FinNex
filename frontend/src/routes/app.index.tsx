@@ -78,7 +78,7 @@ interface KpiDef {
 function KpiCard({ kpi }: { kpi: KpiDef }) {
   const Icon = icons[kpi.icon];
   return (
-    <div className="surface lift p-5">
+    <div className="surface lift p-4">
       <div className="flex items-start justify-between gap-3">
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
           <Icon className="h-4.5 w-4.5" />
@@ -92,8 +92,8 @@ function KpiCard({ kpi }: { kpi: KpiDef }) {
           </span>
         )}
       </div>
-      <p className="mt-4 truncate text-xs font-medium uppercase tracking-wide text-muted-foreground">{kpi.label}</p>
-      <p className="mt-1 font-display text-2xl font-bold tracking-tight">
+      <p className="mt-3 text-[11px] font-medium uppercase leading-tight tracking-wide text-muted-foreground">{kpi.label}</p>
+      <p className="mt-1 font-display text-xl font-bold tracking-tight">
         {kpi.raw ? kpi.value.toLocaleString() : money(kpi.value)}
       </p>
       <p className="mt-1 text-xs text-muted-foreground">{kpi.hint}</p>
@@ -124,31 +124,27 @@ function WorkspaceServices() {
       <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
         Invoice capture, finance, operations, and reports. Open any of these to start filling the books.
       </p>
-      <div className="mt-4 space-y-6">
-        {navGroups.map((group) => (
-          <div key={group.label}>
-            <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">{group.label}</p>
-            <div className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
-              {group.items.map((item) => (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className="surface lift flex items-start gap-3 p-4 transition-shadow hover:shadow-[var(--shadow-secondary)]"
-                >
-                  <span className="category-chip h-10 w-10 shrink-0 rounded-xl" data-category={group.category}>
-                    <item.icon className="h-4 w-4" />
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block text-sm font-semibold">{item.label}</span>
-                    <span className="mt-0.5 block text-xs leading-relaxed text-muted-foreground">
-                      {serviceNotes[item.to]}
-                    </span>
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        ))}
+      <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
+        {navGroups.flatMap((group) =>
+          group.items.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              className="surface lift flex items-center gap-2.5 p-2.5 transition-shadow hover:shadow-[var(--shadow-secondary)]"
+            >
+              <span className="category-chip h-8 w-8 shrink-0 rounded-lg" data-category={group.category}>
+                <item.icon className="h-4 w-4" />
+              </span>
+              <span className="min-w-0">
+                <span className="block truncate text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+                  {group.label}
+                </span>
+                <span className="block truncate text-sm font-semibold">{item.label}</span>
+                <span className="block truncate text-xs text-muted-foreground">{serviceNotes[item.to]}</span>
+              </span>
+            </Link>
+          )),
+        )}
       </div>
     </section>
   );
@@ -248,7 +244,7 @@ function Dashboard() {
         </div>
       )}
 
-      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-4 grid grid-cols-2 gap-2.5 md:grid-cols-4 2xl:grid-cols-8">
         {kpisQuery.isLoading ? (
           Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-32 rounded-2xl" />)
         ) : kpisQuery.isError ? (
@@ -261,7 +257,7 @@ function Dashboard() {
       </div>
 
       {!ledgerEmpty && (
-      <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
+      <div className="mt-4 grid grid-cols-1 gap-3 lg:grid-cols-3">
         <ChartCard
           title="Monthly Revenue vs Expenses"
           subtitle="Last 7 months (PKR)"
@@ -287,9 +283,9 @@ function Dashboard() {
       </div>
       )}
 
-      <div className="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-3">
+      <div className="mt-4 grid grid-cols-1 gap-3 xl:grid-cols-3">
         <section className="surface overflow-hidden xl:col-span-2">
-          <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b px-5 py-4">
+          <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b px-4 py-3">
             <div className="min-w-0">
               <h3 className="truncate text-base font-semibold">Recent Uploaded Invoices</h3>
               <p className="text-xs text-muted-foreground">Auto-extracted by FinNex</p>
@@ -316,10 +312,10 @@ function Dashboard() {
               </TableHeader>
               <TableBody>
                 {recentInvoicesQuery.isError && (
-                  <TableRow><TableCell colSpan={5} className="py-10 text-center text-muted-foreground">Invoices could not be loaded.</TableCell></TableRow>
+                  <TableRow><TableCell colSpan={5} className="py-6 text-center text-muted-foreground">Invoices could not be loaded.</TableCell></TableRow>
                 )}
                 {recentInvoicesQuery.data?.invoices.length === 0 && (
-                  <TableRow><TableCell colSpan={5} className="py-10 text-center text-muted-foreground">No invoices scanned yet.</TableCell></TableRow>
+                  <TableRow><TableCell colSpan={5} className="py-6 text-center text-muted-foreground">No invoices scanned yet.</TableCell></TableRow>
                 )}
                 {recentInvoicesQuery.data?.invoices.map((inv) => (
                   <TableRow key={inv.id} className="transition-colors hover:bg-muted/50">
@@ -337,8 +333,8 @@ function Dashboard() {
           </div>
         </section>
 
-        <div className="flex flex-col gap-4">
-          <section className="surface p-5">
+        <div className="flex flex-col gap-3">
+          <section className="surface p-4">
             <div className="flex items-center gap-2">
               <CalendarDays className="h-4 w-4 text-primary" />
               <h3 className="text-base font-semibold">
@@ -371,7 +367,7 @@ function Dashboard() {
             </div>
           </section>
 
-          <section className="surface p-5">
+          <section className="surface p-4">
             <div className="flex items-center gap-2">
               <Banknote className="h-4 w-4 text-primary" />
               <h3 className="text-base font-semibold">Pending Approvals</h3>
