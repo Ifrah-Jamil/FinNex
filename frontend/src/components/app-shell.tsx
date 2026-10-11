@@ -521,7 +521,7 @@ export function AppShell() {
       )}
 
       <div className="md:pl-[var(--sidebar-w)]" style={{ transition: "padding-left 150ms ease" }}>
-        <header className="glass sticky top-0 z-20 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b px-4 py-2 sm:px-5">
+        <header className="glass sticky top-0 z-20 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b px-4 py-3 sm:px-6">
           <div className="flex min-w-0 items-center gap-3">
             <Sheet open={mobileNav} onOpenChange={setMobileNav}>
               <SheetTrigger asChild>
@@ -599,7 +599,7 @@ export function AppShell() {
           </div>
         </header>
 
-        <main className="page-enter w-full px-4 py-4 sm:px-5 sm:py-5">
+        <main className="page-enter w-full px-4 py-5 sm:px-6 sm:py-6">
           <Outlet />
         </main>
       </div>
@@ -647,7 +647,7 @@ export function PageHeader({
   actions?: ReactNode;
 }) {
   return (
-    <header className="mb-4 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3 sm:flex sm:items-center sm:justify-between">
+    <header className="mb-5 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:items-center sm:justify-between">
       <div className="min-w-0">
         <h1 className="truncate font-display text-2xl font-bold">{title}</h1>
         {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}

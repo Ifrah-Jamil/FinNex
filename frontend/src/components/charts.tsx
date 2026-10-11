@@ -75,8 +75,8 @@ export function ChartCard({
   action?: ReactNode;
 }) {
   return (
-    <section className={cn("surface p-4", className)}>
-      <header className="mb-3 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
+    <section className={cn("surface p-5", className)}>
+      <header className="mb-4 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-3">
         <div className="min-w-0">
           <h3 className="truncate text-base font-semibold">{title}</h3>
           {subtitle && <p className="mt-0.5 truncate text-xs text-muted-foreground">{subtitle}</p>}
