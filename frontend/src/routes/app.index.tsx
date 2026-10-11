@@ -151,7 +151,7 @@ function Dashboard() {
     : [];
 
   return (
-    <div className="flex flex-col gap-4 xl:min-h-0 xl:flex-1 xl:gap-3 xl:overflow-hidden">
+    <div className="flex flex-col gap-4">
       <PageHeader
         className="mb-0"
         title={firstName ? `Good to see you, ${firstName}` : "Good to see you"}
@@ -182,24 +182,24 @@ function Dashboard() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-3 lg:grid-cols-3 xl:min-h-0 xl:flex-1 xl:grid-rows-2">
-        <ChartCard fill title="Monthly Revenue vs Expenses" subtitle="Last 7 months (PKR)">
-          <RevenueExpenseChart data={trendQuery.data ?? []} height="100%" />
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <ChartCard title="Monthly Revenue vs Expenses" subtitle="Last 7 months (PKR)" className="lg:col-span-2">
+          <RevenueExpenseChart data={trendQuery.data ?? []} />
         </ChartCard>
-        <ChartCard fill title="Expense Categories" subtitle="This month, approved only">
-          <DonutChart data={categoriesQuery.data ?? []} height="100%" />
+        <ChartCard title="Expense Categories" subtitle="This month, approved only">
+          <DonutChart data={categoriesQuery.data ?? []} />
         </ChartCard>
-        <ChartCard fill title="Cash Flow" subtitle="Inflow vs outflow">
-          <CashFlowChart data={cashFlowQuery.data ?? []} height="100%" />
+        <ChartCard title="Top Customers" subtitle="From scanned sales">
+          <VerticalBars data={topCustomers} />
         </ChartCard>
-        <ChartCard fill title="Top Customers" subtitle="From scanned sales">
-          <VerticalBars data={topCustomers} height="100%" />
+        <ChartCard title="Cash Flow" subtitle="Inflow vs outflow" className="lg:col-span-2">
+          <CashFlowChart data={cashFlowQuery.data ?? []} />
         </ChartCard>
-        <ChartCard fill title="Top Vendors" subtitle="Spend from invoices">
-          <HorizontalBars data={topVendorsChart} height="100%" />
+        <ChartCard title="Top Vendors" subtitle="Spend from invoices" className="lg:col-span-2">
+          <HorizontalBars data={topVendorsChart} />
         </ChartCard>
-        <ChartCard fill title="Invoice Status" subtitle={`${statusSummaryQuery.data?.total ?? 0} purchase documents`}>
-          <PieChartSimple data={invoiceStatusChart} height="100%" />
+        <ChartCard title="Invoice Status" subtitle={`${statusSummaryQuery.data?.total ?? 0} purchase documents`}>
+          <PieChartSimple data={invoiceStatusChart} />
         </ChartCard>
       </div>
 
