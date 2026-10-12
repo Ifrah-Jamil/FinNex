@@ -5,10 +5,10 @@ import { RequireAuth } from "@/components/require-auth";
 export const Route = createFileRoute("/app")({
   head: () => ({
     meta: [
-      { title: "Fluxora — Workspace" },
-      { name: "description", content: "AI accounting workspace for Pakistani SMEs." },
-      { property: "og:title", content: "Fluxora — Workspace" },
-      { property: "og:description", content: "AI accounting workspace for Pakistani SMEs." },
+      { title: "FinNex — Workspace" },
+      { name: "description", content: "Financial document workspace for Pakistani trading SMEs." },
+      { property: "og:title", content: "FinNex — Workspace" },
+      { property: "og:description", content: "Financial document workspace for Pakistani trading SMEs." },
     ],
   }),
   component: ProtectedWorkspace,

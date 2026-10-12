@@ -39,9 +39,9 @@ import {
 export const Route = createFileRoute("/app/")({
   head: () => ({
     meta: [
-      { title: "Dashboard — Fluxora" },
+      { title: "Dashboard — FinNex" },
       { name: "description", content: "Live revenue, expense, payroll and cash-flow overview for your business." },
-      { property: "og:title", content: "Dashboard — Fluxora" },
+      { property: "og:title", content: "Dashboard — FinNex" },
       { property: "og:description", content: "Live revenue, expense, payroll and cash-flow overview." },
     ],
   }),
@@ -78,25 +78,25 @@ interface KpiDef {
 function KpiCard({ kpi }: { kpi: KpiDef }) {
   const Icon = icons[kpi.icon];
   return (
-    <div className="surface lift p-5">
-      <div className="flex items-start justify-between gap-3">
-        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
-          <Icon className="h-4.5 w-4.5" />
-        </span>
-        {kpi.unavailable && (
-          <span
-            className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-[11px] font-medium text-muted-foreground"
-            title="Invoice Service could not be reached"
-          >
-            <AlertTriangle className="h-3 w-3" /> Unavailable
-          </span>
-        )}
+    <div className="surface flex items-center gap-3 px-4 py-3">
+      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-primary/10 text-primary">
+        <Icon className="h-4 w-4" />
+      </span>
+      <div className="min-w-0">
+        <p className="truncate text-[11px] font-medium uppercase tracking-wide text-muted-foreground">{kpi.label}</p>
+        <p className="truncate font-display text-xl font-bold tracking-tight">
+          {kpi.raw ? kpi.value.toLocaleString() : money(kpi.value)}
+        </p>
+        <p className="truncate text-xs text-muted-foreground">{kpi.hint}</p>
       </div>
-      <p className="mt-4 truncate text-xs font-medium uppercase tracking-wide text-muted-foreground">{kpi.label}</p>
-      <p className="mt-1 font-display text-2xl font-bold tracking-tight">
-        {kpi.raw ? kpi.value.toLocaleString() : money(kpi.value)}
-      </p>
-      <p className="mt-1 text-xs text-muted-foreground">{kpi.hint}</p>
+      {kpi.unavailable && (
+        <span
+          className="ml-auto inline-flex shrink-0 items-center gap-1 rounded-full bg-muted px-2 py-1 text-[11px] font-medium text-muted-foreground"
+          title="Invoice Service could not be reached"
+        >
+          <AlertTriangle className="h-3 w-3" /> Unavailable
+        </span>
+      )}
     </div>
   );
 }
@@ -151,8 +151,9 @@ function Dashboard() {
     : [];
 
   return (
-    <>
+    <div className="flex flex-col gap-4">
       <PageHeader
+        className="mb-0"
         title={firstName ? `Good to see you, ${firstName}` : "Good to see you"}
         subtitle={`Here's what happened across your books today — ${today.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" })}.`}
         actions={
@@ -169,30 +170,32 @@ function Dashboard() {
         }
       />
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {kpisQuery.isLoading
-          ? Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-32 rounded-2xl" />)
-          : kpiDefs.map((kpi) => <KpiCard key={kpi.label} kpi={kpi} />)}
+      <div className="grid shrink-0 grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {kpisQuery.isLoading ? (
+          Array.from({ length: 8 }).map((_, i) => <Skeleton key={i} className="h-32 rounded-2xl" />)
+        ) : kpisQuery.isError ? (
+          <div className="surface col-span-full p-6 text-sm text-muted-foreground">
+            The figures could not be loaded. Refresh once the workspace is reachable again.
+          </div>
+        ) : (
+          kpiDefs.map((kpi) => <KpiCard key={kpi.label} kpi={kpi} />)
+        )}
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <ChartCard
-          title="Monthly Revenue vs Expenses"
-          subtitle="Last 7 months (PKR)"
-          className="lg:col-span-2"
-        >
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+        <ChartCard title="Monthly Revenue vs Expenses" subtitle="Last 7 months (PKR)" className="lg:col-span-2">
           <RevenueExpenseChart data={trendQuery.data ?? []} />
         </ChartCard>
         <ChartCard title="Expense Categories" subtitle="This month, approved only">
           <DonutChart data={categoriesQuery.data ?? []} />
         </ChartCard>
-        <ChartCard title="Top Customers" subtitle="From scanned sales — see Revenue Manager">
+        <ChartCard title="Top Customers" subtitle="From scanned sales">
           <VerticalBars data={topCustomers} />
         </ChartCard>
         <ChartCard title="Cash Flow" subtitle="Inflow vs outflow" className="lg:col-span-2">
           <CashFlowChart data={cashFlowQuery.data ?? []} />
         </ChartCard>
-        <ChartCard title="Top Vendors" subtitle="Spend, derived from Invoice Service" className="lg:col-span-2">
+        <ChartCard title="Top Vendors" subtitle="Spend from invoices" className="lg:col-span-2">
           <HorizontalBars data={topVendorsChart} />
         </ChartCard>
         <ChartCard title="Invoice Status" subtitle={`${statusSummaryQuery.data?.total ?? 0} purchase documents`}>
@@ -200,12 +203,12 @@ function Dashboard() {
         </ChartCard>
       </div>
 
-      <div className="mt-6 grid grid-cols-1 gap-4 xl:grid-cols-3">
+      <div className="grid shrink-0 grid-cols-1 gap-3 xl:grid-cols-3">
         <section className="surface overflow-hidden xl:col-span-2">
           <header className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b px-5 py-4">
             <div className="min-w-0">
               <h3 className="truncate text-base font-semibold">Recent Uploaded Invoices</h3>
-              <p className="text-xs text-muted-foreground">Auto-extracted by Fluxora</p>
+              <p className="text-xs text-muted-foreground">Auto-extracted by FinNex</p>
             </div>
             <Button variant="ghost" size="sm" asChild>
               <Link to="/app/scanner">View all</Link>
@@ -228,8 +231,11 @@ function Dashboard() {
                 </TableRow>
               </TableHeader>
               <TableBody>
+                {recentInvoicesQuery.isError && (
+                  <TableRow><TableCell colSpan={5} className="py-6 text-center text-muted-foreground">Invoices could not be loaded.</TableCell></TableRow>
+                )}
                 {recentInvoicesQuery.data?.invoices.length === 0 && (
-                  <TableRow><TableCell colSpan={5} className="py-10 text-center text-muted-foreground">No invoices scanned yet.</TableCell></TableRow>
+                  <TableRow><TableCell colSpan={5} className="py-6 text-center text-muted-foreground">No invoices scanned yet.</TableCell></TableRow>
                 )}
                 {recentInvoicesQuery.data?.invoices.map((inv) => (
                   <TableRow key={inv.id} className="transition-colors hover:bg-muted/50">
@@ -248,14 +254,14 @@ function Dashboard() {
         </section>
 
         <div className="flex flex-col gap-4">
-          <section className="surface p-5">
+          <section className="surface p-4">
             <div className="flex items-center gap-2">
               <CalendarDays className="h-4 w-4 text-primary" />
               <h3 className="text-base font-semibold">
                 {today.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
               </h3>
             </div>
-            <div className="mt-4 grid grid-cols-7 gap-1 text-center text-[11px] text-muted-foreground">
+            <div className="mt-2 grid grid-cols-7 gap-0.5 text-center text-[11px] text-muted-foreground">
               {["S", "M", "T", "W", "T", "F", "S"].map((d, i) => (
                 <span key={i}>{d}</span>
               ))}
@@ -268,7 +274,7 @@ function Dashboard() {
                 return (
                   <span
                     key={day}
-                    className={`grid h-8 place-items-center rounded-lg text-xs ${
+                    className={`grid h-6 place-items-center rounded-md text-xs ${
                       isToday
                         ? "bg-[image:var(--gradient-brand)] font-semibold text-primary-foreground"
                         : "text-foreground/80"
@@ -281,13 +287,18 @@ function Dashboard() {
             </div>
           </section>
 
-          <section className="surface p-5">
+          <section className="surface p-4">
             <div className="flex items-center gap-2">
               <Banknote className="h-4 w-4 text-primary" />
               <h3 className="text-base font-semibold">Pending Approvals</h3>
             </div>
             <p className="mt-1 text-xs text-muted-foreground">Expenses awaiting a decision — see the Expenses page</p>
             <ul className="mt-4 space-y-3">
+              {pendingApprovalsQuery.isError && (
+                <li className="rounded-xl bg-muted/50 px-3 py-2.5 text-center text-xs text-muted-foreground">
+                  Approvals could not be loaded.
+                </li>
+              )}
               {pendingApprovalsQuery.data?.expenses.length === 0 && (
                 <li className="rounded-xl bg-muted/50 px-3 py-2.5 text-center text-xs text-muted-foreground">
                   Nothing pending right now.
@@ -306,6 +317,6 @@ function Dashboard() {
           </section>
         </div>
       </div>
-    </>
+    </div>
   );
 }

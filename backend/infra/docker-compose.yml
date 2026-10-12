@@ -214,34 +214,41 @@ services:
     volumes:
       - redis-data:/data
 
+  # Object storage (S3-compatible). LocalStack is used here because the
+  # minio/minio image is not always pullable in restricted environments; the
+  # service hostname stays "minio" so dependent services do not need renames.
   minio:
-    image: minio/minio:latest
-    command: server /data --console-address ":9001"
+    image: localstack/localstack:3
     environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
+      SERVICES: s3
+      DEBUG: "0"
+      AWS_DEFAULT_REGION: us-east-1
     healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
+      test: ["CMD", "curl", "-f", "http://localhost:4566/_localstack/health"]
       interval: 5s
-      timeout: 3s
-      retries: 12
+      timeout: 5s
+      retries: 20
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "9000:4566"
+      - "9001:4566"
     volumes:
-      - minio-data:/data
+      - minio-data:/var/lib/localstack
 
   minio-init:
-    image: minio/mc:latest
+    image: localstack/localstack:3
     depends_on:
       minio:
         condition: service_healthy
+    environment:
+      AWS_ACCESS_KEY_ID: minioadmin
+      AWS_SECRET_ACCESS_KEY: minioadmin
+      AWS_DEFAULT_REGION: us-east-1
     entrypoint: >
-      /bin/sh -c "mc alias set local http://minio:9000 minioadmin minioadmin &&
-      mc mb --ignore-existing local/slack-connector-files &&
-      mc mb --ignore-existing local/email-connector-files &&
-      mc mb --ignore-existing local/invoice-service-files &&
-      mc mb --ignore-existing local/documents-service-files"
+      /bin/sh -c "
+      for bucket in slack-connector-files email-connector-files invoice-service-files documents-service-files; do
+        awslocal --endpoint-url=http://minio:4566 s3 mb s3://$$bucket || true;
+      done
+      "
 
   slack-connector:
     build:
@@ -254,7 +261,7 @@ services:
       REDIS_URL: redis://redis:6379/3
       CELERY_BROKER_URL: redis://redis:6379/4
       CELERY_RESULT_BACKEND: redis://redis:6379/5
-      S3_ENDPOINT_URL: http://minio:9000
+      S3_ENDPOINT_URL: http://minio:4566
       S3_PUBLIC_ENDPOINT_URL: http://localhost:9000
       S3_ACCESS_KEY_ID: minioadmin
       S3_SECRET_ACCESS_KEY: minioadmin
@@ -284,7 +291,7 @@ services:
       REDIS_URL: redis://redis:6379/3
       CELERY_BROKER_URL: redis://redis:6379/4
       CELERY_RESULT_BACKEND: redis://redis:6379/5
-      S3_ENDPOINT_URL: http://minio:9000
+      S3_ENDPOINT_URL: http://minio:4566
       S3_PUBLIC_ENDPOINT_URL: http://localhost:9000
       S3_ACCESS_KEY_ID: minioadmin
       S3_SECRET_ACCESS_KEY: minioadmin
@@ -306,7 +313,7 @@ services:
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@email-connector-db:5432/email_connector_db
       REDIS_URL: redis://redis:6379/8
-      S3_ENDPOINT_URL: http://minio:9000
+      S3_ENDPOINT_URL: http://minio:4566
       S3_PUBLIC_ENDPOINT_URL: http://localhost:9000
       S3_ACCESS_KEY_ID: minioadmin
       S3_SECRET_ACCESS_KEY: minioadmin
@@ -341,7 +348,7 @@ services:
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@email-connector-db:5432/email_connector_db
       REDIS_URL: redis://redis:6379/8
-      S3_ENDPOINT_URL: http://minio:9000
+      S3_ENDPOINT_URL: http://minio:4566
       S3_PUBLIC_ENDPOINT_URL: http://localhost:9000
       S3_ACCESS_KEY_ID: minioadmin
       S3_SECRET_ACCESS_KEY: minioadmin
@@ -401,7 +408,7 @@ services:
       - ../../.env
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@invoice-service-db:5432/invoice_service_db
-      S3_ENDPOINT_URL: http://minio:9000
+      S3_ENDPOINT_URL: http://minio:4566
       S3_PUBLIC_ENDPOINT_URL: http://localhost:9000
       S3_ACCESS_KEY_ID: minioadmin
       S3_SECRET_ACCESS_KEY: minioadmin
@@ -411,6 +418,11 @@ services:
       # depends_on, same reasoning as AI_ENGINE_URL above: a purchase
       # invoice's status flip must not block on a downstream service.
       TRANSACTIONS_SERVICE_URL: http://transactions-service:8003
+      # Find-or-create the supplier on send-to-accounting so spend is
+      # attributed. Best-effort, same reasoning as the URL above — the
+      # host .env points this name at localhost, which is the wrong
+      # machine once the service is inside this network.
+      VENDORS_SERVICE_URL: http://vendors-service:8006
       # Sales-invoice PDF branding (logo, placement, template) —
       # best-effort, same reasoning as above.
       SETTINGS_SERVICE_URL: http://settings-service:8009
@@ -438,7 +450,7 @@ services:
       - ../../.env
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@documents-service-db:5432/documents_service_db
-      S3_ENDPOINT_URL: http://minio:9000
+      S3_ENDPOINT_URL: http://minio:4566
       S3_PUBLIC_ENDPOINT_URL: http://localhost:9000
       S3_ACCESS_KEY_ID: minioadmin
       S3_SECRET_ACCESS_KEY: minioadmin

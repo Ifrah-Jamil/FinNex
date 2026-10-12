@@ -116,7 +116,7 @@ export function SyncPickerDialog({
           <DialogTitle>Choose what to sync</DialogTitle>
           <DialogDescription>
             {hasConversationPicker
-              ? "Pick specific channels or DMs to pull files from, or leave nothing selected to sync everything Fluxora can reach."
+              ? "Pick specific channels or DMs to pull files from, or leave nothing selected to sync everything FinNex can reach."
               : `Pull invoices and receipts from ${source.label}. Choose how far back to look.`}
           </DialogDescription>
         </DialogHeader>
@@ -148,7 +148,7 @@ export function SyncPickerDialog({
             <div className="space-y-4 p-3">
               {channels.length === 0 && dms.length === 0 && (
                 <p className="py-6 text-center text-sm text-muted-foreground">
-                  No channels or DMs found. Invite Fluxora to a channel in Slack, then retry.
+                  No channels or DMs found. Invite FinNex to a channel in Slack, then retry.
                 </p>
               )}
 

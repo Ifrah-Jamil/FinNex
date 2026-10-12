@@ -2,195 +2,203 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   ArrowRight,
   BarChart3,
-  Bot,
-  Boxes,
   Check,
-  FilePlus2,
+  FileSearch,
   ScanLine,
-  Sparkles,
-  TrendingUp,
-  Wallet,
+  ShieldCheck,
+  Upload,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { BrandMark } from "@/components/brand-mark";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Fluxora — AI-Powered Accounting Automation for Pakistani SMEs" },
+      {
+        title: "FinNex — Financial Document Automation for Pakistani Trading SMEs",
+      },
       {
         name: "description",
         content:
-          "Extract invoices from WhatsApp images, PDFs and scans, automate bookkeeping and get AI insights into your business finances.",
+          "Capture supplier invoices from email, WhatsApp images and PDFs, review extractions, and keep PKR books organized — built for retail and trading businesses in Pakistan.",
       },
-      { property: "og:title", content: "Fluxora — AI-Powered Accounting Automation" },
+      {
+        property: "og:title",
+        content: "FinNex — Financial Document Automation",
+      },
       {
         property: "og:description",
-        content: "Automate bookkeeping, extract invoices and analyze finances with AI built for Pakistani SMEs.",
+        content:
+          "Invoice capture, review workflows and financial analytics for Pakistani trading SMEs.",
       },
     ],
   }),
   component: Landing,
 });
 
-const stats = [
-  { value: "1.3M+", label: "Invoices processed" },
-  { value: "96%", label: "Extraction accuracy" },
-  { value: "18 hrs", label: "Saved per month" },
-  { value: "2,400+", label: "Pakistani SMEs" },
+const features = [
+  {
+    icon: ScanLine,
+    title: "Invoice capture",
+    body: "Upload a PDF, phone photo or WhatsApp screenshot. Vendor, lines, tax and totals are extracted for review.",
+  },
+  {
+    icon: FileSearch,
+    title: "Human review",
+    body: "Approve or correct extractions before anything hits your books — confidence scores keep risky docs in a queue.",
+  },
+  {
+    icon: BarChart3,
+    title: "Finance visibility",
+    body: "Revenue, expenses and cash snapshots in PKR so owners see the month without rebuilding spreadsheets.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Secure workspace access",
+    body: "Company-scoped sign-in with roles, so only the right people upload, approve or view financial documents.",
+  },
+];
+
+const steps = [
+  {
+    n: "01",
+    title: "Bring documents in",
+    body: "Upload from the browser or connect email and Slack so supplier invoices land in one place.",
+  },
+  {
+    n: "02",
+    title: "Review what FinNex read",
+    body: "Check vendor, amounts and tax. Fix anything uncertain, then approve in one step.",
+  },
+  {
+    n: "03",
+    title: "See the numbers",
+    body: "Track spend and revenue on the dashboard and export the reports your bank or accountant asks for.",
+  },
 ];
 
 function Landing() {
-  const features = [
-    {
-      icon: ScanLine,
-      title: "AI Invoice Extraction",
-      body: "Drop a PDF, photo or WhatsApp screenshot. Vendor, items, tax and totals are read in seconds with 96% accuracy.",
-    },
-    {
-      icon: FilePlus2,
-      title: "Instant Invoice Generator",
-      body: "Build branded PKR invoices with live preview, automatic sales tax, discounts and one-click print or export.",
-    },
-    {
-      icon: TrendingUp,
-      title: "Revenue Automation",
-      body: "Sales invoices post themselves — customers, products, payment method and tax captured automatically.",
-    },
-    {
-      icon: BarChart3,
-      title: "Financial Analytics",
-      body: "Live dashboards for revenue, expenses, margin and cash flow, with forecasts you can actually trust.",
-    },
-    {
-      icon: Boxes,
-      title: "Procurement Management",
-      body: "Purchase requests, approvals, orders and vendor comparison in a single tracked workflow.",
-    },
-    {
-      icon: Bot,
-      title: "AI Business Insights",
-      body: "Ask why expenses rose, which vendor costs most, or what profit looks like next month — in plain language.",
-    },
-    {
-      icon: Wallet,
-      title: "Payroll & Expenses",
-      body: "Salaries, bonuses, deductions and every rupee of spend, categorised and approval-ready.",
-    },
-  ];
-
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <header className="glass sticky top-0 z-30 border-b">
         <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3.5 sm:px-6">
-          <Link to="/" className="flex min-w-0 items-center gap-2.5">
-            <span className="gradient-brand grid h-9 w-9 shrink-0 place-items-center rounded-xl text-primary-foreground">
-              <Wallet className="h-4.5 w-4.5" />
-            </span>
-            <span className="truncate font-display text-base font-bold">Fluxora</span>
+          <Link to="/" className="min-w-0">
+            <BrandMark />
           </Link>
           <div className="flex shrink-0 items-center gap-2">
             <ThemeToggle />
-            <Button asChild variant="ghost" className="hidden rounded-xl sm:inline-flex">
-              <Link to="/app">Live Demo</Link>
-            </Button>
             <Button asChild className="gap-2 rounded-xl">
               <Link to="/app">
-                Get Started <ArrowRight className="h-4 w-4" />
+                Open FinNex <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
           </div>
         </div>
       </header>
 
+      {/* Hero — brand first, one composition, no vanity stats */}
       <section className="relative overflow-hidden">
-        <div
-          className="pointer-events-none absolute inset-x-0 -top-40 h-[520px] opacity-70"
-          style={{ background: "var(--gradient-soft)" }}
-        />
-        <div className="relative mx-auto max-w-6xl px-4 py-20 text-center sm:px-6 sm:py-28">
-          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-1.5 text-xs font-medium text-muted-foreground shadow-[var(--shadow-soft)]">
-            <Sparkles className="h-3.5 w-3.5 text-primary" /> Built for Pakistani SMEs
-          </span>
-          <h1 className="mx-auto mt-6 max-w-3xl font-display text-4xl font-extrabold leading-[1.08] sm:text-6xl">
-            AI-Powered <span className="text-gradient">Accounting Automation</span>
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-            Automatically extract invoices from WhatsApp images, PDFs and scanned documents, organize your finances,
-            and gain AI-powered insights.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button asChild size="lg" className="gap-2 rounded-xl px-7">
-              <Link to="/app">
-                Get Started <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="rounded-xl px-7">
-              <Link to="/app">Live Demo</Link>
-            </Button>
+        <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(rgba(11,79,92,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(11,79,92,0.05)_1px,transparent_1px)] [background-size:48px_48px]" />
+        <div className="relative mx-auto grid max-w-6xl gap-10 px-4 pb-16 pt-14 sm:px-6 sm:pb-20 sm:pt-20 lg:grid-cols-[1.05fr_0.95fr] lg:items-end lg:gap-12">
+          <div className="reveal text-left">
+            <p className="font-display text-5xl font-semibold tracking-tight text-primary sm:text-7xl">
+              FinNex
+            </p>
+            <h1 className="mt-4 max-w-xl font-display text-3xl font-semibold leading-[1.12] text-foreground sm:text-4xl">
+              Financial documents, finally under control.
+            </h1>
+            <p className="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
+              Built for Pakistani retail and trading SMEs — capture supplier invoices, review
+              extractions, and keep PKR finances organized without spreadsheet chaos.
+            </p>
+            <div className="mt-8">
+              <Button asChild size="lg" className="gap-2 rounded-xl px-7">
+                <Link to="/app">
+                  Open FinNex <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
 
-          <div className="surface mx-auto mt-16 max-w-4xl overflow-hidden p-3 text-left">
-            <div className="rounded-xl border bg-muted/30 p-5">
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div
+            className="reveal surface overflow-hidden p-3 sm:p-4"
+            style={{ animationDelay: "80ms" }}
+          >
+            <div className="rounded-2xl border border-border/80 bg-card">
+              <div className="flex items-center justify-between border-b px-4 py-3">
+                <div className="flex items-center gap-2">
+                  <span className="grid h-8 w-8 place-items-center rounded-lg bg-primary/10 text-primary">
+                    <Upload className="h-4 w-4" />
+                  </span>
+                  <div>
+                    <p className="text-sm font-semibold">Invoice review</p>
+                    <p className="text-xs text-muted-foreground">ABC Traders · Karachi</p>
+                  </div>
+                </div>
+                <span className="rounded-full bg-success/10 px-2.5 py-1 text-[11px] font-semibold text-success">
+                  Ready to approve
+                </span>
+              </div>
+              <div className="grid gap-3 p-4 sm:grid-cols-2">
                 {[
-                  ["Monthly Revenue", "PKR 9.84M", "+18.2%"],
-                  ["Monthly Expenses", "PKR 6.12M", "-5.1%"],
-                  ["Net Profit", "PKR 3.72M", "+22.8%"],
-                  ["Cash Balance", "PKR 14.26M", "+6.7%"],
-                ].map(([label, value, delta]) => delta && (
-                  <div key={label} className="rounded-xl border bg-card p-4">
-                    <p className="truncate text-[11px] uppercase tracking-wide text-muted-foreground">{label}</p>
-                    <p className="mt-1 font-display text-lg font-bold">{value}</p>
-                    <p
-                      className={`text-[11px] font-semibold ${
-                        delta.startsWith("-") ? "text-destructive" : "text-success"
-                      }`}
-                    >
-                      {delta}
-                    </p>
+                  ["Vendor", "ABC Traders"],
+                  ["Invoice #", "INV-2048"],
+                  ["Date", "11 Oct 2026"],
+                  ["Total", "PKR 184,500"],
+                  ["Sales tax", "PKR 28,500"],
+                  ["Category", "Inventory"],
+                ].map(([label, value]) => (
+                  <div key={label} className="rounded-xl bg-muted/50 px-3 py-2.5">
+                    <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{label}</p>
+                    <p className="mt-0.5 truncate text-sm font-semibold">{value}</p>
                   </div>
                 ))}
               </div>
-              <div className="mt-3 flex h-40 items-end gap-2 rounded-xl border bg-card p-4">
-                {[42, 55, 48, 63, 58, 74, 69, 88, 82, 96, 90, 100].map((h, i) => (
-                  <span
-                    key={i}
-                    className="flex-1 rounded-t-md bg-[image:var(--gradient-brand)]"
-                    style={{ height: `${h}%`, opacity: 0.45 + i * 0.045 }}
-                  />
-                ))}
+              <div className="flex items-center justify-between border-t px-4 py-3">
+                <p className="text-xs text-muted-foreground">Extracted from WhatsApp photo · 96% confidence</p>
+                <Button size="sm" className="rounded-lg">
+                  Approve
+                </Button>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="border-y bg-card/50">
-        <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 px-4 py-12 sm:grid-cols-4 sm:px-6">
-          {stats.map((s) => (
-            <div key={s.label} className="text-center">
-              <p className="font-display text-3xl font-bold text-gradient">{s.value}</p>
-              <p className="mt-1 text-xs text-muted-foreground">{s.label}</p>
-            </div>
-          ))}
+      <section className="border-y bg-card/60">
+        <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+          <p className="text-center text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+            How FinNex works
+          </p>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {steps.map((step) => (
+              <article key={step.n} className="page-enter">
+                <p className="font-display text-3xl font-semibold text-primary/35">{step.n}</p>
+                <h2 className="mt-2 font-display text-xl font-semibold">{step.title}</h2>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+      <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <div className="max-w-2xl">
-          <h2 className="font-display text-3xl font-bold sm:text-4xl">Everything your finance team does — automated</h2>
+          <h2 className="font-display text-3xl font-semibold sm:text-4xl">
+            What you get in the workspace
+          </h2>
           <p className="mt-3 text-muted-foreground">
-            One platform for bookkeeping, procurement, payroll and analysis. No spreadsheets, no data entry.
+            A focused product for document-heavy trading businesses — not a kitchen-sink ERP.
           </p>
         </div>
-        <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
           {features.map((f) => (
-            <article key={f.title} className="surface lift p-6">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-[image:var(--gradient-soft)] text-primary">
+            <article key={f.title} className="surface p-6 transition-shadow hover:shadow-[var(--shadow-secondary)]">
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary">
                 <f.icon className="h-5 w-5" />
               </span>
-              <h3 className="mt-4 font-display text-lg font-semibold">{f.title}</h3>
+              <h3 className="mt-4 font-display text-xl font-semibold">{f.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.body}</p>
             </article>
           ))}
@@ -198,82 +206,59 @@ function Landing() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
-        <div className="surface grid grid-cols-1 items-center gap-8 overflow-hidden p-8 sm:p-12 lg:grid-cols-2">
-          <div>
-            <h2 className="font-display text-3xl font-bold">Close your books in hours, not weeks</h2>
-            <ul className="mt-6 space-y-3">
-              {[
-                "Urdu & English invoice reading",
-                "FBR-ready sales tax summaries",
-                "Duplicate & fraud detection",
-                "Bank-grade encryption on every document",
-              ].map((t) => (
-                <li key={t} className="flex items-start gap-3 text-sm">
-                  <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-success/15 text-success">
-                    <Check className="h-3 w-3" />
-                  </span>
-                  {t}
-                </li>
-              ))}
-            </ul>
-            <Button asChild className="mt-8 gap-2 rounded-xl">
-              <Link to="/app">
-                Explore the dashboard <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-          <div className="rounded-2xl border bg-[image:var(--gradient-soft)] p-6">
-            <p className="text-sm leading-relaxed">
-              "Fluxora replaced three people doing manual data entry. Our monthly close went from 11 days to a single
-              afternoon, and I finally trust the numbers I show my bank."
-            </p>
-            <div className="mt-5 flex items-center gap-3">
-              <span className="gradient-brand grid h-10 w-10 place-items-center rounded-full text-xs font-semibold text-primary-foreground">
-                SR
-              </span>
-              <div className="min-w-0">
-                <p className="truncate text-sm font-semibold">Saad Rafiq</p>
-                <p className="truncate text-xs text-muted-foreground">CFO, Al-Madina Retail · Karachi</p>
-              </div>
+        <div className="surface overflow-hidden px-6 py-10 sm:px-10 sm:py-12">
+          <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+            <div>
+              <h2 className="font-display text-3xl font-semibold">
+                Made for the way Pakistani suppliers actually bill you
+              </h2>
+              <ul className="mt-6 space-y-3">
+                {[
+                  "English invoice reading with PKR amounts",
+                  "Sales-tax aware extraction for local bills",
+                  "Company-scoped access for owners and accountants",
+                  "Works from phone photos when a PDF never arrives",
+                ].map((t) => (
+                  <li key={t} className="flex items-start gap-3 text-sm">
+                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-success/15 text-success">
+                      <Check className="h-3 w-3" />
+                    </span>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+              <Button asChild className="mt-8 gap-2 rounded-xl">
+                <Link to="/app">
+                  Open FinNex <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+            <div className="rounded-2xl border border-primary/15 bg-primary/5 p-6">
+              <p className="font-display text-lg font-semibold text-primary">Industrial project focus</p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                FinNex targets retail and trading SMEs that receive supplier invoices over email and
+                WhatsApp — a narrower, realistic scope so the product stays usable for a real finance
+                workflow.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      <footer className="border-t bg-card/50">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
+      <footer className="border-t bg-card/70">
+        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-6">
           <div>
-            <div className="flex items-center gap-2.5">
-              <span className="gradient-brand grid h-9 w-9 place-items-center rounded-xl text-primary-foreground">
-                <Wallet className="h-4.5 w-4.5" />
-              </span>
-              <span className="font-display text-base font-bold">Fluxora</span>
-            </div>
-            <p className="mt-3 max-w-xs text-sm text-muted-foreground">
-              Automate bookkeeping. Extract invoices. Analyze finances.
+            <BrandMark />
+            <p className="mt-3 max-w-sm text-sm text-muted-foreground">
+              Financial document automation for Pakistani trading SMEs.
             </p>
           </div>
-          {[
-            { title: "Product", links: ["Invoice Scanner", "Revenue Manager", "Analytics", "AI Assistant"] },
-            { title: "Company", links: ["About", "Careers", "Customers", "Contact"] },
-            { title: "Resources", links: ["Documentation", "FBR Tax Guide", "Security", "Status"] },
-          ].map((col) => (
-            <div key={col.title}>
-              <p className="text-sm font-semibold">{col.title}</p>
-              <ul className="mt-3 space-y-2">
-                {col.links.map((l) => (
-                  <li key={l}>
-                    <span className="cursor-pointer text-sm text-muted-foreground transition-colors hover:text-foreground">
-                      {l}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <Link to="/app" className="text-sm font-medium text-primary hover:underline">
+            Open FinNex
+          </Link>
         </div>
         <div className="border-t px-4 py-5 text-center text-xs text-muted-foreground sm:px-6">
-          © 2026 Fluxora. Built in Karachi, Pakistan.
+          © 2026 FinNex. Built for industrial use in Pakistan.
         </div>
       </footer>
     </div>

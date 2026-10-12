@@ -46,6 +46,12 @@ class Settings(BaseSettings):
         default=10.0, alias="TRANSACTIONS_SERVICE_TIMEOUT_SECONDS"
     )
 
+    # Vendors Service — send-to-accounting finds or creates the supplier
+    # so the invoice's spend is attributed on the dashboard. Best-effort,
+    # same reasoning as Transactions Service above.
+    vendors_service_url: str = Field(default="http://vendors-service:8006", alias="VENDORS_SERVICE_URL")
+    vendors_service_timeout_seconds: float = Field(default=10.0, alias="VENDORS_SERVICE_TIMEOUT_SECONDS")
+
     # Sales-invoice PDF branding (logo, placement, template) — best-effort,
     # same reasoning as Transactions Service above: a company's chosen
     # look is a nice-to-have on the generated PDF, not something worth

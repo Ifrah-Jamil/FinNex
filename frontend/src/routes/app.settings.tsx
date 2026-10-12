@@ -30,9 +30,9 @@ import {
 export const Route = createFileRoute("/app/settings")({
   head: () => ({
     meta: [
-      { title: "Settings — Fluxora" },
+      { title: "Settings — FinNex" },
       { name: "description", content: "Company profile, tax preferences, AI automation and appearance settings." },
-      { property: "og:title", content: "Settings — Fluxora" },
+      { property: "og:title", content: "Settings — FinNex" },
       { property: "og:description", content: "Manage company, tax and AI automation preferences." },
     ],
   }),
@@ -137,7 +137,7 @@ function CompanyProfile() {
     <div className="space-y-4">
       <section className="surface max-w-3xl p-6">
         <h3 className="text-base font-semibold">Company Profile</h3>
-        <p className="mt-1 text-sm text-muted-foreground">From your Fluxora account.</p>
+        <p className="mt-1 text-sm text-muted-foreground">From your FinNex account.</p>
 
         <dl className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
           {identity.map(([label, value]) => (
@@ -330,7 +330,7 @@ function AutomationTab() {
       />
       <Row
         title="Enable AI features"
-        desc="Master switch for AI-powered features across Fluxora. Not yet enforced — every AI feature runs regardless of this toggle today."
+        desc="Master switch for AI-powered features across FinNex. Not yet enforced — every AI feature runs regardless of this toggle today."
         checked={s.enabled_ai} onCheckedChange={(v) => toggle("enabled_ai", v)}
       />
     </section>

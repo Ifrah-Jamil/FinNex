@@ -4,6 +4,7 @@ import { AlertCircle, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { BrandMark } from "@/components/brand-mark";
 import { useAuth } from "@/lib/auth-context";
 import { AuthError } from "@/lib/auth";
 
@@ -13,8 +14,11 @@ const MIN_PASSWORD_LENGTH = 12;
 export const Route = createFileRoute("/signup")({
   head: () => ({
     meta: [
-      { title: "Create your account — Fluxora" },
-      { name: "description", content: "Create a Fluxora workspace for your company." },
+      { title: "Register your business — FinNex" },
+      {
+        name: "description",
+        content: "Create a FinNex workspace for your company and become its admin.",
+      },
     ],
   }),
   component: SignupPage,
@@ -53,16 +57,19 @@ function SignupPage() {
   }
 
   return (
-    <main className="grid min-h-screen place-items-center bg-muted/30 px-4 py-10">
-      <div className="w-full max-w-md">
-        <div className="mb-6 text-center">
-          <h1 className="font-display text-2xl font-bold">Create your workspace</h1>
+    <main className="grid min-h-screen place-items-center px-4 py-10">
+      <div className="page-enter w-full max-w-md">
+        <div className="mb-8 flex flex-col items-center text-center">
+          <Link to="/">
+            <BrandMark size="lg" />
+          </Link>
+          <h1 className="mt-6 font-display text-3xl font-semibold">Register your business</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Sets up your company and makes you its admin.
+            Creates your FinNex company workspace and makes you its admin.
           </p>
         </div>
 
-        <form onSubmit={onSubmit} className="surface space-y-4 p-6">
+        <form onSubmit={onSubmit} className="surface space-y-4 p-6 sm:p-7">
           {error && (
             <div
               role="alert"
@@ -124,9 +131,6 @@ function SignupPage() {
               onChange={update("password")}
               className="rounded-xl"
             />
-            {/* A length floor beats complexity rules: "Passw0rd!" passes most
-                complexity checks and is trivially cracked, while a long
-                passphrase is both stronger and easier to remember. */}
             <p
               className={`flex items-center gap-1.5 text-xs ${
                 passwordLongEnough ? "text-success" : "text-muted-foreground"
@@ -143,7 +147,7 @@ function SignupPage() {
             disabled={submitting || !passwordLongEnough}
           >
             {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
-            {submitting ? "Creating your workspace…" : "Create account"}
+            {submitting ? "Creating your workspace…" : "Create workspace"}
           </Button>
 
           <p className="text-center text-sm text-muted-foreground">

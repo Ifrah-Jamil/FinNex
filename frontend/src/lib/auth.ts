@@ -80,9 +80,26 @@ export function login(email: string, password: string): Promise<AuthSession> {
   });
 }
 
-/** Exchanges the refresh cookie for a new access token. Used on app start and on 401. */
+/** One in-flight refresh shared by Strict Mode's double effect and any overlapping callers.
+ *  Two parallel refreshes rotate the same cookie and the loser revokes the whole session. */
+let refreshInFlight: Promise<AuthSession> | null = null;
+
+/** Exchanges the refresh cookie for a new access token. Used on app start and on 401.
+ *  Aborts if the gateway does not answer, so the dashboard cannot sit on the
+ *  "Restoring your session" screen forever. */
 export function refresh(): Promise<AuthSession> {
-  return request<AuthSession>("/refresh", { method: "POST" });
+  if (!refreshInFlight) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 8000);
+    refreshInFlight = request<AuthSession>("/refresh", {
+      method: "POST",
+      signal: controller.signal,
+    }).finally(() => {
+      clearTimeout(timer);
+      refreshInFlight = null;
+    });
+  }
+  return refreshInFlight;
 }
 
 export function logout(): Promise<void> {

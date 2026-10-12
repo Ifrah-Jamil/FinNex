@@ -50,9 +50,9 @@ const scannerSearchSchema = z.object({
 export const Route = createFileRoute("/app/scanner")({
   head: () => ({
     meta: [
-      { title: "AI Invoice Scanner — Fluxora" },
+      { title: "AI Invoice Scanner — FinNex" },
       { name: "description", content: "Drop a PDF, photo or WhatsApp screenshot and let AI extract every invoice field." },
-      { property: "og:title", content: "AI Invoice Scanner — Fluxora" },
+      { property: "og:title", content: "AI Invoice Scanner — FinNex" },
       { property: "og:description", content: "AI-extracted invoice fields in seconds." },
     ],
   }),
@@ -393,6 +393,21 @@ function Scanner() {
       toast.success("Posted to accounting ledger");
       queryClient.invalidateQueries({ queryKey: ["invoice", selectedInvoiceId] });
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
+      // The send books an approved expense and links the vendor. Those
+      // figures live on the dashboard, which is not watching the invoice
+      // query — refresh the keys it actually reads.
+      for (const queryKey of [
+        ["transactions-kpis"],
+        ["revenue-vs-expenses"],
+        ["cash-flow"],
+        ["expense-categories"],
+        ["vendors"],
+        ["invoice-status-summary"],
+        ["expenses"],
+        ["sales-summary"],
+      ]) {
+        queryClient.invalidateQueries({ queryKey });
+      }
     },
     onError: (error: Error) => toast.error(error.message || "Could not send this invoice to accounting"),
   });
@@ -499,7 +514,7 @@ function Scanner() {
     <TooltipProvider>
       <PageHeader
         title="AI Invoice Scanner"
-        subtitle="Upload any document — Fluxora reads vendor, items, tax and totals automatically."
+        subtitle="Upload any document — FinNex reads vendor, items, tax and totals automatically."
         actions={
           invoice && (
             <span className={`inline-flex items-center gap-1.5 rounded-full bg-success/12 px-3 py-1.5 text-xs font-semibold ${confidenceTone(invoice.document_confidence)}`}>

@@ -315,7 +315,7 @@ export function SourceColumn({
             <Plug className="h-7 w-7 text-muted-foreground" />
             <p className="text-sm font-medium">{source.label} is not connected</p>
             <p className="max-w-[15rem] text-xs text-muted-foreground">
-              Connect it to start pulling documents into Fluxora.
+              Connect it to start pulling documents into FinNex.
             </p>
             <Button asChild size="sm" variant="outline" className="rounded-xl">
               <Link to="/app/settings">Go to Settings</Link>

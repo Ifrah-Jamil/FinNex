@@ -129,7 +129,7 @@ export interface DocumentSource {
    *  source with no notion of conversations. */
   refreshConversations?: () => Promise<{ conversations: UnifiedConversation[]; needsAttention: number }>;
   /** Remove a document. Every source implements this as a soft delete —
-   *  hides it from Fluxora only, never touches Slack, the mailbox, or the
+   *  hides it from FinNex only, never touches Slack, the mailbox, or the
    *  stored bytes, and a later sync will not bring it back (each backend's
    *  own upsert never clears the deleted flag). Absent means the column
    *  shows no delete control. */

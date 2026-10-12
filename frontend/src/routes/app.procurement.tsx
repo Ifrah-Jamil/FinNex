@@ -32,9 +32,9 @@ const procurementSearchSchema = z.object({
 export const Route = createFileRoute("/app/procurement")({
   head: () => ({
     meta: [
-      { title: "Procurement — Fluxora" },
+      { title: "Procurement — FinNex" },
       { name: "description", content: "Purchase requests, orders, approvals and vendor comparison in one place." },
-      { property: "og:title", content: "Procurement — Fluxora" },
+      { property: "og:title", content: "Procurement — FinNex" },
       { property: "og:description", content: "Manage purchase requests, orders and vendor comparisons." },
     ],
   }),

@@ -16,7 +16,7 @@ import { formatBytes, type UnifiedDocument } from "@/lib/documents";
  *
  * Every source's delete is a soft delete (see DocumentSource.deleteDocument's
  * docstring): Slack, the mailbox, and the original file are never touched,
- * only Fluxora's own record of it.
+ * only FinNex's own record of it.
  */
 export function DeleteDocumentDialog({
   document, open, onOpenChange, onConfirm, pending,
@@ -35,7 +35,7 @@ export function DeleteDocumentDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>Remove this document?</AlertDialogTitle>
           <AlertDialogDescription>
-            This only removes it from Fluxora — the original in {document.source} is untouched,
+            This only removes it from FinNex — the original in {document.source} is untouched,
             and it won't come back on the next sync.
           </AlertDialogDescription>
         </AlertDialogHeader>

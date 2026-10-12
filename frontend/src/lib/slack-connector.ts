@@ -146,7 +146,7 @@ export function listSlackFiles(
 }
 
 /**
- * Conversations Fluxora knows about, with per-conversation sync status.
+ * Conversations FinNex knows about, with per-conversation sync status.
  *
  * Cheap — reads only what previous syncs already stored, no Slack calls — so
  * it is what the grouped Documents view fetches first; each group's files are
@@ -195,7 +195,7 @@ export function sendSlackFileToScanner(
   });
 }
 
-/** Soft delete — hides this file from Fluxora only. Slack and the original
+/** Soft delete — hides this file from FinNex only. Slack and the original
  *  S3 copy are untouched, and a later sync will not bring it back. */
 export async function deleteSlackFile(fileId: string): Promise<void> {
   await request<void>(`/files/${fileId}`, { method: "DELETE" });

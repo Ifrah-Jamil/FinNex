@@ -24,7 +24,6 @@ import {
   TrendingUp,
   Upload,
   Users,
-  Wallet,
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -43,6 +42,7 @@ import {
 } from "@/components/ui/command";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { BrandMark } from "@/components/brand-mark";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -55,6 +55,15 @@ import { useAuth } from "@/lib/auth-context";
 import { notifications } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { NeedsReviewCenter } from "@/components/invoices/needs-review-center";
+
+function roleLabel(role?: string | null) {
+  if (!role) return null;
+  const normalized = role.trim().toLowerCase();
+  if (normalized === "admin") return "Admin";
+  if (normalized === "accountant") return "Accountant";
+  if (normalized === "viewer") return "Viewer";
+  return role.charAt(0).toUpperCase() + role.slice(1);
+}
 
 /** Signed-in identity and sign-out. Replaces the hardcoded "AK" avatar. */
 function UserMenu() {
@@ -95,6 +104,11 @@ function UserMenu() {
           {user?.company_name && (
             <p className="mt-1 truncate text-xs text-muted-foreground">{user.company_name}</p>
           )}
+          {roleLabel(user?.role) && (
+            <Badge variant="secondary" className="mt-2 rounded-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide">
+              {roleLabel(user?.role)}
+            </Badge>
+          )}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
@@ -126,7 +140,7 @@ const settingsItem: NavItem = { to: "/app/settings", label: "Settings", icon: Se
 /** Grouped sidebar structure — this IS the source of truth `navItems`
  * below is flattened from, so the grouped sidebar and the ⌘K command
  * palette can never drift out of sync with each other. */
-const navGroups: { label: string; category: NavCategory; items: NavItem[] }[] = [
+export const navGroups: { label: string; category: NavCategory; items: NavItem[] }[] = [
   {
     label: "Documents",
     category: "teal",
@@ -193,7 +207,15 @@ function NavIcon({
   );
 }
 
-function NavRow({ item, onNavigate }: { item: NavItem; onNavigate?: (() => void) | undefined; category?: NavCategory }) {
+function NavRow({
+  item,
+  onNavigate,
+  category,
+}: {
+  item: NavItem;
+  onNavigate?: (() => void) | undefined;
+  category?: NavCategory;
+}) {
   return (
     <Link
       to={item.to}
@@ -205,7 +227,7 @@ function NavRow({ item, onNavigate }: { item: NavItem; onNavigate?: (() => void)
       }}
       className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 text-sm transition-colors"
     >
-      <NavIcon icon={item.icon} />
+      <NavIcon icon={item.icon} {...(category ? { category } : {})} />
       <span className="truncate">{item.label}</span>
     </Link>
   );
@@ -229,14 +251,14 @@ function WorkspaceHeader() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="flex w-full items-center gap-2.5 rounded-xl p-1.5 text-left outline-none transition-colors hover:bg-sidebar-accent/60 focus-visible:ring-2 focus-visible:ring-ring">
-          <span className="gradient-brand grid h-8 w-8 shrink-0 place-items-center rounded-lg text-primary-foreground">
-            <Wallet className="h-4 w-4" />
-          </span>
+          <BrandMark showWordmark={false} size="sm" markClassName="rounded-lg" />
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-[13px] font-semibold leading-tight text-sidebar-foreground">
-              {user?.company_name?.trim() || "Fluxora"}
+            <span className="block truncate font-display text-[13px] font-semibold leading-tight text-sidebar-foreground">
+              FinNex
             </span>
-            <span className="block truncate text-[11px] text-sidebar-muted-foreground">{user?.email}</span>
+            <span className="block truncate text-[11px] text-sidebar-muted-foreground">
+              {user?.company_name?.trim() || user?.email || "Workspace"}
+            </span>
           </span>
           <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-sidebar-muted-foreground" />
         </button>
@@ -265,7 +287,7 @@ function SidebarBody({ onNavigate }: { onNavigate?: (() => void) | undefined }) 
         <NavRow item={dashboardItem} onNavigate={onNavigate} />
       </div>
 
-      <nav className="sidebar-scroll flex flex-1 flex-col gap-4 overflow-y-auto pb-2">
+      <nav className="sidebar-scroll flex flex-1 flex-col gap-3 overflow-y-auto pb-2">
         {navGroups.map((group) => (
           <div key={group.label}>
             <p className="px-2 pb-1 text-[11px] font-medium uppercase tracking-wide text-sidebar-muted-foreground/80">
@@ -333,8 +355,8 @@ function NotificationPanel() {
 const SIDEBAR_MIN_WIDTH = 220;
 const SIDEBAR_MAX_WIDTH = 420;
 const SIDEBAR_DEFAULT_WIDTH = 256;
-const SIDEBAR_WIDTH_KEY = "fluxora-sidebar-width";
-const SIDEBAR_COLLAPSED_KEY = "fluxora-sidebar-collapsed";
+const SIDEBAR_WIDTH_KEY = "finnex-sidebar-width";
+const SIDEBAR_COLLAPSED_KEY = "finnex-sidebar-collapsed";
 
 /** Persisted sidebar width + collapsed state — a workspace-shaped app like
  *  this one gets used for hours at a stretch, so "how wide I like the rail"
@@ -427,6 +449,7 @@ function SidebarResizeHandle({ onResize }: { onResize: (width: number) => void }
 }
 
 export function AppShell() {
+  const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [mobileNav, setMobileNav] = useState(false);
   const { width: sidebarWidth, collapsed: sidebarCollapsed, setWidth: setSidebarWidth, toggleCollapsed } =
@@ -456,11 +479,11 @@ export function AppShell() {
 
   return (
     <div
-      className="min-h-screen w-full bg-background"
+      className="h-dvh w-full overflow-hidden bg-background"
       style={{ ["--sidebar-w" as string]: `${sidebarCollapsed ? 0 : sidebarWidth}px` }}
     >
       <aside
-        className="fixed inset-y-0 left-0 z-30 hidden overflow-hidden border-r border-sidebar-border bg-sidebar text-sidebar-foreground lg:block"
+        className="fixed inset-y-0 left-0 z-30 hidden overflow-hidden border-r border-sidebar-border bg-sidebar text-sidebar-foreground md:block"
         style={{
           width: "var(--sidebar-w)",
           transition: "width 150ms ease",
@@ -485,7 +508,7 @@ export function AppShell() {
               <button
                 onClick={toggleCollapsed}
                 aria-label="Show sidebar"
-                className="fixed left-3 top-3 z-30 hidden h-8 w-8 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:text-foreground lg:flex"
+                className="fixed left-3 top-3 z-30 hidden h-8 w-8 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground shadow-sm transition-colors hover:text-foreground md:flex"
               >
                 <PanelLeft className="h-4 w-4" />
               </button>
@@ -497,12 +520,12 @@ export function AppShell() {
         </TooltipProvider>
       )}
 
-      <div className="lg:pl-[var(--sidebar-w)]" style={{ transition: "padding-left 150ms ease" }}>
-        <header className="glass sticky top-0 z-20 grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b px-4 py-3 sm:px-6">
+      <div className="flex h-dvh min-w-0 flex-col md:pl-[var(--sidebar-w)]" style={{ transition: "padding-left 150ms ease" }}>
+        <header className="glass z-20 grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border-b px-4 py-2.5 sm:px-6">
           <div className="flex min-w-0 items-center gap-3">
             <Sheet open={mobileNav} onOpenChange={setMobileNav}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="lg:hidden" aria-label="Open menu">
+                <Button variant="ghost" size="icon" className="md:hidden" aria-label="Open menu">
                   <Menu className="h-4 w-4" />
                 </Button>
               </SheetTrigger>
@@ -518,7 +541,7 @@ export function AppShell() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="hidden lg:inline-flex"
+                      className="hidden md:inline-flex"
                       onClick={toggleCollapsed}
                       aria-label="Hide sidebar"
                     >
@@ -556,6 +579,14 @@ export function AppShell() {
             >
               <Search className="h-4 w-4" />
             </Button>
+            {roleLabel(user?.role) && (
+              <Badge
+                variant="outline"
+                className="hidden rounded-md border-primary/20 bg-primary/5 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary sm:inline-flex"
+              >
+                {roleLabel(user?.role)}
+              </Badge>
+            )}
             <ThemeToggle />
             <NeedsReviewCenter />
             <NotificationPanel />
@@ -568,16 +599,16 @@ export function AppShell() {
           </div>
         </header>
 
-        <main className="mx-auto w-full max-w-[1500px] px-4 py-6 sm:px-6 sm:py-8">
+        <main className="page-enter flex min-h-0 w-full flex-1 flex-col overflow-auto px-4 py-4 sm:px-6">
           <Outlet />
         </main>
       </div>
 
       <Link
         to="/app/assistant"
-        className="fixed bottom-6 right-6 z-30 flex items-center gap-2 rounded-full bg-[image:var(--gradient-brand)] px-5 py-3.5 text-sm font-semibold text-primary-foreground shadow-[var(--shadow-lift)] transition-transform hover:scale-105"
+        className="fixed bottom-6 right-6 z-30 flex items-center gap-2 rounded-xl border border-primary/20 bg-card px-4 py-3 text-sm font-semibold text-primary shadow-[var(--shadow-card)] transition-colors hover:bg-primary hover:text-primary-foreground"
       >
-        <Sparkles className="h-4 w-4" /> Ask AI
+        <Sparkles className="h-4 w-4" /> Ask FinNex
       </Link>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
@@ -610,15 +641,17 @@ export function PageHeader({
   title,
   subtitle,
   actions,
+  className,
 }: {
   title: string;
   subtitle?: string;
   actions?: ReactNode;
+  className?: string;
 }) {
   return (
-    <header className="mb-6 grid grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:items-center sm:justify-between">
+    <header className={cn("mb-5 grid shrink-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-4 sm:flex sm:items-center sm:justify-between", className)}>
       <div className="min-w-0">
-        <h1 className="truncate font-display text-2xl font-bold sm:text-3xl">{title}</h1>
+        <h1 className="truncate font-display text-2xl font-bold">{title}</h1>
         {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
       </div>
       {actions && <div className="flex shrink-0 flex-wrap items-center gap-2">{actions}</div>}

@@ -295,7 +295,7 @@ export function EmailFilesSheet({
                     file.downloaded
                       ? previewKindFor(file.mimetype, file.filename) === "unsupported"
                         ? "Opens a download for this file type"
-                        : "Preview without leaving Fluxora"
+                        : "Preview without leaving FinNex"
                       : "Not downloaded yet"
                   }
                 >

@@ -78,7 +78,7 @@ const recordsSearchSchema = z.object({
 export const Route = createFileRoute("/app/records")({
   head: () => ({
     meta: [
-      { title: "Saved Records — Fluxora" },
+      { title: "Saved Records — FinNex" },
       {
         name: "description",
         content:

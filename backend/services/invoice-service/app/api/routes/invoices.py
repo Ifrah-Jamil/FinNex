@@ -30,6 +30,7 @@ from app.services.category_report_pdf import render_category_report_pdf
 from app.services.settings_service_client import SettingsServiceError, fetch_company_branding
 from app.services.storage import StorageManager
 from app.services.transactions_service_client import TransactionsServiceError, book_expense_from_invoice
+from app.services.vendors_service_client import VendorsServiceError, find_or_create_vendor
 
 #: The two statuses that count as "in the cashbook" — the same pair Saved
 #: Records' own list query has always used. Category aggregation and the
@@ -778,10 +779,13 @@ async def send_to_accounting(
     docstring here promised: a matching Expense record is booked in
     Transactions Service (§5.4), best-effort — see
     transactions_service_client.py for why a failure there does not block
-    this status flip. For a sale, Revenue Manager already treats this
-    service's own scanned-sales summary as the revenue ledger (deliberately
-    not duplicated into a second Transactions-side table — see the
-    Transactions Service design spec §on scope), so no second call is made.
+    this status flip. The supplier is found or created in Vendors Service
+    first and stored on the invoice, so the same send is what makes the
+    vendor and amount show up on the dashboard. That lookup is best-effort
+    too. For a sale, Revenue Manager already treats this service's own
+    scanned-sales summary as the revenue ledger (deliberately not duplicated
+    into a second Transactions-side table — see the Transactions Service
+    design spec §on scope), so no second call is made.
     """
     invoice = await _get_invoice_scoped(db, invoice_id, company_id)
     if invoice.status not in (InvoiceStatus.processed, InvoiceStatus.validated):
@@ -789,6 +793,19 @@ async def send_to_accounting(
             status_code=409,
             detail="This invoice needs review or validation before it can be sent to accounting.",
         )
+
+    vendor_name = (invoice.vendor_name or "").strip()
+    if invoice.type is InvoiceType.purchase and invoice.vendor_id is None and vendor_name:
+        try:
+            invoice.vendor_id = await find_or_create_vendor(
+                settings, company_id=company_id, name=vendor_name,
+            )
+        except VendorsServiceError as exc:
+            # Same tradeoff as the expense booking below: the status flip
+            # must not wait on the directory. The invoice can still be
+            # linked later from vendor reconciliation.
+            logger.error("Failed to link a vendor for invoice %s: %s", invoice_id, exc)
+
     invoice.status = InvoiceStatus.sent_to_accounting
     await db.commit()
     await db.refresh(invoice, attribute_names=["items", "updated_at"])

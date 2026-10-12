@@ -25,8 +25,8 @@
   --radius-2xl: calc(var(--radius) + 8px);
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
-  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", "Source Serif 4", ui-serif, Georgia, serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -92,30 +92,26 @@
    * badge.tsx. */
   --radius: 12px;
 
-  /* Neutrals — Warm Canvas page, Paper White cards, Ink Black text (never
-   * pure #000 for text — DESIGN.md's Don't #1). */
-  --background: #f7f7f7;
-  --foreground: #171618;
+  /* FinNex finance canvas — cool paper with deep teal ink. */
+  --background: #f3f6f5;
+  --foreground: #14242a;
   --card: #ffffff;
-  --card-foreground: #171618;
+  --card-foreground: #14242a;
   --popover: #ffffff;
-  --popover-foreground: #171618;
+  --popover-foreground: #14242a;
 
-  /* The system's single filled action color — solid ink, never a second
-   * filled-CTA hue anywhere in the same view (DESIGN.md's Do #1). */
-  --primary: #171618;
-  --primary-foreground: #ffffff;
+  /* Primary action — deep teal (trust / ledger), not ink-black or purple. */
+  --primary: #0b4f5c;
+  --primary-foreground: #f4fbfc;
 
-  --secondary: #efefef;
-  --secondary-foreground: #171618;
-  --muted: #efefef;
-  --muted-foreground: #727578;
+  --secondary: #e7eef0;
+  --secondary-foreground: #14242a;
+  --muted: #e7eef0;
+  --muted-foreground: #5d6f75;
 
-  /* Accent = the violet wash pairing (DESIGN.md's default categorical
-   * accent) — used for hover/menu-item backgrounds, foreground is the
-   * deep violet text that sits on top of it. */
-  --accent: #f5f0ff;
-  --accent-foreground: #38296c;
+  /* Accent wash — teal mist for hover/selection surfaces. */
+  --accent: #e4f3f5;
+  --accent-foreground: #0b4f5c;
 
   /* No dedicated error/success/warning hue exists in the source palette
    * (deliberately — "every chromatic value is a deep muted jewel tone,"
@@ -130,32 +126,25 @@
   --warning: #6c4800;
   --warning-foreground: #fff6e1;
 
-  --border: #efefef;
-  --input: #efefef;
-  --ring: #171618;
+  --border: #d9e4e6;
+  --input: #d9e4e6;
+  --ring: #0b4f5c;
 
-  --chart-1: #38296c;
-  --chart-2: #004d60;
+  --chart-1: #0b4f5c;
+  --chart-2: #1f6f7d;
   --chart-3: #6c4800;
   --chart-4: #46122d;
   --chart-5: #0f1c41;
 
-  /* Light mode's own sidebar, exactly as DESIGN.md's own product-screenshot
-   * component spec describes it: "a left sidebar with 13px Inter 500 items
-   * in #171618" — dark ink text on a light surface, not an inverted dark
-   * rail. Pure white (one shade brighter than the #f7f7f7 canvas) so it
-   * still reads as its own surface, the same relationship a white card has
-   * to the canvas everywhere else in this system — never an invented
-   * dark-UI panel the spec doesn't call for. */
   --sidebar: #ffffff;
-  --sidebar-foreground: #171618;
-  --sidebar-primary: #171618;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #f5f0ff;
-  --sidebar-accent-foreground: #38296c;
-  --sidebar-muted-foreground: #727578;
-  --sidebar-border: #efefef;
-  --sidebar-ring: #171618;
+  --sidebar-foreground: #14242a;
+  --sidebar-primary: #0b4f5c;
+  --sidebar-primary-foreground: #f4fbfc;
+  --sidebar-accent: #e4f3f5;
+  --sidebar-accent-foreground: #0b4f5c;
+  --sidebar-muted-foreground: #5d6f75;
+  --sidebar-border: #d9e4e6;
+  --sidebar-ring: #0b4f5c;
 
   --category-teal: #004d60;
   --category-teal-wash: #defafe;
@@ -180,11 +169,13 @@
 
   /* DESIGN.md's own elevation system — layered warm-gray blur under white
    * cards on the warm canvas, never a hard border on an elevated surface. */
-  --shadow-card: 0px 2px 15px 0px rgba(239, 239, 239, 0.55);
-  --shadow-secondary: 0px 0px 0px 1px rgba(23, 24, 26, 0.1), 0px 8px 16px 0px rgba(23, 24, 26, 0.03);
-  --shadow-frame: 0px 0px 0px 1px rgba(23, 24, 26, 0.1), 0px 16px 16px 0px rgba(23, 24, 26, 0.03),
-    0px 6px 12px 0px rgba(23, 24, 26, 0.05);
-  --shadow-cta: 0px 1px 2px 0px rgba(0, 0, 0, 0.08), 0px 0.5px 0px 0px rgba(0, 0, 0, 0.12);
+  --shadow-card: 0px 1px 2px rgba(11, 79, 92, 0.04), 0px 10px 28px rgba(11, 79, 92, 0.06);
+  --shadow-secondary: 0px 0px 0px 1px rgba(11, 79, 92, 0.08), 0px 8px 18px rgba(11, 79, 92, 0.05);
+  --shadow-frame: 0px 0px 0px 1px rgba(11, 79, 92, 0.08), 0px 16px 24px rgba(11, 79, 92, 0.06);
+  --shadow-cta: 0px 1px 2px rgba(11, 79, 92, 0.18), 0px 6px 14px rgba(11, 79, 92, 0.16);
+  --atmosphere: radial-gradient(1200px 520px at 12% -10%, rgba(11, 79, 92, 0.12), transparent 55%),
+    radial-gradient(900px 480px at 88% 0%, rgba(31, 111, 125, 0.1), transparent 50%),
+    linear-gradient(180deg, #eef5f4 0%, #f3f6f5 42%, #f7f9f8 100%);
 }
 
 /* Dark mode — this project's own companion to the light spec, same
@@ -204,16 +195,16 @@
   /* Inverted CTA — a solid ink button would vanish on a dark canvas, so
    * dark mode's single filled action flips to paper-on-ink, the same
    * "one strong, unambiguous fill" principle the light mode uses. */
-  --primary: #f3f1ee;
-  --primary-foreground: #171618;
+  --primary: #7fd0dc;
+  --primary-foreground: #0a2a31;
 
-  --secondary: #29282f;
-  --secondary-foreground: #f3f1ee;
-  --muted: #232228;
-  --muted-foreground: #a5a1a8;
+  --secondary: #243238;
+  --secondary-foreground: #eef5f4;
+  --muted: #1d292e;
+  --muted-foreground: #9aadb3;
 
-  --accent: #2a2438;
-  --accent-foreground: #c9b8ff;
+  --accent: #16343b;
+  --accent-foreground: #9ad8e2;
 
   /* This codebase uses these three tokens two different ways: a solid-fill
    * button/icon-chip (bg-X + text-X-foreground) AND a status badge
@@ -235,24 +226,24 @@
   --input: rgba(255, 255, 255, 0.07);
   --ring: #f3f1ee;
 
-  --chart-1: #b0a0ff;
+  --chart-1: #7fd0dc;
   --chart-2: #5fd0e6;
   --chart-3: #f0c265;
   --chart-4: #ff9db3;
   --chart-5: #93a8ff;
 
-  /* Dark mode's own sidebar is left close to the page canvas — already a
-   * dark rail against a dark page, which reads fine and doesn't need the
-   * light-mode "contrasting dark rail" treatment above. */
-  --sidebar: #17161b;
-  --sidebar-foreground: #f3f1ee;
-  --sidebar-primary: #f3f1ee;
-  --sidebar-primary-foreground: #171618;
-  --sidebar-accent: #232228;
-  --sidebar-accent-foreground: #f3f1ee;
-  --sidebar-muted-foreground: #a5a1a8;
+  --sidebar: #121a1d;
+  --sidebar-foreground: #eef5f4;
+  --sidebar-primary: #7fd0dc;
+  --sidebar-primary-foreground: #0a2a31;
+  --sidebar-accent: #1a2d33;
+  --sidebar-accent-foreground: #eef5f4;
+  --sidebar-muted-foreground: #9aadb3;
   --sidebar-border: rgba(255, 255, 255, 0.09);
-  --sidebar-ring: #f3f1ee;
+  --sidebar-ring: #7fd0dc;
+  --atmosphere: radial-gradient(1000px 480px at 10% -8%, rgba(127, 208, 220, 0.12), transparent 55%),
+    radial-gradient(800px 420px at 90% 0%, rgba(11, 79, 92, 0.35), transparent 50%),
+    linear-gradient(180deg, #10171a 0%, #121116 100%);
 
   /* Icon-chip fills — identical deep hues in both themes (self-contained
    * contrast: white glyph on a solid deep chip, independent of page bg). */
@@ -284,6 +275,8 @@
 
   body {
     background-color: var(--color-background);
+    background-image: var(--atmosphere);
+    background-attachment: fixed;
     color: var(--color-foreground);
     font-family: var(--font-sans);
     font-size: 15px;
@@ -292,16 +285,13 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Display type — Eudoxus Sans's documented fallback (Plus Jakarta Sans
-   * 800), always heavy weight with tight tracking; Inter never appears
-   * above 27px, matching the spec's own pairing rule. */
   h1,
   h2,
   h3,
   h4 {
     font-family: var(--font-display);
-    font-weight: 800;
-    letter-spacing: -0.02em;
+    font-weight: 600;
+    letter-spacing: -0.03em;
   }
 
   /* A thin, theme-aware scrollbar everywhere — replaces the browser's
@@ -401,7 +391,37 @@
  * not a fixed hex that could read fine in one theme and wash out in the
  * other. */
 @utility text-gradient {
-  color: var(--color-accent-foreground);
+  color: var(--color-primary);
+}
+
+@utility page-enter {
+  animation: finnex-page-enter 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes finnex-page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes finnex-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility reveal {
+  animation: finnex-fade-up 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @utility lift {

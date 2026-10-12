@@ -131,7 +131,7 @@ export function EmailConnectedAppsCard({ onBrowseFiles }: { onBrowseFiles?: () =
             <h3 className="text-base font-semibold">Email</h3>
             <p className="mt-1 text-sm text-muted-foreground">
               Connect a mailbox to discover invoices and receipts arriving as attachments, and pull
-              them straight into Fluxora.
+              them straight into FinNex.
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               <Button
@@ -226,7 +226,7 @@ export function EmailConnectedAppsCard({ onBrowseFiles }: { onBrowseFiles?: () =
             <AlertDialogHeader>
               <AlertDialogTitle>Disconnect this mailbox?</AlertDialogTitle>
               <AlertDialogDescription>
-                This revokes Fluxora's access to{" "}
+                This revokes FinNex's access to{" "}
                 {statusQuery.data.email_address ?? "this Google account"} and permanently deletes
                 the stored connection — unlike disconnecting Slack, nothing is kept.
               </AlertDialogDescription>

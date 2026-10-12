@@ -24,9 +24,9 @@ import {
 export const Route = createFileRoute("/app/reports")({
   head: () => ({
     meta: [
-      { title: "Reports — Fluxora" },
+      { title: "Reports — FinNex" },
       { name: "description", content: "Generate P&L, cash flow, tax, sales and purchase reports instantly." },
-      { property: "og:title", content: "Reports — Fluxora" },
+      { property: "og:title", content: "Reports — FinNex" },
       { property: "og:description", content: "One-click financial reports in PDF and Excel." },
     ],
   }),

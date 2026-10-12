@@ -183,9 +183,9 @@ export function ConnectedAppsCard({ onBrowseFiles }: { onBrowseFiles: () => void
             <AlertDialogHeader>
               <AlertDialogTitle>Disconnect Slack?</AlertDialogTitle>
               <AlertDialogDescription>
-                This revokes Fluxora's access to{" "}
+                This revokes FinNex's access to{" "}
                 {statusQuery.data.workspace_name ?? "your Slack workspace"} and removes the stored
-                token. Files already synced stay in Fluxora, but no new files will be discovered
+                token. Files already synced stay in FinNex, but no new files will be discovered
                 until you reconnect.
               </AlertDialogDescription>
             </AlertDialogHeader>

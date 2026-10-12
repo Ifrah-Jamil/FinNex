@@ -6,7 +6,7 @@ export function useTheme() {
   const [dark, setDark] = useState(false);
 
   useEffect(() => {
-    const stored = localStorage.getItem("fluxora-theme");
+    const stored = localStorage.getItem("finnex-theme");
     const isDark = stored ? stored === "dark" : false;
     setDark(isDark);
     document.documentElement.classList.toggle("dark", isDark);
@@ -16,7 +16,7 @@ export function useTheme() {
     setDark((prev) => {
       const next = !prev;
       document.documentElement.classList.toggle("dark", next);
-      localStorage.setItem("fluxora-theme", next ? "dark" : "light");
+      localStorage.setItem("finnex-theme", next ? "dark" : "light");
       return next;
     });
   };

@@ -20,7 +20,7 @@ type RuleScope = "none" | "address" | "domain";
  *
  * These have metadata only — their bytes were never downloaded, which is the
  * entire point (docs/email-connector-plan.md §5b): if nobody approves them,
- * Fluxora never holds a copy. Approving fetches from Gmail on demand, so
+ * FinNex never holds a copy. Approving fetches from Gmail on demand, so
  * there is a real network round-trip behind that button and it is worth
  * showing a spinner for.
  */
@@ -85,7 +85,7 @@ export function NeedsReviewTray() {
             )}
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
-            Attachments Fluxora found but wasn't confident enough to import. Nothing here has been
+            Attachments FinNex found but wasn't confident enough to import. Nothing here has been
             downloaded — approving fetches it, rejecting leaves it in your mailbox untouched.
           </p>
         </div>

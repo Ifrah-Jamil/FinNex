@@ -25,9 +25,9 @@ import {
 export const Route = createFileRoute("/app/expenses")({
   head: () => ({
     meta: [
-      { title: "Expenses — Fluxora" },
+      { title: "Expenses — FinNex" },
       { name: "description", content: "Track, categorise and approve every business expense in one ledger." },
-      { property: "og:title", content: "Expenses — Fluxora" },
+      { property: "og:title", content: "Expenses — FinNex" },
       { property: "og:description", content: "Categorised expense ledger with approvals." },
     ],
   }),
