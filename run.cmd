@@ -83,12 +83,33 @@ timeout /t 2 /nobreak >nul
 goto wait_gateway
 
 :start_frontend
+echo Starting FinNex...
+pushd "%~dp0frontend"
+if not exist "node_modules\" (
+  call bun install
+  if errorlevel 1 (
+    echo bun install failed.
+    popd
+    pause
+    exit /b 1
+  )
+)
+popd
+start "FinNex" /D "%~dp0frontend" cmd /k "bun run dev -- --host 127.0.0.1 --port 43123 --strictPort"
+echo Waiting for http://127.0.0.1:43123 ...
+set /a TRIES=0
+:wait_web
+set /a TRIES+=1
+curl -s --connect-timeout 2 --max-time 5 http://127.0.0.1:43123/ >nul 2>&1
+if not errorlevel 1 goto open_browser
+if %TRIES% GEQ 45 (
+  echo FinNex did not start. Check the FinNex window for the error.
+  pause
+  exit /b 1
+)
+timeout /t 2 /nobreak >nul
+goto wait_web
+:open_browser
 echo Opening http://127.0.0.1:43123
 start "" "http://127.0.0.1:43123"
-pushd "%~dp0frontend"
-if not exist "node_modules\" call bun install
-echo Starting FinNex...
-bun run dev -- --host 127.0.0.1 --port 43123
-set EXITCODE=%ERRORLEVEL%
-popd
-exit /b %EXITCODE%
+exit /b 0
