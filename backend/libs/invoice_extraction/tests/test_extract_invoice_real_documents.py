@@ -1,6 +1,6 @@
 """End-to-end extraction against real sample invoices, not just synthetic
 ones — the same discipline this project has used everywhere else (see
-docs/email-connector-plan.md's live-verification history). These two
+docs/plans/email-connector-plan.md's live-verification history). These two
 fixtures found genuine bugs during development that no synthetic test would
 have: a real multi-column header layout ("Bill From" / "Invoice No." /
 "Currency" packed onto one visual row) that silently scrambled label
@@ -30,7 +30,7 @@ FIXTURES = Path(__file__).parent / "fixtures"
 
 requires_tesseract = pytest.mark.skipif(
     shutil.which("tesseract") is None,
-    reason="tesseract binary not on PATH — see docs/invoice-ocr-plan.md §4.",
+    reason="tesseract binary not on PATH — see docs/plans/invoice-ocr-plan.md §4.",
 )
 
 
@@ -139,7 +139,7 @@ class TestShopifyBillingStatement:
         consistent (totals_pass, date_plausible). Requiring a numbered
         invoice reference on a subscription billing statement was an
         overly conservative bar, not a genuine risk signal — see
-        docs/invoice-ocr-plan.md's routing-audit section for the real
+        docs/plans/invoice-ocr-plan.md's routing-audit section for the real
         35-receipt evidence this was calibrated against."""
         result = _extract("shopify_billing_statement.pdf")
         assert result.review_status == "auto_processed"
@@ -149,7 +149,7 @@ class TestShopifyBillingStatement:
 class TestRealReceipts:
     """Real photographed local-shop receipts, not synthetic ones — the
     actual documents that surfaced the receipt-robustness gaps
-    (docs/invoice-ocr-plan.md's receipt-robustness notes). Both are
+    (docs/plans/invoice-ocr-plan.md's receipt-robustness notes). Both are
     genuinely hard cases (a phone photo, garbled OCR) — assertions here
     reflect what's actually, verifiably extracted today, not an aspirational
     target; each was individually confirmed correct against the real

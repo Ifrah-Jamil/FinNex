@@ -207,7 +207,7 @@ export interface ScanJobResponse {
   invoice_id: string | null;
   invoice: Invoice | null;
   error: string | null;
-  /** Document Preprocessing (docs/invoice-ocr-plan.md §7) — populated only
+  /** Document Preprocessing (docs/plans/invoice-ocr-plan.md §7) — populated only
    *  when the uploaded photo confidently contained more than one separate
    *  document, each of which is its own real invoice. Empty for the
    *  overwhelming common case. */

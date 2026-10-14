@@ -12,7 +12,7 @@ app = FastAPI(
     title="Fluxora Engine",
     version="0.1.0",
     description=(
-        "Phase 2b (docs/invoice-ocr-plan.md): invoice OCR/structuring only. "
+        "Phase 2b (docs/plans/invoice-ocr-plan.md): invoice OCR/structuring only. "
         "The AI Chat Assistant and AI Insights responsibilities described in "
         "the architecture report §5.8 are not implemented yet."
     ),

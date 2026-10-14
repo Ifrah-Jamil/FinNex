@@ -362,7 +362,7 @@ services:
         condition: service_completed_successfully
 
   paddleocr:
-    # LiteParse+PaddleOCR migration (docs/invoice-ocr-plan.md) — the
+    # LiteParse+PaddleOCR migration (docs/plans/invoice-ocr-plan.md) — the
     # primary OCR engine, called by ai-engine's LiteParse client as an
     # external OCR server via LiteParse's own documented OCR_API_SPEC.md
     # contract. Internal-only, not registered through the Gateway, exactly
@@ -377,7 +377,7 @@ services:
       - "8008:8008"
 
   ai-engine:
-    # Phase 2b (docs/invoice-ocr-plan.md) — invoice OCR/structuring only, no
+    # Phase 2b (docs/plans/invoice-ocr-plan.md) — invoice OCR/structuring only, no
     # AI Chat Assistant/Insights yet (architecture report §5.8). Stateless:
     # no database, no queue. Not registered through the Gateway — this is
     # an internal endpoint Invoice Service calls directly (see
@@ -396,7 +396,7 @@ services:
       - "8007:8007"
 
   invoice-service:
-    # Phase 3 (docs/invoice-ocr-plan.md) — upload/scan, Invoice/InvoiceItem/
+    # Phase 3 (docs/plans/invoice-ocr-plan.md) — upload/scan, Invoice/InvoiceItem/
     # AIJob CRUD, wired to AI Engine over plain HTTP (no RabbitMQ; see
     # architecture report §11b's "target, not built" note, already
     # established for the connectors' own Invoice Service bridge). This is
@@ -439,7 +439,7 @@ services:
       - "8002:8002"
 
   documents-service:
-    # The browser-upload document library (docs/documents-and-vendors-plan.md
+    # The browser-upload document library (docs/plans/documents-and-vendors-plan.md
     # §2) — the fourth source on the Documents page, alongside the Slack and
     # Email connectors. Port 8013: 8012 stays reserved for the planned
     # WhatsApp connector.
@@ -471,7 +471,7 @@ services:
   vendors-service:
     # Architecture report §5.7. Gives suppliers a stable identity so invoice
     # matching stops relying on free-text OCR output (see
-    # docs/documents-and-vendors-plan.md §3). No MinIO dependency: this
+    # docs/plans/documents-and-vendors-plan.md §3). No MinIO dependency: this
     # service stores no files. Spend is derived from Invoice Service on read.
     build:
       context: ..

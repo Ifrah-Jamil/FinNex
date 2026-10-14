@@ -6,7 +6,7 @@
 ## 1. Summary
 
 Fluxora's backend is being built out as a set of FastAPI microservices per
-`Fluxora_AI_Backend_Architecture_Report (3).md`. This spec covers the first
+`docs/architecture/backend-architecture.md`. This spec covers the first
 microservice to be built: a **Slack Connector service** that lets a Fluxora
 company connect their Slack workspace, discovers and categorizes files shared
 in it, and lets the user manually push invoice/receipt-looking files into the

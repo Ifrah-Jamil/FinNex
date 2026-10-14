@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     log_level: str = Field(default="INFO", alias="LOG_LEVEL")
     frontend_base_url: str = Field(default="http://localhost:8080", alias="FRONTEND_BASE_URL")
 
-    # LiteParse+PaddleOCR migration (docs/invoice-ocr-plan.md) — "liteparse"
+    # LiteParse+PaddleOCR migration (docs/plans/invoice-ocr-plan.md) — "liteparse"
     # is the new default primary path (native text -> PaddleOCR when
     # configured -> LiteParse's own built-in OCR); "tesseract" is the full,
     # unmodified legacy PyMuPDF+pytesseract pipeline this project already
@@ -26,7 +26,7 @@ class Settings(BaseSettings):
     paddleocr_service_url: Optional[str] = Field(default=None, alias="PADDLEOCR_SERVICE_URL")
     ocr_language: str = Field(default="en", alias="OCR_LANGUAGE")
 
-    # docs/invoice-ocr-plan.md's architecture report reference (§11) caps
+    # docs/plans/invoice-ocr-plan.md's architecture report reference (§11) caps
     # invoice uploads at 20MB — enforced here too since this endpoint does
     # its own file-format parsing (PyMuPDF/Tesseract) before Invoice Service
     # (Phase 3) exists to have already validated size upstream.

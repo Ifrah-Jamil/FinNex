@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fluxora-paddleocr"
 version = "0.1.0"
-description = "Fluxora PaddleOCR service — the primary OCR engine for the LiteParse+PaddleOCR migration (docs/invoice-ocr-plan.md). Implements LiteParse's own documented OCR_API_SPEC.md contract (POST /ocr, file+language in, {text,bbox,confidence} out) so LiteParse can call this service directly as an external OCR server, no bespoke integration invented."
+description = "Fluxora PaddleOCR service — the primary OCR engine for the LiteParse+PaddleOCR migration (docs/plans/invoice-ocr-plan.md). Implements LiteParse's own documented OCR_API_SPEC.md contract (POST /ocr, file+language in, {text,bbox,confidence} out) so LiteParse can call this service directly as an external OCR server, no bespoke integration invented."
 requires-python = ">=3.11,<3.14"
 dependencies = [
   "fastapi==0.115.12",

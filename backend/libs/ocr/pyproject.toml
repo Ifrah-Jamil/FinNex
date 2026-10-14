@@ -1,7 +1,7 @@
 [project]
 name = "fluxora-ocr"
 version = "0.1.0"
-description = "Invoice document text extraction — LiteParse (primary, PaddleOCR-backed) with a full PyMuPDF+Tesseract legacy pipeline retained as an explicit rollback path (docs/invoice-ocr-plan.md's LiteParse+PaddleOCR migration). Domain logic for AI Engine's OCR stage; not infrastructure, so it lives separately from fluxora-shared."
+description = "Invoice document text extraction — LiteParse (primary, PaddleOCR-backed) with a full PyMuPDF+Tesseract legacy pipeline retained as an explicit rollback path (docs/plans/invoice-ocr-plan.md's LiteParse+PaddleOCR migration). Domain logic for AI Engine's OCR stage; not infrastructure, so it lives separately from fluxora-shared."
 requires-python = ">=3.11,<3.14"
 dependencies = [
   "pymupdf==1.25.3",
@@ -13,7 +13,7 @@ dependencies = [
   # unpinned/loose version range here is a real regression risk, not
   # just tidiness.
   "liteparse==2.13.0",
-  # Document Preprocessing stage (docs/invoice-ocr-plan.md §7) — boundary
+  # Document Preprocessing stage (docs/plans/invoice-ocr-plan.md §7) — boundary
   # detection, smart-crop, multi-document split. headless: no GUI/Qt
   # bindings, which this server-side pipeline has no use for and which
   # would otherwise drag in system libraries the Docker image doesn't need.

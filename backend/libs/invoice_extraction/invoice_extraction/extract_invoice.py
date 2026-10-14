@@ -1,7 +1,7 @@
 """Top-level orchestrator: wires label-anchored field extraction (fields.py),
 line-item table reconstruction (line_items.py), arithmetic cross-validation
 (arithmetic.py), and composite confidence scoring (confidence.py) into one
-ExtractedInvoice. This is Stage 2 of docs/invoice-ocr-plan.md's pipeline —
+ExtractedInvoice. This is Stage 2 of docs/plans/invoice-ocr-plan.md's pipeline —
 takes `ocr.ExtractionResult` (Stage 1's output) in, no AI/LLM call anywhere.
 """
 from dataclasses import replace
@@ -460,7 +460,7 @@ def extract_invoice(
         # doesn't apply here" and simply returns whatever prominent text
         # sits at the top of the page, which on an internal memo is its own
         # letterhead, not a business being purchased from. Found live via
-        # the golden-dataset benchmark (docs/invoice-ocr-plan.md §15): all
+        # the golden-dataset benchmark (docs/plans/invoice-ocr-plan.md §15): all
         # 4 confirmed non-transactional documents in the real dataset
         # correctly cleared total/subtotal/tax_amount above but still
         # reported a "vendor" — the one field this block forgot, and the

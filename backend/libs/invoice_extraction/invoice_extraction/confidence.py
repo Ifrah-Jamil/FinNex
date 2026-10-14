@@ -1,12 +1,12 @@
 """Composite confidence scoring — Section 6. Replaces a single self-reported
 model number with a score built from independently-checkable signals, per
-docs/invoice-ocr-plan.md §3.
+docs/plans/invoice-ocr-plan.md §3.
 
 Thresholds below (METHOD_TIERS' values, ROUTING_THRESHOLDS) are reasonable
 starting defaults, stated here as exactly that — not numbers derived from
 measuring this engine's real accuracy yet, since that requires running it
 against a volume of real invoices this project doesn't have collected. See
-docs/invoice-ocr-plan.md §6's "exact confidence-combination formula" open
+docs/plans/invoice-ocr-plan.md §6's "exact confidence-combination formula" open
 question. Expect to tune these once real auto-process/needs-review outcomes
 can be compared against what a human reviewer actually corrects.
 """
@@ -90,7 +90,7 @@ _UNCERTAIN_BELOW = 0.5
 
 
 def field_status(value_present: bool, confidence: float) -> Literal["FOUND", "NOT_FOUND", "UNCERTAIN"]:
-    """The explicit tri-state the review UI needs (docs/invoice-ocr-plan.md's
+    """The explicit tri-state the review UI needs (docs/plans/invoice-ocr-plan.md's
     receipt-robustness notes): a field is either genuinely absent, present
     but shaky enough to flag, or confidently present — never collapsed into
     a single "here's a value, trust it" signal the way a bare `.value` alone

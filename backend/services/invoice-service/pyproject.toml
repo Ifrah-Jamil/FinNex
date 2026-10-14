@@ -23,7 +23,7 @@ dependencies = [
   # would drag Cairo/Pango or a bundled Chromium into this image.
   "reportlab==4.2.5",
   "fluxora-shared",
-  # P1-E (docs/invoice-ocr-plan.md §24): category_classifier.py reuses the
+  # P1-E (docs/plans/invoice-ocr-plan.md §24): category_classifier.py reuses the
   # same generic Candidate/select_candidate primitives (invoice_extraction.
   # candidates) the AI Engine's own vendor/invoice_date/total scoring
   # already uses, rather than a second, competing selection mechanism.

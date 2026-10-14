@@ -1,5 +1,5 @@
 """Document Preprocessing — a new stage ahead of LiteParse/OCR
-(docs/invoice-ocr-plan.md §7), for image uploads only (a PDF page is
+(docs/plans/invoice-ocr-plan.md §7), for image uploads only (a PDF page is
 already a clean, single, born-digital page — the problem this solves is
 specific to a phone-camera photo: excess background/desk visible around
 the receipt, or more than one receipt caught in one shot).
@@ -246,7 +246,7 @@ def _content_valley(smoothed: np.ndarray) -> Optional[tuple[int, int]]:
     run that is close to empty relative to real content on *both* sides of
     it — the signature a content-free gap between two separate documents
     leaves, found live to be detectable even when a color/brightness
-    threshold cannot separate them (docs/invoice-ocr-plan.md's own
+    threshold cannot separate them (docs/plans/invoice-ocr-plan.md's own
     real-photo finding: a pale wood desk is not reliably darker than white
     receipt paper, but it is reliably far less edge-dense than a printed
     document is).

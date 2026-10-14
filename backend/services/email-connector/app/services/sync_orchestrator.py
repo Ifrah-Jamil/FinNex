@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 # one has ever explicitly chosen "all time" for email (Phase 3's picker for
 # it doesn't exist yet), so None here is "no choice made" rather than "an
 # explicit choice for everything". A decade-old mailbox is a real privacy
-# and storage risk to sync unbounded — see docs/email-connector-plan.md §5/§9.
+# and storage risk to sync unbounded — see docs/plans/email-connector-plan.md §5/§9.
 DEFAULT_SYNC_WINDOW_DAYS = 180
 
 

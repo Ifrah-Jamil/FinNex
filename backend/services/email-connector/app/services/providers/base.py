@@ -2,7 +2,7 @@
 
 SyncOrchestrator is the one place a second provider genuinely needs this:
 duplicating it instead would mean duplicating a bug-prone state machine —
-every one of the four major live bugs docs/email-connector-plan.md's
+every one of the four major live bugs docs/plans/email-connector-plan.md's
 CHANGELOG records (narrow column, session poisoning, S3 key length,
 ephemeral attachmentId) lived inside that one file. Gmail's raw client
 (gmail/client.py) is adapted to this shape by gmail/provider.py, which is a

@@ -1,4 +1,4 @@
-"""Invoice OCR/structuring — Phase 2b (docs/invoice-ocr-plan.md): wires
+"""Invoice OCR/structuring — Phase 2b (docs/plans/invoice-ocr-plan.md): wires
 Stage 1 (`ocr.extract_text`) and Stage 2 (`invoice_extraction.extract_invoice`)
 behind one HTTP endpoint. No RabbitMQ, no queue — this service has nothing
 to consume from yet, since Invoice Service (Phase 3) doesn't exist. Not
@@ -64,7 +64,7 @@ async def extract(
     vendors_list = _parse_known_vendors(known_vendors)
 
     try:
-        # Document Preprocessing (docs/invoice-ocr-plan.md §7) runs inside
+        # Document Preprocessing (docs/plans/invoice-ocr-plan.md §7) runs inside
         # here for an image upload — background-removing smart crop, and
         # multi-document split when the photo confidently contains more
         # than one receipt. A PDF, or an image with nothing confident to

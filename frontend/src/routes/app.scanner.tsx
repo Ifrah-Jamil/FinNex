@@ -354,7 +354,7 @@ function Scanner() {
           "Invoice scanned — the AI wasn't fully confident on every field, so it's waiting for a quick review.",
         );
       }
-      // Document Preprocessing (docs/invoice-ocr-plan.md §7) — the photo
+      // Document Preprocessing (docs/plans/invoice-ocr-plan.md §7) — the photo
       // confidently contained more than one receipt, each already saved as
       // its own invoice, not just noted somewhere inside this one.
       if (result.additional_invoice_ids.length > 0) {

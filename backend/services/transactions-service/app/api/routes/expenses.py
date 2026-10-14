@@ -29,7 +29,7 @@ router = APIRouter(prefix="/expenses", tags=["expenses"])
 _INVOICE_PAYMENT_METHOD_MAP = {"bank": "bank_transfer", "cash": "cash"}
 
 #: A scanned/OCR'd purchase invoice carries no expense category — the rules
-#: engine (docs/invoice-ocr-plan.md) never attempted to infer one, and
+#: engine (docs/plans/invoice-ocr-plan.md) never attempted to infer one, and
 #: guessing wrong would be worse than picking the single most common bucket
 #: for a Pakistani SME's supplier spend and leaving it correctable via PUT.
 _DEFAULT_INVOICE_EXPENSE_CATEGORY = "Raw Material"

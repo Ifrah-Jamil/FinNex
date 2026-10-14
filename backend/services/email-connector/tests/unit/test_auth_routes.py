@@ -168,7 +168,7 @@ class TestCallback:
         assert response.status_code == 400
 
     def test_missing_refresh_token_is_a_clear_502_not_a_silent_broken_account(self, client, monkeypatch) -> None:
-        """Guards the exact failure mode docs/email-connector-plan.md §8 warns
+        """Guards the exact failure mode docs/plans/email-connector-plan.md §8 warns
         about: an account with no refresh token works for one hour then dies
         with no way to recover."""
         test_client, company_id = client

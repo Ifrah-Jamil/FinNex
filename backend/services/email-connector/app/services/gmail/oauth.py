@@ -3,7 +3,7 @@
 gmail.readonly is the narrowest scope that lets the sync orchestrator (next
 phase) list messages and fetch attachments; openid+email are added only to
 resolve which address was connected, via the userinfo endpoint below, not to
-read profile data beyond that. See docs/email-connector-plan.md §9 on scope
+read profile data beyond that. See docs/plans/email-connector-plan.md §9 on scope
 minimalism.
 """
 from urllib.parse import urlencode

@@ -7,7 +7,7 @@ attachments flow into Fluxora without anyone downloading and re-uploading them b
 
 **Status: Phase 1, OAuth foundation only.** Connect/status/disconnect are built and
 live-tested. Message sync, attachment discovery, and the AI Scanner hand-off are the next
-slice — see `docs/email-connector-plan.md` for the full phased plan and rationale.
+slice — see `docs/plans/email-connector-plan.md` for the full phased plan and rationale.
 
 ---
 
@@ -41,7 +41,7 @@ this one.
 - **Disconnecting hard-deletes the row**, not a status flag. Slack's `DELETE /installation`
   just flips `status` to `revoked`. A mailbox holds personal, financial and legal
   correspondence in one place — more sensitive than a Slack workspace — so
-  `docs/email-connector-plan.md` §9 calls for deletion to actually delete. Once
+  `docs/plans/email-connector-plan.md` §9 calls for deletion to actually delete. Once
   `EmailMessage`/`EmailAttachment` exist (next phase), their foreign keys should cascade
   from `email_account` so a disconnect also removes anything already downloaded.
 - **Provider abstraction.** `app/services/gmail/oauth.py` holds every Gmail-specific call.

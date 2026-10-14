@@ -79,7 +79,7 @@ class EmailAccount(Base):
     # means "all history" and is a safe default — a workspace is bounded),
     # a mailbox can hold a decade of unrelated personal/financial/legal
     # correspondence, so an unbounded first sync is a real privacy and
-    # storage risk (docs/email-connector-plan.md §5/§9). None here still
+    # storage risk (docs/plans/email-connector-plan.md §5/§9). None here still
     # means "no explicit choice made yet" — nobody has, since Phase 3's
     # picker UI for email doesn't exist — but the orchestrator applies a
     # conservative default (180 days) rather than treating None as unbounded,

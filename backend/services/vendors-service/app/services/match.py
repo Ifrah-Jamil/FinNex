@@ -2,7 +2,7 @@
 
 Rules-based string similarity (stdlib `difflib`), not an LLM or embedding
 model — consistent with the OCR pipeline's own extraction rules (see
-docs/invoice-ocr-plan.md): deterministic, explainable, and free of a model
+docs/plans/invoice-ocr-plan.md): deterministic, explainable, and free of a model
 dependency for a service this small.
 
 A suggestion is never applied automatically. "ABC Traders" and "ABD Traders"

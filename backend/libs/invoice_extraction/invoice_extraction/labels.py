@@ -129,7 +129,7 @@ NON_TOTAL_FIELD_LABEL_PHRASES: list[str] = [
 #: specific phrases before the generic single word they'd otherwise be
 #: confused with ("paid in full" before bare "paid"). Only ever assigned
 #: when one of these phrases is actually present on the document — never a
-#: default (see docs/invoice-ocr-plan.md's receipt-robustness notes on why
+#: default (see docs/plans/invoice-ocr-plan.md's receipt-robustness notes on why
 #: "not detected" must never silently become "PENDING").
 PAYMENT_STATUS_KEYWORDS: list[tuple[str, str]] = [
     (r"\bpartially\s*paid\b", "PARTIALLY_PAID"),

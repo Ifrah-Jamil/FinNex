@@ -3,7 +3,7 @@ Structured logging configuration with automatic secret redaction.
 
 Same convention as slack-connector's core/logging.py, patterns swapped for
 Google OAuth token shapes. A mailbox connector must never log message
-subjects or bodies either — see docs/email-connector-plan.md §9 — so callers
+subjects or bodies either — see docs/plans/email-connector-plan.md §9 — so callers
 should pass only ids/counts in `extra`, never raw email content.
 """
 import logging

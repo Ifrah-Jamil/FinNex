@@ -1,5 +1,5 @@
 """ocr.liteparse — the new primary Stage 1 engine (LiteParse+PaddleOCR
-migration, docs/invoice-ocr-plan.md). Same synthetic-document conventions
+migration, docs/plans/invoice-ocr-plan.md). Same synthetic-document conventions
 as test_extract.py; the OCR path additionally needs a real Tesseract binary
 on PATH, since LiteParse's own built-in OCR fallback (used here whenever no
 paddleocr_url is configured) is Tesseract-based under the hood — confirmed
@@ -20,7 +20,7 @@ TESSERACT_AVAILABLE = shutil.which("tesseract") is not None
 requires_tesseract = pytest.mark.skipif(
     not TESSERACT_AVAILABLE,
     reason="tesseract binary not on PATH — LiteParse's own built-in OCR fallback needs it "
-    "(see docs/invoice-ocr-plan.md §4); the ai-engine Docker image installs it via apt.",
+    "(see docs/plans/invoice-ocr-plan.md §4); the ai-engine Docker image installs it via apt.",
 )
 
 

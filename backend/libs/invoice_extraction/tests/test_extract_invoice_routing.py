@@ -89,7 +89,7 @@ class TestArithmeticOkReflectsEveryPlausibilityCheck:
 
 class TestTotalFallbacksFromRealDocumentAudit:
     """Two more real bugs found live during a `no_total_found` root-cause
-    audit against the same 35-receipt dataset — see docs/invoice-ocr-plan.md
+    audit against the same 35-receipt dataset — see docs/plans/invoice-ocr-plan.md
     for the full document-by-document analysis."""
 
     def test_amount_inc_sales_tax_is_recognized_as_the_total_label(self) -> None:
@@ -247,7 +247,7 @@ class TestP1DTotalEvidenceFlowsThroughExtractInvoice:
 
     def test_a_total_sharing_source_location_with_subtotal_still_routes_to_review(self) -> None:
         """The exact real bug shape P0-B's own source-collision check
-        exists for (docs/invoice-ocr-plan.md §19) — reproduced end to end
+        exists for (docs/plans/invoice-ocr-plan.md §19) — reproduced end to end
         through the full pipeline (not only at arithmetic.
         shares_source_location's own pure-function level, test_arithmetic.
         py): a document whose only monetary value is itself labeled "Sub
@@ -316,7 +316,7 @@ class TestNonTransactionalDocuments:
 
     def test_vendor_name_is_cleared_not_left_as_the_memos_own_letterhead(self) -> None:
         """Regression guard for a real false positive found live via the
-        golden-dataset benchmark (docs/invoice-ocr-plan.md §15): all 4
+        golden-dataset benchmark (docs/plans/invoice-ocr-plan.md §15): all 4
         confirmed non-transactional documents in the real 35-document
         dataset correctly cleared total/subtotal/tax_amount but still
         reported a "vendor" — the positional fallback has no notion that a

@@ -206,7 +206,7 @@ class ScanJobResponse(BaseModel):
     invoice_id: Optional[UUID] = None
     invoice: Optional[InvoiceResponse] = None
     error: Optional[str] = None
-    #: Document Preprocessing (docs/invoice-ocr-plan.md §7) — populated only
+    #: Document Preprocessing (docs/plans/invoice-ocr-plan.md §7) — populated only
     #: when this one upload's photo confidently contained more than one
     #: separate document, each of which got its own AIJob/Invoice the same
     #: way the primary one did. Empty for the overwhelming common case, so

@@ -1,5 +1,5 @@
 """LiteParse-based extraction — the new primary Stage 1 engine as of the
-LiteParse+PaddleOCR migration (docs/invoice-ocr-plan.md's migration
+LiteParse+PaddleOCR migration (docs/plans/invoice-ocr-plan.md's migration
 section). Maps `liteparse`'s output onto the existing
 ExtractionResult/PositionedWord contract unchanged, so Stage 2
 (invoice_extraction) needs no changes at all — this module is purely an

@@ -16,7 +16,7 @@ _CONFIDENCE_FIELDS = (
     "vendor_name", "invoice_number", "invoice_date", "ntn", "subtotal", "tax_rate", "tax_amount", "total",
 )
 
-#: Receipt/bill robustness additions (docs/invoice-ocr-plan.md) — document-
+#: Receipt/bill robustness additions (docs/plans/invoice-ocr-plan.md) — document-
 #: wide detections (currency, city, country, document type, payment
 #: status) plus customer_name, none of which are edit-via-PUT columns yet
 #: (unlike vendor_name/total/etc. above) — read-only, derived from
@@ -60,7 +60,7 @@ class PaymentMethod(str, enum.Enum):
 
 
 class InvoiceStatus(str, enum.Enum):
-    #: The rules engine (docs/invoice-ocr-plan.md §2a) was confident enough
+    #: The rules engine (docs/plans/invoice-ocr-plan.md §2a) was confident enough
     #: across every critical field and the arithmetic checks passed.
     processed = "processed"
     needs_review = "needs_review"
@@ -134,7 +134,7 @@ class Invoice(Base):
     # Editable fields — start out exactly as extracted, may be corrected by
     # a human via PUT /invoices/{id}. All nullable: the rules engine
     # legitimately doesn't find every field on every document (see
-    # docs/invoice-ocr-plan.md's real-document findings), and forcing a
+    # docs/plans/invoice-ocr-plan.md's real-document findings), and forcing a
     # value here would mean inventing one.
     vendor_name: Mapped[str | None] = mapped_column(String(500), nullable=True)
     #: The Vendors Service record this invoice was matched to, once one

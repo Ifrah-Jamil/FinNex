@@ -5,7 +5,7 @@ because uneven real-photo lighting pushes large regions entirely black or
 entirely white before Tesseract ever sees them. These are the actual real
 documents that surfaced the bug, not synthetic re-creations — the only
 reliable way to catch this class of regression is against a real photo, per
-docs/invoice-ocr-plan.md's own live-verification discipline.
+docs/plans/invoice-ocr-plan.md's own live-verification discipline.
 """
 import shutil
 from pathlib import Path
@@ -20,7 +20,7 @@ FIXTURES = Path(__file__).parent / "fixtures" / "receipts"
 TESSERACT_AVAILABLE = shutil.which("tesseract") is not None
 requires_tesseract = pytest.mark.skipif(
     not TESSERACT_AVAILABLE,
-    reason="tesseract binary not on PATH — see docs/invoice-ocr-plan.md §4.",
+    reason="tesseract binary not on PATH — see docs/plans/invoice-ocr-plan.md §4.",
 )
 
 

@@ -169,7 +169,7 @@ def is_day_month_ambiguous(text: str) -> bool:
     "2 June" are valid interpretations), and cross-checking a *different*
     document from the same source proved that source's own convention is
     month-first, contradicting this pipeline's Pakistani-context day-first
-    default (docs/invoice-ocr-plan.md §17). Resolving that specific case
+    default (docs/plans/invoice-ocr-plan.md §17). Resolving that specific case
     would require knowing which vendor issued it — exactly the hardcoding
     this project forbids — so this is deliberately never used to pick a
     different parse. It exists only as evidence: letting a clearer,

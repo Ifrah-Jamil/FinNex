@@ -43,11 +43,13 @@ fluxora-showcase/
 │       └── docker-compose.yml Postgres, Redis, MinIO, and core microservices
 │
 └── docs/
-    ├── Fluxora_AI_Backend_Architecture_Report (3).md
+    ├── architecture/          System design and service map
+    ├── briefs/                Original product brief
+    ├── plans/                 OCR, email, documents, and sync plans
     └── superpowers/           Feature specifications and implementation plans
 ```
 
-The layout follows section 6 of [`docs/Fluxora_AI_Backend_Architecture_Report (3).md`](docs/Fluxora_AI_Backend_Architecture_Report%20(3).md).
+The layout follows section 6 of [`docs/architecture/backend-architecture.md`](docs/architecture/backend-architecture.md).
 
 ---
 
@@ -239,11 +241,13 @@ pre-existing; don't mass-reformat to "fix" them.
 
 | Document | What it covers |
 | --- | --- |
-| [`Fluxora_AI_Backend_Architecture_Report`](Fluxora_AI_Backend_Architecture_Report%20(3).md) | Full architecture: services, folder structure, endpoints, deployment |
+| [`docs/architecture/backend-architecture.md`](docs/architecture/backend-architecture.md) | Full architecture: services, folder structure, endpoints, deployment |
 | [`backend/docs/api-contracts.md`](backend/docs/api-contracts.md) | Live endpoint reference |
 | [`backend/services/auth/README.md`](backend/services/auth/README.md) | Auth Service: endpoints, token handling, security decisions |
 | [`backend/services/slack-connector/README.md`](backend/services/slack-connector/README.md) | Running, configuring and extending the Slack service |
-| [`docs/original-design-brief.md`](docs/original-design-brief.md) | The original frontend design brief this UI was generated from |
-| [`docs/email-connector-plan.md`](docs/email-connector-plan.md) | Build plan and research guide for the Email connector |
-| [`docs/selective-sync-plan.md`](docs/selective-sync-plan.md) | Plan for choosing which channels/DMs to sync, and grouping documents by conversation |
+| [`docs/briefs/original-design-brief.md`](docs/briefs/original-design-brief.md) | The original frontend design brief this UI was generated from |
+| [`docs/plans/invoice-ocr-plan.md`](docs/plans/invoice-ocr-plan.md) | How invoices are read on your own machines, without a cloud model |
+| [`docs/plans/documents-and-vendors-plan.md`](docs/plans/documents-and-vendors-plan.md) | Browser uploads, vendor records, and reconciliation |
+| [`docs/plans/email-connector-plan.md`](docs/plans/email-connector-plan.md) | Build plan and research guide for the Email connector |
+| [`docs/plans/selective-sync-plan.md`](docs/plans/selective-sync-plan.md) | Plan for choosing which channels/DMs to sync, and grouping documents by conversation |
 | [`docs/superpowers/`](docs/superpowers/) | Specs and implementation plans per feature |

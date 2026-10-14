@@ -1,5 +1,5 @@
 """Access-token refresh — pulled forward from the plan's Phase 4 because a
-sync literally cannot run without it (docs/email-connector-plan.md §8):
+sync literally cannot run without it (docs/plans/email-connector-plan.md §8):
 Gmail access tokens last about an hour, Slack's never expire, so this is
 new logic with no Slack equivalent and no prior test to copy the shape of.
 

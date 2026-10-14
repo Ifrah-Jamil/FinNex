@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     s3_bucket_name: str = Field(alias="S3_BUCKET_NAME")
 
     # Phase 2b's AI Engine — a plain internal HTTP call, not a queue. See
-    # docs/invoice-ocr-plan.md §11b's reasoning (already established for
+    # docs/plans/invoice-ocr-plan.md §11b's reasoning (already established for
     # Email/Slack connectors' Invoice Service bridge): RabbitMQ doesn't
     # exist in this docker-compose yet, so every internal hand-off in this
     # codebase uses direct HTTP with graceful degradation instead of

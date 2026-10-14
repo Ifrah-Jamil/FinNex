@@ -201,7 +201,7 @@ class TestScanFailureHandling:
 
 
 class TestDocumentPreprocessingSplit:
-    """One upload, multiple documents (docs/invoice-ocr-plan.md §7) — AI
+    """One upload, multiple documents (docs/plans/invoice-ocr-plan.md §7) — AI
     Engine's response carrying `additional_documents` fans out into one
     extra Invoice per split, each a first-class record of its own."""
 

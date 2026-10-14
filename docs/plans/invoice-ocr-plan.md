@@ -1,7 +1,6 @@
 # Invoice OCR — Build Plan & Research Guide
 
-**Status:** ✅ active — this replaces the OCR mechanism `Fluxora_AI_Backend_Architecture_Report
-(3).md` §5.8/§11 originally described ("call OpenAI/Anthropic directly with the uploaded file").
+**Status:** ✅ active — this replaces the OCR mechanism `docs/architecture/backend-architecture.md` §5.8/§11 originally described ("call OpenAI/Anthropic directly with the uploaded file").
 That correction is the whole point of this doc — see §1 for why, §2 for what replaces it.
 **Target:** the "Invoice OCR" responsibility already assigned to **AI Engine Service** (architecture
 report §5.8, port **8007**) — this doc does not change *which* service owns OCR, only *how* it
@@ -194,7 +193,7 @@ list, not this one.
 ## 5. What actually gets built first
 
 Per the same "prove it works in isolation before wiring a whole service around it" discipline this
-project has used for every other phase (see docs/email-connector-plan.md's live-verification
+project has used for every other phase (see docs/plans/email-connector-plan.md's live-verification
 history — every real bug found there was found by running the thing, not by review alone):
 
 **Phase 1** ✅ built: `backend/libs/ocr/` — a standalone, unit-tested **OCR extraction module** (Stage
@@ -638,7 +637,7 @@ there before this is trusted in production.
 
 ## Correction recorded against the wider architecture report
 
-`Fluxora_AI_Backend_Architecture_Report (3).md` §5.8 ("Calls AI model (OpenAI/Anthropic) with
+`docs/architecture/backend-architecture.md` §5.8 ("Calls AI model (OpenAI/Anthropic) with
 structured prompt"), §11 (the step-by-step scanner flow showing the raw file going straight to
 OpenAI/Anthropic), and §14's tech stack table ("AI: OpenAI GPT-4o or Anthropic Claude — Invoice OCR +
 chat assistant") all describe the vision-LLM-as-OCR design this doc replaces. Those sections are

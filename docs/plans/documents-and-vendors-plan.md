@@ -1,6 +1,6 @@
 # Documents Service, Records Grid & Vendors Service — Build Plan
 
-Coovers the work that follows the Invoice Service phase (`docs/invoice-ocr-plan.md`
+Coovers the work that follows the Invoice Service phase (`docs/plans/invoice-ocr-plan.md`
 Phase 3). Three build streams, in the order they are being built, plus the
 documentation debt each one closes.
 
@@ -54,7 +54,7 @@ Outstanding, and deliberately deferred rather than forgotten:
 2. **Arbitrary line-item table columns** — real invoices carry columns this
    pipeline does not model (a Pakistani payment-summary table's `PAYMENT METHOD`
    column, seen live). Today such a column merges into the description. Tracked in
-   `docs/invoice-ocr-plan.md`.
+   `docs/plans/invoice-ocr-plan.md`.
 3. **`invoice.vendor_id`** — the architecture report's own model says
    `Invoice: ... vendor_id or customer_id`; today there is only a free-text
    `vendor_name`. Closed by §3 below.
@@ -115,7 +115,7 @@ implementation rather than three copies.
 
 Their hardcoded **30-second** HTTP timeout was raised to a configurable 240s
 default at the same time. A scan triggers OCR, which on a CPU-constrained host
-genuinely takes minutes (measured — see `docs/invoice-ocr-plan.md`), so 30s was
+genuinely takes minutes (measured — see `docs/plans/invoice-ocr-plan.md`), so 30s was
 cutting off scans that would otherwise have succeeded.
 
 ---
@@ -417,7 +417,7 @@ undone by deleting one row.
 
 **Decide.** Rules-based string similarity (stdlib `difflib.SequenceMatcher`,
 `app/services/match.py`), not an LLM or embedding model — the same posture
-as the OCR extraction pipeline itself (`docs/invoice-ocr-plan.md`):
+as the OCR extraction pipeline itself (`docs/plans/invoice-ocr-plan.md`):
 deterministic, explainable, no model dependency for a service this small.
 Suggestions are ranked but **never applied automatically** — two names can
 score high on pure string similarity and still be different real suppliers,
@@ -585,5 +585,5 @@ Each stream updates, as it lands:
 - `CHANGELOG.md` — added/fixed/changed/verified, newest first. Up to date
   through Vendor Reconciliation (§3.8) as of this writing.
 - The architecture report's status note — §0 above.
-- `docs/invoice-ocr-plan.md` — anything that changes the extraction pipeline.
+- `docs/plans/invoice-ocr-plan.md` — anything that changes the extraction pipeline.
 - This file — decisions and their reasons, as they are made.

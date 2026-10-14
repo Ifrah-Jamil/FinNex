@@ -40,7 +40,7 @@ async def send_file_to_scanner(
 
     try:
         # Generous: the scan this triggers runs OCR, which on a CPU-constrained
-        # host genuinely takes minutes (measured — see docs/invoice-ocr-plan.md).
+        # host genuinely takes minutes (measured — see docs/plans/invoice-ocr-plan.md).
         # The previous 30s cut off scans that would otherwise have succeeded.
         async with httpx.AsyncClient(timeout=settings.invoice_service_timeout_seconds) as client:
             response = await client.post(

@@ -1,7 +1,7 @@
 [project]
 name = "fluxora-golden-eval"
 version = "0.1.0"
-description = "Golden Dataset evaluation/benchmark harness for the June 2026 petty-cash dataset — a QA tool, never a production dependency. See README.md and docs/invoice-ocr-plan.md §15."
+description = "Golden Dataset evaluation/benchmark harness for the June 2026 petty-cash dataset — a QA tool, never a production dependency. See README.md and docs/plans/invoice-ocr-plan.md §15."
 requires-python = ">=3.11,<3.14"
 # httpx: talks to the running ai-engine's real /ocr/extract endpoint, the
 # same path a real upload takes — same dependency ai-engine itself uses.

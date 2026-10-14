@@ -4,7 +4,7 @@ the "which mailbox did we connect" resolution.
 The one thing Slack's OAuth never had to handle: access tokens expire, so
 refresh_access_token exists purely because of that — this is new logic with
 no Slack equivalent, and getting it wrong means the connector works for an
-hour then silently stops (docs/email-connector-plan.md §8).
+hour then silently stops (docs/plans/email-connector-plan.md §8).
 """
 import pytest
 

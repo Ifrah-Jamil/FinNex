@@ -34,7 +34,7 @@ def test_every_keyword_category_is_a_real_suggested_category() -> None:
         ("K-Electric", "Utilities"),
         ("Uber Pakistan", "Fuel & Transport"),
         # Found live during the uncategorized-transactional-documents audit
-        # (docs/invoice-ocr-plan.md §13): a real vendor, correctly
+        # (docs/plans/invoice-ocr-plan.md §13): a real vendor, correctly
         # extracted at the time — see TestStalePapajohnsWorkaroundRemoved
         # below for why the literal "papajohns" keyword itself was removed
         # in this phase, and why "papa john's" (the real, correctly-
@@ -72,7 +72,7 @@ def test_matching_is_case_insensitive() -> None:
 
 
 class TestStalePapajohnsWorkaroundRemoved:
-    """P1-E audit (docs/invoice-ocr-plan.md §24): the literal "papajohns"
+    """P1-E audit (docs/plans/invoice-ocr-plan.md §24): the literal "papajohns"
     keyword existed only because vendor extraction used to (incorrectly)
     return a vendor's own transaction email address wholesale
     ("papajohns@livepepper.com") — a workaround for a bug in a *different*
@@ -117,7 +117,7 @@ class TestGenericStoreFallback:
 
 
 class TestWordBoundaryMatchingClosesRealFalsePositiveRisks:
-    """P1-E audit (docs/invoice-ocr-plan.md §24): the previous plain-
+    """P1-E audit (docs/plans/invoice-ocr-plan.md §24): the previous plain-
     substring matcher let "rent" match inside "different"/"current"/
     "parent"/"torrent", and "toilet" match inside "toiletries" — real,
     general false-positive risks, confirmed by direct construction (the
@@ -171,7 +171,7 @@ class TestSoftDrinkBrandsAreOfficeEntertainment:
 
 
 class TestRuleOrderBugFixed:
-    """The central P1-E fix (docs/invoice-ocr-plan.md §24): the previous
+    """The central P1-E fix (docs/plans/invoice-ocr-plan.md §24): the previous
     "first category in a fixed priority list with any keyword hit wins"
     implementation always returned "Office Entertainment" for a bakery
     vendor whose own item description said "Cake", even though "cake" is
@@ -237,7 +237,7 @@ class TestGenericFinancialWordsAreNeverCategoryEvidence:
 
 
 class TestRawTextProvidesProseEvidence:
-    """P1-E.1 (docs/invoice-ocr-plan.md §25): raw_text carries the
+    """P1-E.1 (docs/plans/invoice-ocr-plan.md §25): raw_text carries the
     document's own full OCR text — real category evidence a document
     states only in free prose (a cash-receipt voucher's own "received
     amount Rs. 6,000/- as Salary/ Stipend") never reaches vendor_name or a
