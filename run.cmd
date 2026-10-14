@@ -34,6 +34,7 @@ set "DOCKER_EXE="
 if exist "%ProgramFiles%\Docker\Docker\Docker Desktop.exe" set "DOCKER_EXE=%ProgramFiles%\Docker\Docker\Docker Desktop.exe"
 if not defined DOCKER_EXE if exist "%ProgramFiles(x86)%\Docker\Docker\Docker Desktop.exe" set "DOCKER_EXE=%ProgramFiles(x86)%\Docker\Docker\Docker Desktop.exe"
 if not defined DOCKER_EXE if exist "%LocalAppData%\Docker\Docker Desktop.exe" set "DOCKER_EXE=%LocalAppData%\Docker\Docker Desktop.exe"
+if not defined DOCKER_EXE if exist "%LocalAppData%\Programs\Docker\Docker\Docker Desktop.exe" set "DOCKER_EXE=%LocalAppData%\Programs\Docker\Docker\Docker Desktop.exe"
 if not defined DOCKER_EXE goto docker_missing
 start "" "%DOCKER_EXE%"
 goto wait_docker_banner
@@ -109,8 +110,18 @@ if not exist "node_modules\vite\bin\vite.js" (
   exit /b 1
 )
 popd
-start "FinNex" /D "%~dp0frontend" cmd.exe /k bun node_modules\vite\bin\vite.js dev --host 127.0.0.1 --port 43123 --strictPort
-echo Waiting for http://127.0.0.1:43123 ...
+set "LAUNCH=%TEMP%\finnex-dev.cmd"
+> "%LAUNCH%" echo @echo off
+>> "%LAUNCH%" echo title FinNex
+>> "%LAUNCH%" echo cd /d "%~dp0frontend"
+>> "%LAUNCH%" echo echo Starting FinNex at http://127.0.0.1:43123
+>> "%LAUNCH%" echo echo.
+>> "%LAUNCH%" echo call bun .\node_modules\vite\bin\vite.js dev --host 127.0.0.1 --port 43123 --strictPort
+>> "%LAUNCH%" echo echo.
+>> "%LAUNCH%" echo echo FinNex stopped. Read the message above.
+>> "%LAUNCH%" echo pause
+start "FinNex" "%LAUNCH%"
+echo Leave the FinNex window open. Waiting for http://127.0.0.1:43123 ...
 set /a TRIES=0
 :wait_web
 set /a TRIES+=1
