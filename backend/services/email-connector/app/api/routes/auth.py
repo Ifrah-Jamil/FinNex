@@ -219,7 +219,7 @@ async def disconnect_email_account(
 
     A mailbox holds personal, financial and legal correspondence in one
     place — more sensitive than a Slack workspace — so per
-    docs/email-connector-plan.md §9, disconnecting hard-deletes the row
+    docs/plans/email-connector-plan.md §9, disconnecting hard-deletes the row
     (encrypted tokens included) rather than flipping a status flag the way
     Slack's disconnect does. EmailMessage/EmailAttachment foreign keys
     cascade from this table, so a disconnect also removes anything already

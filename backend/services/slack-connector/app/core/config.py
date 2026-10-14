@@ -47,7 +47,7 @@ class Settings(BaseSettings):
     invoice_service_url: str = Field(alias="INVOICE_SERVICE_URL")
     #: Generous by default: the scan this triggers runs OCR, which on a
     #: CPU-constrained host genuinely takes minutes (measured — see
-    #: docs/invoice-ocr-plan.md's PaddleOCR latency notes). The previous
+    #: docs/plans/invoice-ocr-plan.md's PaddleOCR latency notes). The previous
     #: hardcoded 30s in scanner_bridge.py cut off scans that would otherwise
     #: have succeeded.
     invoice_service_timeout_seconds: float = Field(

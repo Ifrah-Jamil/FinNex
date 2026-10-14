@@ -1,6 +1,6 @@
 """Tesseract OCR over a single image — used both for actual image uploads
 (JPG/PNG/WhatsApp screenshots) and for pages rasterized out of a scanned PDF
-(pdf.py). See docs/invoice-ocr-plan.md §2 for why this exists at all instead
+(pdf.py). See docs/plans/invoice-ocr-plan.md §2 for why this exists at all instead
 of sending the image straight to a vision LLM.
 """
 from PIL import Image, ImageOps

@@ -4,7 +4,7 @@ WORKDIR /app
 
 # tesseract-ocr is a system binary pytesseract shells out to — pip installing
 # the fluxora-ocr package alone does NOT provide it. Documented explicitly
-# in docs/invoice-ocr-plan.md §4 as the operational detail most likely to be
+# in docs/plans/invoice-ocr-plan.md §4 as the operational detail most likely to be
 # missed; this is that requirement actually being satisfied.
 #
 # libglib2.0-0: opencv-python-headless (Document Preprocessing, §7) still

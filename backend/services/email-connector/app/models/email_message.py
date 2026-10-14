@@ -15,7 +15,7 @@ class EmailMessage(Base):
     sync walks), but flatter: Gmail has no channel/DM structure to group by,
     so every message belongs directly to the account. Deliberately does not
     store the message body — only what's needed to show a document's origin
-    in the UI (see docs/email-connector-plan.md §9, "store only what you
+    in the UI (see docs/plans/email-connector-plan.md §9, "store only what you
     need").
     """
 

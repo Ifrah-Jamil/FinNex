@@ -49,7 +49,7 @@ Four documents are STIXOR's own internal "Minute Sheet" approval memos —
 confirmed on inspection to be monthly rollup approvals for each Excel
 category section (their own itemised amounts sum to that section's Excel
 total). These are `transactional=False`; `vendor`, `total`, and `category`
-are all ABSENT by design (see docs/invoice-ocr-plan.md §12) — a real
+are all ABSENT by design (see docs/plans/invoice-ocr-plan.md §12) — a real
 expectation, not an unknown.
 
 CRITICAL GENERALIZATION RULE: this file is an evaluation fixture, not
@@ -164,7 +164,7 @@ GOLDEN_DATASET: list[GoldenDocument] = [
         evidence=(
             "Own OCR: 'STIXOR ... Cash Receipt ... received amount Rs.5_cleaning ... Date: 23une 2a26' — "
             "the amount is OCR-merged into one token (a known, previously root-caused OCR-quality issue; "
-            "see docs/invoice-ocr-plan.md §11), but the Excel independently confirms the true amount is "
+            "see docs/plans/invoice-ocr-plan.md §11), but the Excel independently confirms the true amount is "
             "Rs.500 for a cleaning payment on the same date, which is accepted as the amount ground truth "
             "here since the document's own OCR cannot resolve it cleanly on its own."
         ),
@@ -190,7 +190,7 @@ GOLDEN_DATASET: list[GoldenDocument] = [
         invoice_date="2026-02-28", total=ABSENT, category=ABSENT,
         evidence=(
             "Own OCR: 'STIXOR ... MINUTE SHEET ... For approval of Rs. 22,875/- ... by CEO ... 28th Feb "
-            "2026'. An internal expense-approval memo, not a purchase — see docs/invoice-ocr-plan.md §12 "
+            "2026'. An internal expense-approval memo, not a purchase — see docs/plans/invoice-ocr-plan.md §12 "
             "for why vendor/total/category are correctly absent, never guessed, on this document type. "
             "The memo's own reference date (28 Feb 2026) is what invoice_date should read, regardless of "
             "which month's batch the photo was filed under."

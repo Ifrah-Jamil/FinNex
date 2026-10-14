@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fluxora-engine"
 version = "0.1.0"
-description = "Fluxora Engine — invoice OCR/structuring (no-LLM rules pipeline, docs/invoice-ocr-plan.md). Chat assistant and insights (architecture report §5.8) are not part of Phase 2b's scope."
+description = "Fluxora Engine — invoice OCR/structuring (no-LLM rules pipeline, docs/plans/invoice-ocr-plan.md). Chat assistant and insights (architecture report §5.8) are not part of Phase 2b's scope."
 requires-python = ">=3.11,<3.14"
 dependencies = [
   "fastapi==0.115.12",

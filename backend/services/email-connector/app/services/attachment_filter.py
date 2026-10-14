@@ -1,4 +1,4 @@
-"""Layered attachment filter — docs/email-connector-plan.md §5.
+"""Layered attachment filter — docs/plans/email-connector-plan.md §5.
 
 Two cheap checks (size, extension) run before anything is downloaded, since
 a mailbox has thousands of attachments and most are not financial documents

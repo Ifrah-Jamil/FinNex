@@ -5,7 +5,7 @@ plug into the same auth.py routes with one small branch, not two rewrites.
 
 Not yet live-verified against a real Microsoft account: doing so needs an
 Azure AD App Registration (client id/secret), which only the account owner
-can create — see docs/email-connector-plan.md §11a for what's needed before
+can create — see docs/plans/email-connector-plan.md §11a for what's needed before
 this can be exercised end-to-end. Every function here is unit-tested against
 mocked HTTP the same way gmail/oauth.py's equivalents are.
 """
@@ -36,7 +36,7 @@ def _require_configured(settings: Settings) -> None:
             "Outlook is not configured on this deployment — MICROSOFT_CLIENT_ID, "
             "MICROSOFT_CLIENT_SECRET and MICROSOFT_REDIRECT_URI must all be set "
             "(an Azure AD App Registration is required; see "
-            "docs/email-connector-plan.md §11a)."
+            "docs/plans/email-connector-plan.md §11a)."
         )
 
 

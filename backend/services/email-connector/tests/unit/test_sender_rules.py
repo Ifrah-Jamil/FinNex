@@ -1,5 +1,5 @@
 """Sender allow/deny matching and the needs-review decision — the filtering
-quality system docs/email-connector-plan.md §5/§5b describes.
+quality system docs/plans/email-connector-plan.md §5/§5b describes.
 
 Motivated by real numbers: the first live sync imported 57 attachments, 34
 of them images. Everything here exists to stop that.

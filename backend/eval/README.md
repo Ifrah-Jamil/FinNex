@@ -5,14 +5,14 @@ dataset (`test-data/june-2026-petty-cash/receipts/`) and its manually
 verified ledger (`June Cash book..xlsx`, repo root). It measures the
 existing OCR → extraction → classification pipeline against independently
 established ground truth — it does not change, patch, or influence that
-pipeline in any way. See `docs/invoice-ocr-plan.md §15` for the full audit
+pipeline in any way. See `docs/plans/invoice-ocr-plan.md §15` for the full audit
 this framework was built under, and `golden_eval/golden_dataset.py`'s own
 module docstring for exactly how each document's ground truth was
 established (and where it deliberately couldn't be).
 
 ## Why this exists, not another one-off scan script
 
-Earlier phases of this project's own audit history (`docs/invoice-ocr-plan.md`
+Earlier phases of this project's own audit history (`docs/plans/invoice-ocr-plan.md`
 §11-§14) each wrote a throwaway scan script to check the pipeline against
 this same dataset — useful in the moment, but nothing was kept, so every
 future change had to re-derive ground truth and re-write the comparison
@@ -60,7 +60,7 @@ python cli.py --compare-baseline baselines/2026-09-03-baseline.json
 ## What it measures, and what it deliberately does not
 
 - **Vendor / Invoice Date / Total / Category / Document Type / Transactional**
-  — the six fields `docs/invoice-ocr-plan.md`'s own audits have tracked
+  — the six fields `docs/plans/invoice-ocr-plan.md`'s own audits have tracked
   across every prior phase.
 - **Never invents a "correct" value.** A field the golden dataset marks
   `UNKNOWN` is excluded from accuracy in both directions — it never counts

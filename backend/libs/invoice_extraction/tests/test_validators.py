@@ -54,7 +54,7 @@ class TestParseDate:
 
 class TestOrdinalSuffixNoise:
     """Regression guards for a real bug found live via the golden-dataset
-    benchmark (docs/invoice-ocr-plan.md §17): an ordinal-day suffix
+    benchmark (docs/plans/invoice-ocr-plan.md §17): an ordinal-day suffix
     ("1st"/"2nd"/"3rd"/"4th"..."31st") sometimes OCRs as something other
     than its own letters — a bare "t" (the "h" dropped) or a stray
     quotation mark standing in for a misread superscript. All examples

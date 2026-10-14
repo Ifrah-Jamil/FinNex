@@ -1,13 +1,13 @@
 """Rule-based, best-guess category assignment at scan time — P1-E: reuses
 the shared deterministic Candidate -> evidence -> select_candidate
 architecture (invoice_extraction.candidates) the AI Engine's own extraction
-pipeline already uses for vendor/invoice_date/total (docs/invoice-ocr-plan.md
+pipeline already uses for vendor/invoice_date/total (docs/plans/invoice-ocr-plan.md
 §§20-23), applied here to category. Same "rules engine, no LLM" philosophy
 as the rest of this pipeline: a keyword hit against the vendor name, every
 line item's description, and the filename is the only evidence — no ML, no
 embeddings, no semantic similarity.
 
-P1-E's own audit (docs/invoice-ocr-plan.md §24) found the previous
+P1-E's own audit (docs/plans/invoice-ocr-plan.md §24) found the previous
 implementation's "first category (checked in a fixed priority order) with
 any keyword hit wins" was the exact same architectural flaw §20-23 already
 fixed for other fields: a document whose vendor is a bakery *and* whose own
@@ -110,7 +110,7 @@ class _CategoryKeywords:
 
 
 # Every keyword the previous, unscored implementation had is preserved
-# below (P1-E's own audit — docs/invoice-ocr-plan.md §24 — classifies each
+# below (P1-E's own audit — docs/plans/invoice-ocr-plan.md §24 — classifies each
 # one explicitly); nothing was dropped except the stale "papajohns"
 # work-around (see that section for why removing it is safe). New
 # additions are commented individually with the same "found live, general,
@@ -312,7 +312,7 @@ def classify_category(
     vendor/invoice_date/total's own FieldValue) — "no category assigned,
     a human decides" is this field's own honest equivalent.
 
-    `raw_text` (P1-E.1, docs/invoice-ocr-plan.md §25) is the document's own
+    `raw_text` (P1-E.1, docs/plans/invoice-ocr-plan.md §25) is the document's own
     full OCR text — a *fallback* source, consulted only when vendor_name/
     item_descriptions/filename together produce no category evidence at
     all, never blended in alongside them by default. It exists to reach

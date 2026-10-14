@@ -1,4 +1,4 @@
-"""Document Preprocessing (docs/invoice-ocr-plan.md §7) — boundary
+"""Document Preprocessing (docs/plans/invoice-ocr-plan.md §7) — boundary
 detection, smart-crop with safety padding, multi-document split, and the
 one rule every threshold in the module exists to enforce: when detection
 is not confident, hand back the original image untouched rather than guess.
@@ -8,7 +8,7 @@ rectangle against a contrasting background), same reasoning as
 test_extract.py's own synthetic PDFs/images: nothing here needs a real
 scanned receipt to prove the boundary/confidence/fallback logic behaves
 correctly — that real-world validation is a separate pass, once real
-sample documents are available (see docs/invoice-ocr-plan.md §6's own
+sample documents are available (see docs/plans/invoice-ocr-plan.md §6's own
 "only answerable by testing against real sample documents" note).
 """
 import io

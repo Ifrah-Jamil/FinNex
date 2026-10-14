@@ -19,7 +19,7 @@ type RuleScope = "none" | "address" | "domain";
  * Attachments the sync found but did not import.
  *
  * These have metadata only — their bytes were never downloaded, which is the
- * entire point (docs/email-connector-plan.md §5b): if nobody approves them,
+ * entire point (docs/plans/email-connector-plan.md §5b): if nobody approves them,
  * FinNex never holds a copy. Approving fetches from Gmail on demand, so
  * there is a real network round-trip behind that button and it is worth
  * showing a spinner for.

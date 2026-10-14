@@ -93,13 +93,13 @@ class ExtractedInvoiceSchema(BaseModel):
     #: Vendor-specific fields with no canonical name here — defaulted to []
     #: so fixtures and any AI Engine build predating this still validate.
     dynamic_fields: list[DiscoveredFieldSchema] = []
-    #: Document Preprocessing (docs/invoice-ocr-plan.md §7) — populated only
+    #: Document Preprocessing (docs/plans/invoice-ocr-plan.md §7) — populated only
     #: when AI Engine confidently found more than one separate document in
     #: this upload. Empty for the overwhelming common case and for any AI
     #: Engine build predating this field, so existing scan behavior is
     #: completely unaffected unless this is actually non-empty.
     additional_documents: list["AdditionalDocumentSchema"] = []
-    #: P1-E.1 (docs/invoice-ocr-plan.md §25): the document's own full raw
+    #: P1-E.1 (docs/plans/invoice-ocr-plan.md §25): the document's own full raw
     #: OCR text — mirrors AI Engine's own ExtractedInvoiceResponse.raw_text.
     #: Consumed only by category_classifier.py's own prose-evidence
     #: matching; defaulted to None so a response predating this field, or

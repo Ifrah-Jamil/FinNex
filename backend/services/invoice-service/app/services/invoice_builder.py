@@ -84,7 +84,7 @@ def build_invoice(
         classify_category(
             vendor_name=vendor_name, filename=filename,
             item_descriptions=[_str_or_none(item.description.value) for item in extraction.line_items],
-            # P1-E.1 (docs/invoice-ocr-plan.md §25): the document's own raw
+            # P1-E.1 (docs/plans/invoice-ocr-plan.md §25): the document's own raw
             # OCR text — real category evidence a document states only in
             # free text (a cash-receipt voucher's "as Salary/ Stipend")
             # never reaches vendor_name/line_items at all.

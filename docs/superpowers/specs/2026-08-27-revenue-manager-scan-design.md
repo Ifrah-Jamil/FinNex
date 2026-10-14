@@ -17,7 +17,7 @@ and revenue charts.
 
 This **reverses an earlier explicit decision** recorded in
 `backend/services/invoice-service/app/api/routes/scanner.py` and
-`docs/documents-and-vendors-plan.md` §1a: "sales invoices are generated, not
+`docs/plans/documents-and-vendors-plan.md` §1a: "sales invoices are generated, not
 uploaded." That decision stays true for the existing **Invoice Generator**
 (authoring a sales invoice by typing it). Scan-to-revenue is an *additional*
 creation path for `type=sale` invoices, not a replacement — an SME's real sales

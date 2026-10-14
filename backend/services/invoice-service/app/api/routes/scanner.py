@@ -1,7 +1,7 @@
 """AI Invoice Scanner — architecture report §5.3. Upload a file, hand it to
 AI Engine (Phase 2b) for extraction, persist the result. Synchronous, not
 queue-based: AI Engine's rules-based extraction has no external API call in
-it (docs/invoice-ocr-plan.md §2a), so it typically completes in well under a
+it (docs/plans/invoice-ocr-plan.md §2a), so it typically completes in well under a
 second — there is nothing to gain from a background job here today, and
 `/scan/{job_id}` still exists so the API shape does not need to change if a
 future queue-based version becomes worth it.
@@ -131,7 +131,7 @@ async def scan_invoice(
         "Invoice scanned", extra={"invoice_id": str(invoice.id), "status": invoice.status.value, "confidence": round(invoice.document_confidence, 3)},
     )
 
-    # Document Preprocessing (docs/invoice-ocr-plan.md §7) — populated only
+    # Document Preprocessing (docs/plans/invoice-ocr-plan.md §7) — populated only
     # when the uploaded photo confidently contained more than one separate
     # document. Each split gets its own AIJob/Invoice pair, built the exact
     # same way the primary one just was above, so a split document is a

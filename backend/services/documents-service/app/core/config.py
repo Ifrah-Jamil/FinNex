@@ -30,7 +30,7 @@ class Settings(BaseSettings):
     invoice_service_url: str = Field(default="http://invoice-service:8002", alias="INVOICE_SERVICE_URL")
     # Generous by default: the scan it triggers runs OCR, which on a
     # CPU-constrained host genuinely takes minutes (measured — see
-    # docs/invoice-ocr-plan.md's PaddleOCR latency notes). A short timeout here
+    # docs/plans/invoice-ocr-plan.md's PaddleOCR latency notes). A short timeout here
     # fails uploads that would otherwise have succeeded.
     invoice_service_timeout_seconds: float = Field(default=240.0, alias="INVOICE_SERVICE_TIMEOUT_SECONDS")
 

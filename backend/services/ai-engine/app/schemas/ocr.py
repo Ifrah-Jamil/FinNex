@@ -20,7 +20,7 @@ class FieldValueResponse(BaseModel):
     page: Optional[int] = None
     bbox: Optional[tuple[float, float, float, float]] = None
     #: FOUND / NOT_FOUND / UNCERTAIN — the explicit tri-state a review UI
-    #: needs (docs/invoice-ocr-plan.md's receipt-robustness notes), derived
+    #: needs (docs/plans/invoice-ocr-plan.md's receipt-robustness notes), derived
     #: from value presence + confidence rather than requiring the caller to
     #: re-derive it from the two raw numbers every time.
     status: Literal["FOUND", "NOT_FOUND", "UNCERTAIN"]
@@ -147,14 +147,14 @@ class ExtractedInvoiceResponse(BaseModel):
     #: OCR and then dropped. Defaulted to [] so a caller built against the
     #: previous response shape keeps validating unchanged.
     dynamic_fields: list[DiscoveredFieldResponse] = []
-    #: Document Preprocessing (docs/invoice-ocr-plan.md §7) — populated only
+    #: Document Preprocessing (docs/plans/invoice-ocr-plan.md §7) — populated only
     #: when the upload confidently contained *more than one* separate
     #: document (a phone photo of two receipts side by side, say). Empty
     #: for the overwhelming common case, so this field is purely additive:
     #: a caller that ignores it sees exactly today's single-document
     #: response, unchanged.
     additional_documents: list["AdditionalDocumentResponse"] = []
-    #: P1-E.1 (docs/invoice-ocr-plan.md §25): the document's own full raw
+    #: P1-E.1 (docs/plans/invoice-ocr-plan.md §25): the document's own full raw
     #: OCR text — see invoice_extraction.schema.ExtractedInvoice.raw_text's
     #: own docstring for why this is exposed (category_classifier.py's own
     #: prose-evidence gap). Defaulted to None so a caller built against the
@@ -195,7 +195,7 @@ class ExtractedInvoiceResponse(BaseModel):
 
 class AdditionalDocumentResponse(BaseModel):
     """One extra document Document Preprocessing split out of the same
-    upload (docs/invoice-ocr-plan.md §7) — the same full extraction shape a
+    upload (docs/plans/invoice-ocr-plan.md §7) — the same full extraction shape a
     primary result gets, plus the actual cropped image bytes so the caller
     (Invoice Service) can store it as that document's own source file.
     Base64, not raw bytes: this is one small field in an internal JSON

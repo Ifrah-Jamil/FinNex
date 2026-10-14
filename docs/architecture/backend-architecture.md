@@ -36,15 +36,15 @@ currently contains:
 | Gateway | 8000 | **Built** |
 | Auth | 8001 | **Built** |
 | Invoice Service | 8002 | **Built** — both halves: the AI Scanner (purchase) and the Invoice Generator (sales, §5.3). Purchase invoices also carry an optional, suggested-not-enforced `category` (Office Entertainment, Employee Care, Office Repair & Maintenance, etc.), backing the Saved Records page's categorized cashbook view, its per-category totals (one SQL aggregate, `GET /invoices/categories/summary`), and its per-category PDF report — see [`docs/superpowers/specs/2026-09-01-saved-records-cashbook-design.md`](docs/superpowers/specs/2026-09-01-saved-records-cashbook-design.md). Includes a **two-stage human-in-the-loop review workflow**: (1) Global Header **Needs Review Notification Center** (`NeedsReviewCenter`) with live count badge and an interactive review/edit modal (`InvoiceReviewDialog`) for triaging newly imported receipts/bills from mobile camera, email, slack, or upload before posting; (2) Dedicated **Needs Review Queue** at the bottom of the Saved Records page (`NeedsReviewSection`) with prominent red-accented warning styling ensuring unverified items are clearly isolated from confirmed records; (3) **50% Centered Default Zoom Preview** (`InvoiceDocumentPreview`) so receipts open comfortably scaled and centered without viewport overflow. |
-| Vendors Service | 8006 | **Built** — §5.7; spend derived from Invoice Service, never stored. Also owns Vendor Reconciliation (`/vendors/reconciliation/*`) — the accountant's queue for linking OCR `vendor_name` strings to real vendor records, see `docs/documents-and-vendors-plan.md` §3.8 |
+| Vendors Service | 8006 | **Built** — §5.7; spend derived from Invoice Service, never stored. Also owns Vendor Reconciliation (`/vendors/reconciliation/*`) — the accountant's queue for linking OCR `vendor_name` strings to real vendor records, see `docs/plans/documents-and-vendors-plan.md` §3.8 |
 | Transactions Service | 8003 | **Built, scoped to Expenses only** — §5.4's Expense CRUD/approve/reject and the Dashboard KPI/trend endpoints. Revenue is deliberately **not** a table here: it stays Invoice Service's own scanned-sales ledger (Revenue Manager), read over HTTP — see [`docs/superpowers/specs/2026-08-29-transactions-service-design.md`](docs/superpowers/specs/2026-08-29-transactions-service-design.md) for why. A purchase invoice's "Send to Accounting" now really does book an Expense here, the real hand-off §5.3's own docstring had promised since before this service existed. |
 | HR Service | 8004 | **Built** — §5.5's employee directory and payroll processing. `POST /employees/payroll/process` books a matching "Salaries"-category Expense in Transactions Service, best-effort — see [`docs/superpowers/specs/2026-08-29-hr-service-design.md`](docs/superpowers/specs/2026-08-29-hr-service-design.md). The Dashboard's "Employee Salaries" KPI (Transactions Service) needed **no changes** to pick this up — it already read the "Salaries" Expense category. |
 | Procurement Service | 8005 | **Built, close to §5.6 as originally specified** — purchase requests, purchase orders, and vendor quote comparison. Two real deviations, both documented: PurchaseRequestStatus dropped "delayed"/"cancelled" (those describe an *order*, not a request — see PurchaseOrderStatus); "Delayed" is a **computed** dashboard stat (in-transit past `expected_delivery`), never a stored status. See [`docs/superpowers/specs/2026-08-29-procurement-service-design.md`](docs/superpowers/specs/2026-08-29-procurement-service-design.md). |
-| AI Engine | 8007 | **Built** — rules-based extraction, no LLM (see `docs/invoice-ocr-plan.md`). Image uploads now go through a Document Preprocessing stage first (OpenCV boundary detection, background-removing smart crop, multi-document split) — `docs/invoice-ocr-plan.md §7` |
+| AI Engine | 8007 | **Built** — rules-based extraction, no LLM (see `docs/plans/invoice-ocr-plan.md`). Image uploads now go through a Document Preprocessing stage first (OpenCV boundary detection, background-removing smart crop, multi-document split) — `docs/plans/invoice-ocr-plan.md §7` |
 | PaddleOCR | 8008 (internal) | **Built** — OCR model server; not in the original blueprint, added by the LiteParse+PaddleOCR migration |
 | Slack Connector | 8010 | **Built** |
 | Email Connector | 8011 | **Built** |
-| Documents Service | 8013 | **Built** — browser-upload document library; not in the original blueprint, see [`docs/documents-and-vendors-plan.md`](docs/documents-and-vendors-plan.md) §2 |
+| Documents Service | 8013 | **Built** — browser-upload document library; not in the original blueprint, see [`docs/plans/documents-and-vendors-plan.md`](docs/plans/documents-and-vendors-plan.md) §2 |
 | Settings Service | 8009 | **Built** — §5.10's Company profile, Tax configuration and AI Automation toggles, each a lazily-created, company-scoped singleton (no signup-time provisioning hook from Auth Service). The five automation flags are real and persisted, but **not all gate real pipeline behaviour yet** — see [`docs/superpowers/specs/2026-08-29-settings-service-design.md`](docs/superpowers/specs/2026-08-29-settings-service-design.md) §3 for exactly which are enforced today. |
 | Reports Service | 8014 (reassigned — §5.9's original 8008 now belongs to PaddleOCR) | **Built, generation made synchronous** — P&L, Cash Flow, Tax Summary, Sales, and Purchase reports computed live from Invoice/Transactions/Settings Service data on every request (no RabbitMQ/Celery worker: nothing here is OCR-slow). PDF (ReportLab, not WeasyPrint — no native GTK/Pango dependency) and Excel (openpyxl) are rendered on demand from a stored JSON payload, not pre-rendered files. **Balance Sheet is deliberately a simplified cash-position snapshot**, not a full balance sheet — this codebase tracks no fixed assets, receivables/payables, loans, or equity to report on. See [`docs/superpowers/specs/2026-08-29-reports-service-design.md`](docs/superpowers/specs/2026-08-29-reports-service-design.md). |
 
@@ -76,8 +76,8 @@ new companion document `docs/fluxora-description.md` for the actual RAG design u
 consideration and why it hasn't been built yet.
 
 Connector build status specifically lives in §5.11's table below, not here — check that table (or
-`docs/selective-sync-plan.md` / `docs/email-connector-plan.md`) for what's current. The current
-phase's own plan is [`docs/documents-and-vendors-plan.md`](docs/documents-and-vendors-plan.md).
+`docs/plans/selective-sync-plan.md` / `docs/plans/email-connector-plan.md`) for what's current. The current
+phase's own plan is [`docs/plans/documents-and-vendors-plan.md`](docs/plans/documents-and-vendors-plan.md).
 
 ---
 
@@ -348,10 +348,10 @@ Vendor: id, company_id, name, category (Raw Material/Steel/Packaging/Fuel/Transp
 The brain of Fluxora. Three things:
 
 **1. Invoice OCR (consumes from queue):**
-> **Corrected — see `docs/invoice-ocr-plan.md`.** The mechanism below (upload the raw file straight
+> **Corrected — see `docs/plans/invoice-ocr-plan.md`.** The mechanism below (upload the raw file straight
 > to a vision-capable LLM and trust its self-reported confidence) has been replaced twice, not once:
 > first with a two-stage pipeline that extracted text locally (PyMuPDF/Tesseract) and sent that text
-> to a text-only LLM for structuring, and then — per `docs/invoice-ocr-plan.md` §2a and
+> to a text-only LLM for structuring, and then — per `docs/plans/invoice-ocr-plan.md` §2a and
 > `docs/research/Invoice_OCR_Rules_Based_Extraction_Report.md` — that LLM structuring step was itself
 > replaced with a **fully rules-based structuring engine (no AI/LLM call anywhere in this pipeline)**:
 > label-anchored field extraction, geometric line-item table reconstruction, and arithmetic
@@ -363,13 +363,13 @@ The brain of Fluxora. Three things:
 > not a fallback for when the rules "fail."
 - Receives file from Invoice Service via RabbitMQ
 - Extracts text + positioned words (PyMuPDF for PDFs with a real text layer, Tesseract OCR for
-  scanned PDFs/images — see `docs/invoice-ocr-plan.md` §2 for the routing logic)
+  scanned PDFs/images — see `docs/plans/invoice-ocr-plan.md` §2 for the routing logic)
 - Runs the rules-based structuring engine (`backend/libs/invoice_extraction/`) over the extracted
   text/positions — label-anchored extraction for header fields, geometric table reconstruction for
   line items, arithmetic validation throughout
 - Extracts: vendor name, invoice number, date, NTN, line items, tax rate, totals
 - Returns a composite confidence score (OCR confidence + extraction-method confidence + arithmetic
-  consistency — see `docs/invoice-ocr-plan.md` §3) that routes the result to auto-process /
+  consistency — see `docs/plans/invoice-ocr-plan.md` §3) that routes the result to auto-process /
   needs-review / needs-review-high-priority
 - Publishes result back to queue
 
@@ -448,7 +448,7 @@ following the same database-per-service rule as everything above.
 | Connector | Port | Status |
 |---|---|---|
 | Slack | 8010 | **Built** — OAuth, discovery, categorisation, S3 storage, Celery sync, sync-scope picker |
-| Email | 8011 | **In progress** — Gmail OAuth foundation (current phase). See [`docs/email-connector-plan.md`](docs/email-connector-plan.md) |
+| Email | 8011 | **In progress** — Gmail OAuth foundation (current phase). See [`docs/plans/email-connector-plan.md`](docs/plans/email-connector-plan.md) |
 | WhatsApp | 8012 | Planned |
 
 **Why email matters most of the three:** most Pakistani SME invoices arrive as email
@@ -504,7 +504,7 @@ Conversations also carry their own status and last error, so a channel the bot
 was never invited to appears in the UI as a fixable problem rather than as an
 unexplained drop in the processed count.
 
-Full design, rationale and phasing: [`docs/selective-sync-plan.md`](docs/selective-sync-plan.md).
+Full design, rationale and phasing: [`docs/plans/selective-sync-plan.md`](docs/plans/selective-sync-plan.md).
 
 ### 5.12 Human-in-the-Loop Document Verification & Needs Review Architecture
 
@@ -803,15 +803,15 @@ This is the most important feature. Here's exactly how it works end-to-end:
    - Picks up FileUploaded event
    - Reads file from storage
    - Extracts plain text + positioned words first (PyMuPDF for a real PDF text layer; PyMuPDF
-     page-render → Tesseract OCR for scanned PDFs/images — see `docs/invoice-ocr-plan.md` §2, which
+     page-render → Tesseract OCR for scanned PDFs/images — see `docs/plans/invoice-ocr-plan.md` §2, which
      replaces the "call OpenAI/Anthropic with the raw file" step this used to describe)
-   - Runs the rules-based structuring engine (no AI call — see `docs/invoice-ocr-plan.md` §2a and
+   - Runs the rules-based structuring engine (no AI call — see `docs/plans/invoice-ocr-plan.md` §2a and
      `docs/research/Invoice_OCR_Rules_Based_Extraction_Report.md`):
      label-anchored extraction for vendor_name, invoice_number, date, ntn, tax_rate, totals;
      geometric table reconstruction for line_items (description, qty, rate, amount)
    - Runs arithmetic cross-validation (line-item and document-total level) against the extracted values
    - Calculates a composite confidence score (OCR confidence + extraction-method confidence +
-     arithmetic consistency — `docs/invoice-ocr-plan.md` §3), not a self-reported model number
+     arithmetic consistency — `docs/plans/invoice-ocr-plan.md` §3), not a self-reported model number
    - Saves extracted data to AIJob, tagged for auto-process / needs-review / needs-review-high-priority
      depending on the composite confidence
    - Publishes: OCRCompleted { job_id, extracted_data, confidence_score }
@@ -922,8 +922,8 @@ The chat page at `/app/assistant` — "Ask AI about your business":
 | **Queue** | ~~RabbitMQ~~ | **Not built** | Every hand-off is plain HTTP instead — see the correction box near the top of this document |
 | **Background Jobs** | Celery + Redis | **Built, narrower than planned** | Real, but only for Slack/Email connector background sync — OCR and report generation are synchronous HTTP, not queued |
 | **Auth** | JWT + Argon2 | **As planned** | JWT for stateless auth, Argon2 for password hashing |
-| **OCR** | LiteParse + PaddleOCR (primary), PyMuPDF + Tesseract (fallback/legacy path) | **Built, evolved past the original plan** | Deterministic, local, no LLM — see `docs/invoice-ocr-plan.md`. PaddleOCR/LiteParse were adopted mid-project for materially better real-world accuracy on messy photos; PyMuPDF+Tesseract kept as an explicit rollback path |
-| **Invoice structuring** | Rules engine (`backend/libs/invoice_extraction/`) — label anchors, geometric table reconstruction, arithmetic validation | **Built, as planned** | No AI/LLM call — see `docs/invoice-ocr-plan.md` §2a and `docs/research/Invoice_OCR_Rules_Based_Extraction_Report.md` |
+| **OCR** | LiteParse + PaddleOCR (primary), PyMuPDF + Tesseract (fallback/legacy path) | **Built, evolved past the original plan** | Deterministic, local, no LLM — see `docs/plans/invoice-ocr-plan.md`. PaddleOCR/LiteParse were adopted mid-project for materially better real-world accuracy on messy photos; PyMuPDF+Tesseract kept as an explicit rollback path |
+| **Invoice structuring** | Rules engine (`backend/libs/invoice_extraction/`) — label anchors, geometric table reconstruction, arithmetic validation | **Built, as planned** | No AI/LLM call — see `docs/plans/invoice-ocr-plan.md` §2a and `docs/research/Invoice_OCR_Rules_Based_Extraction_Report.md` |
 | **AI (chat/insights)** | ~~OpenAI GPT-4o or Anthropic Claude~~ | **Not built** | The AI Assistant page is a scripted frontend demo (fixed canned answers) today — no LLM call anywhere in the codebase. See the correction box near the top of this document and `docs/fluxora-description.md` for the real RAG plan |
 | **File Storage** | MinIO (local dev) / S3-compatible in prod | **As planned** | Invoice file storage (PDFs, images) |
 | **PDF Generation** | ReportLab (not WeasyPrint) | **Built, one substitution** | Avoids WeasyPrint's native GTK/Pango system dependency |

@@ -300,7 +300,7 @@ class TestSendToAccounting:
 
     def test_a_needs_review_invoice_is_refused(self, client, db_session_factory) -> None:
         """Protects accounting data integrity — an unreviewed extraction
-        must not be booked, per docs/invoice-ocr-plan.md §2a."""
+        must not be booked, per docs/plans/invoice-ocr-plan.md §2a."""
         invoice_id = _seed(db_session_factory, status=InvoiceStatus.needs_review_high_priority)
 
         response = client.post(f"/api/v1/invoices/{invoice_id}/send-to-accounting")
@@ -551,7 +551,7 @@ class TestVendorLinkAndSpend:
 class TestVendorReconciliationQueue:
     """The reconciliation queue's backend: group unlinked invoices by their
     raw vendor_name, and let one action link the whole group at once. Real
-    data drove the grouping decision — see docs/documents-and-vendors-plan.md
+    data drove the grouping decision — see docs/plans/documents-and-vendors-plan.md
     §3.8: several invoices routinely share one bad OCR string verbatim."""
 
     def test_invoices_sharing_a_name_are_grouped_together(self, client, db_session_factory) -> None:

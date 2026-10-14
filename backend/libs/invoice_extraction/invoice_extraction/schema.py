@@ -148,7 +148,7 @@ class ExtractedInvoice:
     #: are filtered out, so this is additional information, not a restated
     #: copy of the fields above.
     dynamic_fields: list["DiscoveredField"] = field(default_factory=list)
-    #: P1-E.1 (docs/invoice-ocr-plan.md §25): the document's own full raw
+    #: P1-E.1 (docs/plans/invoice-ocr-plan.md §25): the document's own full raw
     #: OCR text, carried straight through from ocr.ExtractionResult.text —
     #: the same text document_type/currency/city/country/payment_status
     #: already scan internally, now also exposed on the output itself.

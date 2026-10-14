@@ -137,7 +137,7 @@ export function vendorInvoices(
 // ---------------------------------------------------------------------------
 // Vendor reconciliation — turns a raw OCR vendor_name into a real vendor_id.
 // Every scan writes a name, never an id; this is the accountant's queue for
-// closing that gap. See docs/documents-and-vendors-plan.md §3.8.
+// closing that gap. See docs/plans/documents-and-vendors-plan.md §3.8.
 // ---------------------------------------------------------------------------
 
 export interface VendorMatchSuggestion {

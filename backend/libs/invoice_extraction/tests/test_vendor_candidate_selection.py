@@ -43,7 +43,7 @@ class TestCase1_AProminentVendorScoresStrongly:
 
 
 class TestCase2_LeadingReferenceStampStillStrips:
-    """Existing fix (docs/invoice-ocr-plan.md §18) must survive the P1
+    """Existing fix (docs/plans/invoice-ocr-plan.md §18) must survive the P1
     refactor unchanged."""
 
     def test_a_leading_amount_stamp_is_still_stripped_via_the_new_path(self) -> None:

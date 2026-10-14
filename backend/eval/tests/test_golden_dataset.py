@@ -62,7 +62,7 @@ def test_document_type_is_recognized_or_a_sentinel(golden):
 def test_non_transactional_documents_have_absent_financial_fields(golden):
     """A document marked definitively non-transactional must have
     vendor/total/category all ABSENT, never a real value or UNKNOWN — this
-    is the single safety-critical invariant docs/invoice-ocr-plan.md §12
+    is the single safety-critical invariant docs/plans/invoice-ocr-plan.md §12
     exists to protect: a non-transactional amount must never look like a
     real transaction value."""
     if golden.transactional is not False:

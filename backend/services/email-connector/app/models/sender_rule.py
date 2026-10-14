@@ -17,7 +17,7 @@ class SenderRuleAction(str, enum.Enum):
 class SenderRule(Base):
     """A per-account allow/deny rule matched against an attachment's sender.
 
-    docs/email-connector-plan.md §5 calls these out as the single biggest
+    docs/plans/email-connector-plan.md §5 calls these out as the single biggest
     filtering quality win — "always import from billing@vendor.com, never
     from newsletter@" — so they are a first-class table rather than a
     config blob.

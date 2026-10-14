@@ -1,4 +1,4 @@
-"""Layered attachment filter — docs/email-connector-plan.md §5.
+"""Layered attachment filter — docs/plans/email-connector-plan.md §5.
 
 Cheapest checks first: size, then extension. This is what stands between a
 mailbox with thousands of attachments and a Documents page full of

@@ -36,7 +36,7 @@ class AttachmentFetchError(HTTPException):
 
 async def _refetch_from_gmail(access_token: str, message: EmailMessage, attachment: EmailAttachment) -> tuple[bytes, str]:
     """Gmail's attachmentId is ephemeral (see
-    docs/email-connector-plan.md §5a.1), so the stored one from the original
+    docs/plans/email-connector-plan.md §5a.1), so the stored one from the original
     sync can never be reused here — the message has to be re-fetched to get
     a live id, and the attachment's stored attachment_index is what locates
     the right part within it."""

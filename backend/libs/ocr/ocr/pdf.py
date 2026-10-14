@@ -2,7 +2,7 @@
 layer (any vendor-generated/exported invoice, and anything Email Connector
 syncs in), with a fallback to page-rasterize-then-OCR for a PDF that is
 actually a scanned image with no text layer at all. See
-docs/invoice-ocr-plan.md §2.
+docs/plans/invoice-ocr-plan.md §2.
 """
 import io
 

@@ -4,7 +4,7 @@ Revision ID: 20260819_05
 Revises: 20260818_04
 Create Date: 2026-08-19
 
-Phase 1 of docs/selective-sync-plan.md:
+Phase 1 of docs/plans/selective-sync-plan.md:
 
 * installation.sync_window_days — how far back a sync looks. NULL keeps the
   current behaviour of scanning all history, so existing installations are

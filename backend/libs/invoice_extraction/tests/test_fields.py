@@ -274,7 +274,7 @@ class TestVendorFallbackSkipsADateLine:
 
 class TestVendorFallbackSkipsProviderCreditAndOrderMetadata:
     """General-pattern regression guards from the vendor-extraction golden-
-    dataset audit (docs/invoice-ocr-plan.md §14). Every case below uses a
+    dataset audit (docs/plans/invoice-ocr-plan.md §14). Every case below uses a
     synthetic vendor unrelated to the real dataset — these guard the
     *structural* rule (a POS/software self-credit line, a courtesy footer,
     an order-fulfillment field), not any one document."""
@@ -469,7 +469,7 @@ class TestVendorFallbackPrefersHighestConfidenceOverFirstLine:
 
 class TestVendorFallbackStripsALeadingReferenceStamp:
     """General-pattern regression guards from a vendor-extraction golden-
-    dataset audit (docs/invoice-ocr-plan.md §18): a stamped reference/
+    dataset audit (docs/plans/invoice-ocr-plan.md §18): a stamped reference/
     amount marker sometimes sits on the same visual row as the real vendor
     name, immediately ahead of it — found live on three independent real
     receipts. Every example below uses a synthetic vendor unrelated to the

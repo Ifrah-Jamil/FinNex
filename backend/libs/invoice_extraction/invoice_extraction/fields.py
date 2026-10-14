@@ -1174,7 +1174,7 @@ def find_total_anywhere(
     the whole document. Two or more candidates is inherently ambiguous
     (which one is the total vs. a line item, a subtotal, a discount?) and
     per this pipeline's "no lost information over a wrong guess" principle
-    (docs/invoice-ocr-plan.md §7), ambiguity means NOT_FOUND, not a guess at
+    (docs/plans/invoice-ocr-plan.md §7), ambiguity means NOT_FOUND, not a guess at
     "the largest one."
     """
     candidates: list[tuple[str, int, tuple[float, float, float, float]]] = []

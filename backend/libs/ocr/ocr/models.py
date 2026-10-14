@@ -32,7 +32,7 @@ class PositionedWord:
 
 @dataclass
 class ExtractionResult:
-    """The output of Stage 1 (docs/invoice-ocr-plan.md §2) — plain text plus
+    """The output of Stage 1 (docs/plans/invoice-ocr-plan.md §2) — plain text plus
     enough about how it was obtained for the caller to weigh it into a
     combined confidence score (§3) rather than trusting a single number.
     """

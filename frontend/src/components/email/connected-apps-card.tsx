@@ -21,7 +21,7 @@ const emailSource = getSource("email")!;
  *
  * Deliberately smaller than Slack's ConnectedAppsCard: there is no "Sync now"
  * or "Browse synced files" here yet, because message sync and attachment
- * download are Phase 2 (see docs/email-connector-plan.md) and do not exist on
+ * download are Phase 2 (see docs/plans/email-connector-plan.md) and do not exist on
  * the backend. Once they do, this gains the same sync-status polling and
  * picker dialog Slack's card has — the shape is intentionally left room for
  * that rather than needing a rewrite.

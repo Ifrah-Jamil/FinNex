@@ -1,5 +1,5 @@
 """Renders a single page of a document to PNG bytes — the source image the
-bounding-box review UI overlays field boxes onto (docs/invoice-ocr-plan.md's
+bounding-box review UI overlays field boxes onto (docs/plans/invoice-ocr-plan.md's
 "second scanner experience"). Reuses the same fitz/_RENDER_DPI rasterization
 pdf.py already relies on for its OCR fallback, so a page rendered here lines
 up with the pixel-space page_dimensions ExtractionResult reports for an

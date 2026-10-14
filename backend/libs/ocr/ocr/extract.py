@@ -1,5 +1,5 @@
 """Entry point: classify the file, route to the right extraction path.
-See docs/invoice-ocr-plan.md §2 for the routing table this implements.
+See docs/plans/invoice-ocr-plan.md §2 for the routing table this implements.
 """
 import logging
 from pathlib import Path
@@ -28,7 +28,7 @@ def classify_file(filename: str, mimetype: Optional[str]) -> Literal["pdf", "ima
 
 
 def extract_text(content: bytes, filename: str, mimetype: Optional[str] = None) -> ExtractionResult:
-    """Stage 1 of docs/invoice-ocr-plan.md's pipeline. `content` is the raw
+    """Stage 1 of docs/plans/invoice-ocr-plan.md's pipeline. `content` is the raw
     file bytes exactly as uploaded/synced in — the caller does not need to
     know or care whether this ends up going through PyMuPDF's text layer or
     Tesseract; that decision is made here from the file's own shape.
@@ -53,7 +53,7 @@ def extract_text_with_engine(
 ) -> ExtractionResult:
     """Top-level Stage 1 entry point with engine selection — the
     LiteParse+PaddleOCR migration's rollback switch
-    (docs/invoice-ocr-plan.md's migration section). `engine="tesseract"` is
+    (docs/plans/invoice-ocr-plan.md's migration section). `engine="tesseract"` is
     exactly `extract_text()` above, completely unmodified — a genuine
     independent code path, not a shared implementation with a flag, so a
     rollback is never at risk of inheriting a liteparse-path bug.
@@ -84,7 +84,7 @@ def extract_documents_with_engine(
     engine: Literal["liteparse", "tesseract"] = "liteparse",
     paddleocr_url: Optional[str] = None, ocr_language: str = "en",
 ) -> list[tuple[ExtractionResult, bytes]]:
-    """Document Preprocessing (docs/invoice-ocr-plan.md §7) + Stage 1,
+    """Document Preprocessing (docs/plans/invoice-ocr-plan.md §7) + Stage 1,
     multi-document-aware. Returns one `(ExtractionResult, image_bytes)` pair
     per document this upload actually contains — length 1 for the
     overwhelming common case (whether or not a background-removing crop

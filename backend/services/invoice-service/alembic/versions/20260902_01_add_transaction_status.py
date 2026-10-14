@@ -5,7 +5,7 @@ Revision ID: 20260902_01
 Revises: 20260901_01
 Create Date: 2026-09-02
 
-Non-transactional document handling (docs/invoice-ocr-plan.md §12). Internal
+Non-transactional document handling (docs/plans/invoice-ocr-plan.md §12). Internal
 paperwork — a minute sheet, an approval request — carries amounts but is not
 a purchase, and was previously pushed through purchase-invoice extraction
 and then shown as "Uncategorized", losing what the document actually is.

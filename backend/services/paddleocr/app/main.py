@@ -12,7 +12,7 @@ app = FastAPI(
     version="0.1.0",
     description=(
         "The primary OCR engine for the LiteParse+PaddleOCR migration "
-        "(docs/invoice-ocr-plan.md). Implements LiteParse's own documented "
+        "(docs/plans/invoice-ocr-plan.md). Implements LiteParse's own documented "
         "OCR_API_SPEC.md external-OCR-server contract — internal-only, not "
         "registered through the Gateway, called directly by ai-engine's "
         "LiteParse client the same way every other internal service call "

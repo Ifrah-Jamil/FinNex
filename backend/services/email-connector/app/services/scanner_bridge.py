@@ -19,7 +19,7 @@ async def send_attachment_to_scanner(
 
     Deliberately identical in shape to slack-connector's send_file_to_scanner —
     a plain authenticated HTTP POST, not a RabbitMQ publish. See
-    docs/email-connector-plan.md §11b: the queue and the Invoice Service are
+    docs/plans/email-connector-plan.md §11b: the queue and the Invoice Service are
     in the architecture report's target design but are not built yet, so both
     connectors use the same bridge and will be upgraded together rather than
     email inventing a second, inconsistent integration now.

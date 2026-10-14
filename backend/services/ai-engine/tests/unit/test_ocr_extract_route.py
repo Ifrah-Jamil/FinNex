@@ -115,7 +115,7 @@ class TestExtractEndpoint:
         assert response.status_code == 400
 
     def test_a_pdf_never_has_additional_documents(self) -> None:
-        """PDFs are not preprocessed at all (docs/invoice-ocr-plan.md §7) —
+        """PDFs are not preprocessed at all (docs/plans/invoice-ocr-plan.md §7) —
         this is the strongest confirmation that Document Preprocessing is
         purely additive, not a regression on the existing PDF path."""
         content = (FIXTURES / "tax_invoice_milestone.pdf").read_bytes()
@@ -127,7 +127,7 @@ class TestExtractEndpoint:
 
 
 class TestDocumentPreprocessingIntegration:
-    """Document Preprocessing (docs/invoice-ocr-plan.md §7) wired into the
+    """Document Preprocessing (docs/plans/invoice-ocr-plan.md §7) wired into the
     real endpoint. `extract_documents_with_engine` is mocked here — the CV
     logic itself is already thoroughly unit-tested against real OpenCV in
     libs/ocr/tests/test_preprocess.py, and the fan-out orchestration in

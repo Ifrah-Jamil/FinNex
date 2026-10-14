@@ -340,7 +340,7 @@ async def _category_summary_rows(
     cannot actually be placed in that month.
 
     `transaction_status == transactional` is required for the same reason
-    docs/invoice-ocr-plan.md §12 requires it everywhere else a `total` is
+    docs/plans/invoice-ocr-plan.md §12 requires it everywhere else a `total` is
     read: a confirmed non-transactional document (transaction_status=
     non_transactional, status=validated — see Invoice.transaction_status'
     own docstring) has `category=None` and `total=None` by design, but

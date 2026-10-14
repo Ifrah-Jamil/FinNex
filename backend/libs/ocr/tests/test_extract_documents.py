@@ -1,5 +1,5 @@
 """extract_documents_with_engine — the multi-document-aware Stage 0+1 entry
-point (docs/invoice-ocr-plan.md §7). `preprocess_image` and
+point (docs/plans/invoice-ocr-plan.md §7). `preprocess_image` and
 `extract_text_with_engine` are mocked here so these tests isolate the
 orchestration logic itself (PDF bypass, one-result vs many-result fan-out,
 undecodable-image fallback) from the real CV/OCR machinery — those already

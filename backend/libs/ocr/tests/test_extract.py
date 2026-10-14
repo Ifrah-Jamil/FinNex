@@ -1,4 +1,4 @@
-"""Stage 1 extraction (docs/invoice-ocr-plan.md §2): routing between the
+"""Stage 1 extraction (docs/plans/invoice-ocr-plan.md §2): routing between the
 native-PDF-text path and the OCR path, and the OCR path itself.
 
 Sample documents are generated at test time (a real PDF via PyMuPDF, a real
@@ -25,7 +25,7 @@ TESSERACT_AVAILABLE = shutil.which("tesseract") is not None
 requires_tesseract = pytest.mark.skipif(
     not TESSERACT_AVAILABLE,
     reason="tesseract binary not on PATH — install it to exercise the OCR path locally "
-    "(see docs/invoice-ocr-plan.md §4); Phase 2's Docker container installs it via apt.",
+    "(see docs/plans/invoice-ocr-plan.md §4); Phase 2's Docker container installs it via apt.",
 )
 
 

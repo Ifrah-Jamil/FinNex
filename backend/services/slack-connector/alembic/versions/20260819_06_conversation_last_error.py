@@ -4,7 +4,7 @@ Revision ID: 20260819_06
 Revises: 20260819_05
 Create Date: 2026-08-19
 
-Phase 2 of docs/selective-sync-plan.md.
+Phase 2 of docs/plans/selective-sync-plan.md.
 
 Sync failures were only recorded on the job, as a flat list of strings. That is
 enough to know something went wrong and not enough to act: a run reporting
