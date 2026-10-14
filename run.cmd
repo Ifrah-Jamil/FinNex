@@ -85,7 +85,15 @@ goto wait_gateway
 :start_frontend
 echo Starting FinNex...
 pushd "%~dp0frontend"
-if not exist "node_modules\" (
+if not exist "package.json" (
+  echo package.json was not found in "%~dp0frontend".
+  echo Put run.cmd in the FinNex folder that contains the frontend and backend folders.
+  popd
+  pause
+  exit /b 1
+)
+if not exist "node_modules\vite\bin\vite.js" (
+  echo Installing frontend packages...
   call bun install
   if errorlevel 1 (
     echo bun install failed.
@@ -94,8 +102,14 @@ if not exist "node_modules\" (
     exit /b 1
   )
 )
+if not exist "node_modules\vite\bin\vite.js" (
+  echo Vite is not installed in "%~dp0frontend".
+  popd
+  pause
+  exit /b 1
+)
 popd
-start "FinNex" /D "%~dp0frontend" cmd /k "bun run dev -- --host 127.0.0.1 --port 43123 --strictPort"
+start "FinNex" /D "%~dp0frontend" cmd.exe /k bun node_modules\vite\bin\vite.js dev --host 127.0.0.1 --port 43123 --strictPort
 echo Waiting for http://127.0.0.1:43123 ...
 set /a TRIES=0
 :wait_web
@@ -103,7 +117,8 @@ set /a TRIES+=1
 curl -s --connect-timeout 2 --max-time 5 http://127.0.0.1:43123/ >nul 2>&1
 if not errorlevel 1 goto open_browser
 if %TRIES% GEQ 45 (
-  echo FinNex did not start. Check the FinNex window for the error.
+  echo FinNex did not start. Read the FinNex window.
+  echo If the folder is in OneDrive, right-click FinNex, choose Always keep on this device, then run this file again.
   pause
   exit /b 1
 )
