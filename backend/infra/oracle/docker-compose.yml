@@ -1,0 +1,30 @@
+# Standalone Oracle XE for SQL Developer / local testing.
+# Resolves ORA-12541 by starting a real listener on host port 1521.
+#
+#   cd backend/infra/oracle && docker compose up -d
+#
+# SQL Developer: Host=<this machine>, Port=1521, Service Name=XEPDB1
+#   system / OraclePass123   or   appuser / AppPass123
+services:
+  oracle-xe:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle-xe
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: OraclePass123
+      APP_USER: appuser
+      APP_USER_PASSWORD: AppPass123
+    volumes:
+      - oracle-xe-data:/opt/oracle/oradata
+      - ./init:/container-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 20
+      start_period: 120s
+    restart: unless-stopped
+
+volumes:
+  oracle-xe-data:
